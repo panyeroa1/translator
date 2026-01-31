@@ -5,10 +5,12 @@
     <meta charset="UTF-8">
     <meta name="viewport"
         content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
-    <meta name="theme-color" content="#ffffff">
+    <meta name="theme-color" content="#3b82f6">
+    <link rel="manifest"
+        href='data:application/json,{"name":"Succes Class","short_name":"Succes","start_url":"./","display":"standalone","background_color":"#ffffff","theme_color":"#3b82f6","icons":[{"src":"pwa_icon.png","sizes":"512x512","type":"image/png"}]}'>
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-    <title>Succes Translator</title>
+    <title>Succes Class - Real-time Translation & Hybrid Learning</title>
 
     <!-- Dependencies -->
     <script src="https://cdn.tailwindcss.com"></script>
@@ -353,6 +355,10 @@
                 </div>
                 <!-- Status & Audio Toggle -->
                 <div class="flex items-center gap-4">
+                    <button onclick="App.toggleModal('history')" title="View History"
+                        class="text-gray-400 hover:text-blue-500 transition-colors">
+                        <i class="fa-solid fa-clock-rotate-left"></i>
+                    </button>
                     <button id="tts-btn" onclick="App.toggleTTS()" title="Toggle Voice Output"
                         class="text-gray-400 hover:text-blue-500 transition-colors">
                         <i id="tts-icon" class="fa-solid fa-volume-xmark"></i>
@@ -425,6 +431,10 @@
 
                 <!-- Actions -->
                 <div class="flex items-center gap-4">
+                    <button onclick="App.toggleModal('history')" title="View History"
+                        class="text-gray-400 hover:text-blue-500 transition-colors">
+                        <i class="fa-solid fa-clock-rotate-left"></i>
+                    </button>
                     <button id="teacher-tts-btn" onclick="App.toggleTTS()" title="Toggle Voice Output"
                         class="text-gray-400 hover:text-blue-500 transition-colors">
                         <i id="teacher-tts-icon" class="fa-solid fa-volume-xmark"></i>
@@ -509,12 +519,47 @@
             </div>
         </div>
 
+        <!-- ================= MODAL: HISTORY ================= -->
+        <div id="modal-history" class="fixed inset-0 z-50 hidden">
+            <!-- Backdrop -->
+            <div class="absolute inset-0 bg-gray-900/40 backdrop-blur-sm transition-opacity opacity-0"
+                id="history-backdrop" onclick="App.toggleModal('history')"></div>
+
+            <!-- Content -->
+            <div class="absolute bottom-0 left-0 right-0 md:top-1/2 md:left-1/2 md:bottom-auto md:w-full md:max-w-lg md:-translate-x-1/2 md:-translate-y-1/2 transition-transform transform translate-y-full"
+                id="history-panel">
+                <div class="bg-white rounded-t-3xl md:rounded-3xl shadow-2xl flex flex-col h-[70vh]">
+                    <div
+                        class="p-6 border-b border-gray-100 flex justify-between items-center bg-gray-50/50 rounded-t-3xl border-t-4 border-blue-500">
+                        <div>
+                            <h3 class="text-xl font-black text-gray-900 leading-none">History</h3>
+                            <p class="text-xs text-gray-500 mt-1 font-bold uppercase tracking-widest">Session Archive
+                            </p>
+                        </div>
+                        <button onclick="App.toggleModal('history')"
+                            class="w-10 h-10 rounded-full bg-white border border-gray-200 flex items-center justify-center text-gray-500 hover:text-gray-900 shadow-sm transition-all active:scale-95">
+                            <i class="fa-solid fa-xmark"></i>
+                        </button>
+                    </div>
+
+                    <div id="history-content"
+                        class="flex-1 overflow-y-auto p-4 space-y-4 bg-gray-50/50 custom-scrollbar">
+                        <!-- History items injected here -->
+                        <div class="text-center py-20 opacity-30">
+                            <i class="fa-solid fa-hourglass-start text-4xl mb-4"></i>
+                            <p class="text-sm font-bold">No history available yet</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
     </main>
 
     <!-- ================= LOGIC ================= -->
     <script type="module">
         import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
-        import { getDatabase, ref, push, onChildAdded, remove } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-database.js";
+        import { getDatabase, ref, push, onChildAdded, remove, get } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-database.js";
         import { createClient, LiveTranscriptionEvents } from 'https://cdn.jsdelivr.net/npm/@deepgram/sdk@3/+esm';
 
         // --- CREDENTIALS ---
@@ -729,6 +774,7 @@
                         }
                     } catch (e) { this.clearState(); }
                 }
+                this.registerServiceWorker();
             }
 
             // --- NAVIGATION ---
@@ -745,6 +791,121 @@
                     target.classList.remove('view-hidden');
                     target.classList.add('view-active');
                 }, 50);
+            }
+
+            registerServiceWorker() {
+                if ('serviceWorker' in navigator) {
+                    const swCode = `
+                        const CACHE_NAME = 'orbit-v1';
+                        const ASSETS = ['./', './index.html', './pwa_icon.png'];
+                        self.addEventListener('install', (e) => {
+                            e.waitUntil(caches.open(CACHE_NAME).then((cache) => cache.addAll(ASSETS)));
+                        });
+                        self.addEventListener('fetch', (e) => {
+                            e.respondWith(caches.match(e.request).then((res) => res || fetch(e.request)));
+                        });
+                    `;
+                    const blob = new Blob([swCode], { type: 'application/javascript' });
+                    const url = URL.createObjectURL(blob);
+                    navigator.serviceWorker.register(url).catch(err => console.log('SW failed', err));
+                }
+            }
+
+            async requestPermissions() {
+                try {
+                    await navigator.mediaDevices.getUserMedia({ audio: true });
+                    if ('Notification' in window) {
+                        await Notification.requestPermission();
+                    }
+                } catch (e) {
+                    this.showToast("Mic permission required", "error");
+                }
+            }
+
+            toggleModal(type) {
+                const modal = document.getElementById(`modal-${type}`);
+                const bd = document.getElementById(type === 'history' ? 'history-backdrop' : 'modal-backdrop');
+                const panel = document.getElementById(type === 'history' ? 'history-panel' : 'modal-panel');
+
+                if (modal.classList.contains('hidden')) {
+                    modal.classList.remove('hidden');
+                    if (type === 'history') this.loadHistory();
+                    setTimeout(() => {
+                        bd.style.opacity = '1';
+                        panel.style.transform = (window.innerWidth < 768) ? 'translateY(0)' : 'translate(-50%, -50%)';
+                    }, 10);
+                } else {
+                    bd.style.opacity = '0';
+                    panel.style.transform = (window.innerWidth < 768) ? 'translateY(100%)' : 'translate(-50%, 0)';
+                    setTimeout(() => modal.classList.add('hidden'), 300);
+                }
+            }
+
+            async loadHistory() {
+                const container = document.getElementById('history-content');
+                container.innerHTML = '<div class="text-center py-20 opacity-50"><i class="fa-solid fa-circle-notch animate-spin text-2xl"></i></div>';
+
+                if (!this.state.room) return;
+
+                try {
+                    const data = [];
+                    // Fetch Messages (Broadcasts)
+                    const mSnap = await get(ref(this.db, `chats/${this.state.room}/messages`));
+                    if (mSnap.exists()) {
+                        mSnap.forEach(s => {
+                            data.push({ ...s.val(), type: 'broadcast', ts: s.key });
+                        });
+                    }
+
+                    // Fetch Questions
+                    const qSnap = await get(ref(this.db, `chats/${this.state.room}/questions`));
+                    if (qSnap.exists()) {
+                        qSnap.forEach(s => {
+                            data.push({ ...s.val(), type: 'question', ts: s.key });
+                        });
+                    }
+
+                    // Sort by timestamp
+                    data.sort((a, b) => b.ts.localeCompare(a.ts));
+
+                    if (data.length === 0) {
+                        container.innerHTML = '<div class="text-center py-20 opacity-30"><p class="text-sm font-bold">No history available</p></div>';
+                        return;
+                    }
+
+                    container.innerHTML = '';
+                    for (const item of data) {
+                        if (this.state.role === 'student') {
+                            if (item.type === 'broadcast') {
+                                const trans = await this.translateText(item.text, item.lang, this.state.lang);
+                                this.renderHistoryItem(container, trans, item.text, 'Teacher', 'broadcast');
+                            }
+                        } else {
+                            if (item.type === 'broadcast') {
+                                this.renderHistoryItem(container, item.text, item.text, 'You', 'broadcast');
+                            } else {
+                                const trans = await this.translateText(item.text, item.lang, this.state.lang);
+                                this.renderHistoryItem(container, trans, item.text, item.senderName, 'question');
+                            }
+                        }
+                    }
+                } catch (e) {
+                    container.innerHTML = `<p class="text-center text-red-500 text-xs py-10">Error loading history: ${e.message}</p>`;
+                }
+            }
+
+            renderHistoryItem(container, text, original, sender, type) {
+                const div = document.createElement('div');
+                const isBroadcast = type === 'broadcast';
+                div.className = `p-4 rounded-2xl border ${isBroadcast ? 'bg-white border-gray-100' : 'bg-blue-50/50 border-blue-100'} animate-slide-up`;
+                div.innerHTML = `
+                    <div class="flex justify-between items-center mb-1">
+                        <span class="text-[9px] font-black uppercase tracking-tighter ${isBroadcast ? 'text-gray-400' : 'text-blue-500'}">${sender} • ${isBroadcast ? 'Broadcast' : 'Question'}</span>
+                    </div>
+                    <p class="text-sm font-semibold text-gray-800 leading-snug">${text}</p>
+                    <p class="text-[10px] text-gray-400 italic mt-1 truncate">${original}</p>
+                `;
+                container.appendChild(div);
             }
 
             showToast(msg, type = 'info') {
@@ -791,6 +952,7 @@
                     lang: document.getElementById('login-lang').value
                 };
 
+                this.requestPermissions();
                 this.initStudent();
                 this.switchView('view-student');
             }
@@ -805,6 +967,7 @@
                     const roomCode = "RM" + Math.floor(1000 + Math.random() * 9000);
                     this.state = { ...this.state, role: 'teacher', room: roomCode, name: 'Teacher', lang };
 
+                    this.requestPermissions();
                     document.getElementById('lobby-code').innerText = roomCode;
                     this.switchView('view-lobby');
                     this.showToast("Logged in successfully", "success");
