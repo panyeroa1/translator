@@ -674,7 +674,6 @@
                     isAudioPlaying: false
                 };
 
-                // Deepgram vars
                 this.dgClient = null;
                 this.dgSocket = null;
                 this.mediaRecorder = null;
@@ -682,6 +681,20 @@
 
                 this.bindAll();
                 this.init();
+            }
+
+            saveState() {
+                localStorage.setItem('orbit_session', JSON.stringify({
+                    role: this.state.role,
+                    room: this.state.room,
+                    name: this.state.name,
+                    lang: this.state.lang,
+                    currentView: this.state.currentView
+                }));
+            }
+
+            clearState() {
+                localStorage.removeItem('orbit_session');
             }
 
             bindAll() {
@@ -694,10 +707,35 @@
                 document.getElementById('login-lang').innerHTML = ops;
                 document.getElementById('teacher-lang').innerHTML = ops;
                 window.App = this;
+
+                // Restore Session
+                const saved = localStorage.getItem('orbit_session');
+                if (saved) {
+                    try {
+                        const data = JSON.parse(saved);
+                        this.state = { ...this.state, ...data };
+
+                        if (this.state.role === 'student' && this.state.room) {
+                            this.initStudent();
+                            this.switchView(this.state.currentView || 'view-student');
+                        } else if (this.state.role === 'teacher' && this.state.room) {
+                            if (this.state.currentView === 'view-teacher') {
+                                this.initTeacher();
+                                this.switchView('view-teacher');
+                            } else {
+                                document.getElementById('lobby-code').innerText = this.state.room;
+                                this.switchView('view-lobby');
+                            }
+                        }
+                    } catch (e) { this.clearState(); }
+                }
             }
 
             // --- NAVIGATION ---
             switchView(viewId) {
+                this.state.currentView = viewId;
+                this.saveState();
+
                 document.querySelectorAll('section').forEach(el => {
                     el.classList.remove('view-active');
                     el.classList.add('view-hidden');
@@ -789,7 +827,11 @@
                     // Note: In real app use off(), but with modular SDK we just let garbage collection handle or use unsubscribe
                 }
 
+                this.clearState();
                 this.state.role = null;
+                this.state.room = '';
+                this.state.name = '';
+
                 // Reset Forms
                 this.toggleTeacherMode(false);
                 this.switchView('view-login');
