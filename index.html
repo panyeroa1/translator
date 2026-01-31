@@ -6,7 +6,6 @@
     <meta name="viewport"
         content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
     <meta name="theme-color" content="#3b82f6">
-    <link rel="apple-touch-icon" href="pwa_icon.png">
     <link rel="manifest"
         href='data:application/json,{"name":"Succes Class","short_name":"Succes","start_url":"./","display":"standalone","background_color":"#ffffff","theme_color":"#3b82f6","icons":[{"src":"pwa_icon.png","sizes":"512x512","type":"image/png"}]}'>
     <meta name="apple-mobile-web-app-capable" content="yes">
@@ -87,7 +86,6 @@
         /* Input Reset & Styling */
         .input-glass {
             background: rgba(255, 255, 255, 0.6);
-            -webkit-backdrop-filter: blur(8px);
             backdrop-filter: blur(8px);
             border: 1px solid rgba(0, 0, 0, 0.05);
             box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.02);
@@ -251,7 +249,7 @@
                     </div>
                 </div>
 
-                <button onclick="App.handleLogin()" title="Join Conversation"
+                <button onclick="App.handleLogin()"
                     class="btn-modern w-full bg-[#0ea5e9] hover:bg-[#0284c7] text-white font-semibold py-3.5 rounded-lg shadow-lg shadow-blue-500/20 flex items-center justify-center gap-2 mt-4 text-lg">
                     <span>Join Conversation</span>
                 </button>
@@ -285,11 +283,11 @@
                     </div>
                 </div>
 
-                <button onclick="App.handleTeacherLogin()" title="Login & Start"
+                <button onclick="App.handleTeacherLogin()"
                     class="btn-modern w-full bg-[#22c55e] hover:bg-[#16a34a] text-white font-semibold py-3.5 rounded-lg shadow-lg shadow-green-500/20 flex items-center justify-center gap-2 mt-4 text-lg">
                     <span>Login & Start</span>
                 </button>
-                <button onclick="App.toggleTeacherMode(false)" title="Cancel"
+                <button onclick="App.toggleTeacherMode(false)"
                     class="w-full py-2 text-sm font-semibold text-gray-400 hover:text-gray-600">
                     Cancel
                 </button>
@@ -298,7 +296,7 @@
 
             <!-- Footer / Toggle -->
             <div id="login-footer" class="text-center animate-slide-up mt-auto pt-4" style="animation-delay: 0.2s;">
-                <button onclick="App.toggleTeacherMode(true)" title="Switch to Teacher Mode"
+                <button onclick="App.toggleTeacherMode(true)"
                     class="w-full py-3.5 rounded-lg font-semibold text-white bg-[#22c55e] hover:bg-[#16a34a] shadow-lg shadow-green-500/20 transition-all flex items-center justify-center gap-2">
                     <span>Teacher</span>
                 </button>
@@ -327,7 +325,7 @@
                     conversation.</p>
             </div>
 
-            <button onclick="App.startSession()" title="Start Session"
+            <button onclick="App.startSession()"
                 class="btn-modern w-full bg-[#22c55e] hover:bg-[#16a34a] text-white font-bold py-4 rounded-xl shadow-lg shadow-green-500/20 flex items-center justify-center gap-3 animate-slide-up">
                 <span>Start Session</span>
                 <i class="fa-solid fa-play"></i>
@@ -391,23 +389,19 @@
             <!-- Controls -->
             <div class="absolute bottom-0 left-0 right-0 p-6 bg-gradient-to-t from-white via-white to-transparent z-20">
                 <div class="flex items-center justify-between gap-4">
-                    <!-- Reactions & Speak Request -->
-                    <div class="flex items-center gap-3">
-                        <button onclick="App.sendReaction('👍')" title="Thumbs Up"
-                            class="btn-modern w-10 h-10 rounded-full bg-white border border-gray-200 shadow-sm text-lg flex items-center justify-center hover:bg-gray-50">👍</button>
-                        <button onclick="App.sendReaction('❤️')" title="Heart"
-                            class="btn-modern w-10 h-10 rounded-full bg-white border border-gray-200 shadow-sm text-lg flex items-center justify-center hover:bg-gray-50">❤️</button>
-                        <button id="student-speak-btn" onclick="App.requestSpeak()" title="Request to Speak"
-                            class="btn-modern w-10 h-10 rounded-full bg-white border border-gray-200 shadow-sm text-lg flex items-center justify-center hover:bg-blue-50 hover:text-blue-500 transition-all text-gray-400">
-                            <i class="fa-solid fa-microphone"></i>
-                        </button>
+                    <!-- Reactions -->
+                    <div class="flex gap-3">
+                        <button onclick="App.sendReaction('👍')"
+                            class="btn-modern w-12 h-12 rounded-full bg-white border border-gray-200 shadow-sm text-xl flex items-center justify-center hover:bg-gray-50 hover:scale-110">👍</button>
+                        <button onclick="App.sendReaction('❤️')"
+                            class="btn-modern w-12 h-12 rounded-full bg-white border border-gray-200 shadow-sm text-xl flex items-center justify-center hover:bg-gray-50 hover:scale-110">❤️</button>
                     </div>
 
                     <!-- Ask Question FAB -->
-                    <button onclick="App.toggleModal('question')" title="Ask Question"
+                    <button onclick="App.toggleModal('question')"
                         class="btn-modern h-12 px-6 rounded-full bg-[#0ea5e9] hover:bg-[#0284c7] text-white font-semibold shadow-lg shadow-blue-500/20 flex items-center gap-2">
-                        <i class="fa-solid fa-paper-plane"></i>
-                        <span>Ask</span>
+                        <i class="fa-solid fa-hand"></i>
+                        <span>Raise Hand</span>
                     </button>
                 </div>
             </div>
@@ -437,11 +431,6 @@
 
                 <!-- Actions -->
                 <div class="flex items-center gap-4">
-                    <button id="mic-btn" onclick="App.toggleMic()" title="Start Broadcasting"
-                        class="w-10 h-10 rounded-full bg-gray-100 flex items-center justify-center text-gray-600 hover:bg-red-50 hover:text-red-500 transition-all">
-                        <i class="fa-solid fa-microphone-slash"></i>
-                    </button>
-                    <div class="h-8 w-px bg-gray-100 mx-1"></div>
                     <button onclick="App.toggleModal('history')" title="View History"
                         class="text-gray-400 hover:text-blue-500 transition-colors">
                         <i class="fa-solid fa-clock-rotate-left"></i>
@@ -449,6 +438,11 @@
                     <button id="teacher-tts-btn" onclick="App.toggleTTS()" title="Toggle Voice Output"
                         class="text-gray-400 hover:text-blue-500 transition-colors">
                         <i id="teacher-tts-icon" class="fa-solid fa-volume-xmark"></i>
+                    </button>
+                    <!-- Mic Toggle -->
+                    <button id="mic-btn" onclick="App.toggleMic()" title="Toggle Microphone"
+                        class="btn-modern relative w-10 h-10 rounded-full bg-gray-100 text-gray-600 flex items-center justify-center transition-all hover:bg-gray-200">
+                        <i class="fa-solid fa-microphone-slash text-sm"></i>
                     </button>
                 </div>
             </header>
@@ -476,179 +470,86 @@
                     </div>
                 </div>
 
-                <!-- Questions & Requests -->
-                <div class="grid grid-cols-2 gap-4">
-                    <!-- Incoming Questions -->
-                    <div class="bg-white rounded-2xl shadow-sm border border-gray-100 flex flex-col overflow-hidden">
-                        <div class="px-4 py-3 bg-gray-50/50 border-b border-gray-100 flex justify-between items-center">
-                            <h3 class="text-xs font-bold text-gray-500 uppercase tracking-wider">Questions</h3>
-                            <span id="question-count"
-                                class="bg-blue-100 text-blue-700 text-[10px] font-bold px-2 py-0.5 rounded-full">0</span>
-                        </div>
-                        <div id="teacher-questions"
-                            class="flex-1 p-4 overflow-y-auto space-y-3 bg-gray-50/30 custom-scrollbar">
-                            <div class="text-center py-4 opacity-40">
-                                <p class="text-[10px]">No questions</p>
-                            </div>
-                        </div>
+                <!-- Incoming Questions -->
+                <div class="bg-white rounded-2xl shadow-sm border border-gray-100 flex flex-col overflow-hidden">
+                    <div class="px-4 py-3 bg-gray-50/50 border-b border-gray-100 flex justify-between items-center">
+                        <h3 class="text-xs font-bold text-gray-500 uppercase tracking-wider">Student Questions</h3>
+                        <span id="question-count"
+                            class="bg-blue-100 text-blue-700 text-[10px] font-bold px-2 py-0.5 rounded-full">0</span>
                     </div>
-
-                    <!-- Speak Requests -->
-                    <div class="bg-white rounded-2xl shadow-sm border border-gray-100 flex flex-col overflow-hidden">
-                        <div class="px-4 py-3 bg-gray-50/50 border-b border-gray-100 flex justify-between items-center">
-                            <h3 class="text-xs font-bold text-gray-500 uppercase tracking-wider">Speak Queue</h3>
-                            <span id="request-count"
-                                class="bg-green-100 text-green-700 text-[10px] font-bold px-2 py-0.5 rounded-full">0</span>
-                        </div>
-                        <div id="teacher-requests"
-                            class="flex-1 p-4 overflow-y-auto space-y-2 bg-gray-50/30 custom-scrollbar">
-                            <div class="text-center py-4 opacity-40">
-                                <p class="text-[10px]">Empty Queue</p>
-                            </div>
+                    <div id="teacher-questions"
+                        class="flex-1 p-4 overflow-y-auto space-y-3 bg-gray-50 custom-scrollbar">
+                        <!-- Questions injected here -->
+                        <div class="text-center py-8 opacity-40">
+                            <i class="fa-regular fa-comments text-2xl mb-2 text-gray-400"></i>
+                            <p class="text-xs text-gray-500">No questions yet</p>
                         </div>
                     </div>
                 </div>
             </main>
         </section>
 
-        <!-- ================= MODAL: QUESTION SELECTION ================= -->
+        <!-- ================= MODAL: QUESTION ================= -->
         <div id="modal-question" class="fixed inset-0 z-50 hidden">
+            <!-- Backdrop -->
             <div class="absolute inset-0 bg-gray-900/40 backdrop-blur-sm transition-opacity opacity-0"
                 id="modal-backdrop" onclick="App.toggleModal('question')"></div>
+
+            <!-- Content -->
             <div class="absolute bottom-0 left-0 right-0 md:top-1/2 md:left-1/2 md:bottom-auto md:w-full md:max-w-sm md:-translate-x-1/2 md:-translate-y-1/2 transition-transform transform translate-y-full"
                 id="modal-panel">
-                <div class="bg-white rounded-t-3xl md:rounded-3xl shadow-2xl p-6">
-                    <h3 class="text-xl font-black text-gray-900 mb-1">Ask a Question</h3>
-                    <p class="text-sm text-gray-500 mb-6">Choose how you would like to participate.</p>
+                <div class="bg-white rounded-t-2xl md:rounded-2xl shadow-2xl p-6">
+                    <h3 class="text-lg font-bold text-gray-900 mb-1">Ask a Question</h3>
+                    <p class="text-sm text-gray-500 mb-6">Your question will be translated for the teacher.</p>
 
-                    <div class="grid gap-4">
-                        <button onclick="App.switchQuestionMode('type')"
-                            class="w-full p-4 rounded-2xl border-2 border-gray-100 flex items-center gap-4 hover:border-blue-500 hover:bg-blue-50/50 transition-all text-left">
-                            <div
-                                class="w-12 h-12 rounded-xl bg-blue-100 text-blue-600 flex items-center justify-center text-xl">
-                                <i class="fa-solid fa-keyboard"></i>
-                            </div>
-                            <div>
-                                <p class="font-bold text-gray-900">Type Question</p>
-                                <p class="text-xs text-gray-500">Send a text message</p>
-                            </div>
-                        </button>
-
-                        <button id="btn-speak-mode" onclick="App.switchQuestionMode('speak')" title="Speak Question"
-                            class="w-full p-4 rounded-2xl border-2 border-gray-100 flex items-center gap-4 hover:border-green-500 hover:bg-green-50/50 transition-all text-left disabled:opacity-50 disabled:grayscale disabled:cursor-not-allowed">
-                            <div
-                                class="w-12 h-12 rounded-xl bg-green-100 text-green-600 flex items-center justify-center text-xl">
-                                <i class="fa-solid fa-microphone-lines"></i>
-                            </div>
-                            <div>
-                                <p class="font-bold text-gray-900">Speak Question</p>
-                                <p class="text-xs text-gray-500">Record your voice</p>
-                            </div>
-                        </button>
+                    <div class="relative mb-6">
+                        <input id="q-input" type="text"
+                            class="w-full border-2 border-gray-100 rounded-xl px-4 py-3 text-base outline-none focus:border-blue-500 transition-colors"
+                            placeholder="Type your question..."
+                            onkeydown="if(event.key === 'Enter') App.sendQuestion()">
                     </div>
 
-                    <button onclick="App.toggleModal('question')" title="Cancel"
-                        class="w-full mt-6 py-3 text-sm font-bold text-gray-400 hover:text-gray-600 transition-colors">Cancel</button>
-                </div>
-            </div>
-        </div>
-
-        <!-- ================= MODAL: TEXT INPUT ================= -->
-        <div id="modal-text-input" class="fixed inset-0 z-50 hidden">
-            <div class="absolute inset-0 bg-gray-900/40 backdrop-blur-sm" onclick="App.toggleModal('text-input')"
-                title="Close Overlay"></div>
-            <div
-                class="absolute bottom-0 left-0 right-0 md:top-1/2 md:left-1/2 md:-translate-x-1/2 md:-translate-y-1/2 p-6">
-                <div class="bg-white rounded-3xl shadow-2xl p-6 max-w-sm mx-auto">
-                    <h3 class="font-black text-gray-900 mb-4">Type Your Question</h3>
-                    <input id="q-input" type="text"
-                        class="w-full border-2 border-gray-100 rounded-xl px-4 py-3 text-base outline-none focus:border-blue-500 mb-4"
-                        placeholder="What is the topic about?">
-                    <div class="flex gap-2">
-                        <button onclick="App.toggleModal('text-input')" title="Back"
-                            class="flex-1 py-3 font-bold text-gray-400 bg-gray-100 rounded-xl">Back</button>
-                        <button onclick="App.sendQuestion()" title="Send Question"
-                            class="flex-2 py-3 font-bold text-white bg-blue-600 rounded-xl shadow-lg shadow-blue-500/20">Send</button>
+                    <div class="flex gap-3">
+                        <button onclick="App.toggleModal('question')"
+                            class="flex-1 py-3 text-sm font-bold text-gray-600 bg-gray-100 rounded-xl hover:bg-gray-200 transition-colors">Cancel</button>
+                        <button onclick="App.sendQuestion()"
+                            class="flex-1 py-3 text-sm font-bold text-white bg-blue-600 rounded-xl hover:bg-blue-700 shadow-lg shadow-blue-500/20 transition-colors">Send</button>
                     </div>
                 </div>
-            </div>
-        </div>
-
-        <!-- ================= MODAL: RECORDING ================= -->
-        <div id="modal-recording" class="fixed inset-0 z-50 hidden">
-            <div
-                class="absolute inset-0 bg-blue-600/95 backdrop-blur-xl flex flex-col items-center justify-center text-white p-8">
-                <div class="w-24 h-24 bg-white/20 rounded-full flex items-center justify-center animate-pulse mb-8">
-                    <i class="fa-solid fa-microphone-lines text-4xl"></i>
-                </div>
-                <h2 class="text-3xl font-black mb-2">Recording...</h2>
-                <p class="text-blue-100 mb-12 text-center">Speak clearly. We'll translate your question.</p>
-
-                <div id="recording-timer" class="text-4xl font-mono font-bold mb-12 tracking-widest">00:00</div>
-
-                <button onclick="App.stopStudentRecording()" title="Stop Recording"
-                    class="w-20 h-20 rounded-full bg-white text-blue-600 flex items-center justify-center text-2xl shadow-2xl hover:scale-110 transition-transform active:scale-90">
-                    <i class="fa-solid fa-stop"></i>
-                </button>
             </div>
         </div>
 
         <!-- ================= MODAL: HISTORY ================= -->
-        <div id="modal-history" class="fixed inset-0 z-50 hidden bg-white">
-            <div class="flex flex-col h-full bg-slate-50">
-                <!-- Header -->
-                <header
-                    class="h-16 border-b border-gray-100 flex items-center justify-between px-6 bg-white/80 backdrop-blur-md sticky top-0 z-20">
-                    <div class="flex items-center gap-4">
-                        <button onclick="App.toggleModal('history')" title="Close History"
-                            class="w-10 h-10 rounded-full hover:bg-gray-100 flex items-center justify-center text-gray-400 hover:text-gray-900 transition-all">
-                            <i class="fa-solid fa-arrow-left text-xl"></i>
-                        </button>
+        <div id="modal-history" class="fixed inset-0 z-50 hidden">
+            <!-- Backdrop -->
+            <div class="absolute inset-0 bg-gray-900/40 backdrop-blur-sm transition-opacity opacity-0"
+                id="history-backdrop" onclick="App.toggleModal('history')"></div>
+
+            <!-- Content -->
+            <div class="absolute bottom-0 left-0 right-0 md:top-1/2 md:left-1/2 md:bottom-auto md:w-full md:max-w-lg md:-translate-x-1/2 md:-translate-y-1/2 transition-transform transform translate-y-full"
+                id="history-panel">
+                <div class="bg-white rounded-t-3xl md:rounded-3xl shadow-2xl flex flex-col h-[70vh]">
+                    <div
+                        class="p-6 border-b border-gray-100 flex justify-between items-center bg-gray-50/50 rounded-t-3xl border-t-4 border-blue-500">
                         <div>
-                            <h2 class="text-lg font-black text-gray-900 leading-none">History</h2>
-                            <p class="text-[10px] text-gray-400 font-bold uppercase tracking-widest mt-1">Session
-                                Archives</p>
+                            <h3 class="text-xl font-black text-gray-900 leading-none">History</h3>
+                            <p class="text-xs text-gray-500 mt-1 font-bold uppercase tracking-widest">Session Archive
+                            </p>
+                        </div>
+                        <button onclick="App.toggleModal('history')"
+                            class="w-10 h-10 rounded-full bg-white border border-gray-200 flex items-center justify-center text-gray-500 hover:text-gray-900 shadow-sm transition-all active:scale-95">
+                            <i class="fa-solid fa-xmark"></i>
+                        </button>
+                    </div>
+
+                    <div id="history-content"
+                        class="flex-1 overflow-y-auto p-4 space-y-4 bg-gray-50/50 custom-scrollbar">
+                        <!-- History items injected here -->
+                        <div class="text-center py-20 opacity-30">
+                            <i class="fa-solid fa-hourglass-start text-4xl mb-4"></i>
+                            <p class="text-sm font-bold">No history available yet</p>
                         </div>
                     </div>
-                </header>
-
-                <div class="flex flex-1 overflow-hidden relative">
-                    <!-- Sidebar: Session List -->
-                    <aside
-                        class="absolute inset-0 md:relative md:inset-auto md:w-80 border-r border-gray-100 bg-white overflow-y-auto z-10 transition-transform duration-300 transform"
-                        id="history-sidebar">
-                        <div class="p-4 space-y-3" id="history-sessions">
-                            <!-- Sessions injected here -->
-                        </div>
-                    </aside>
-
-                    <!-- Main Content: Message View -->
-                    <main class="flex-1 flex flex-col bg-slate-50 overflow-hidden relative z-0">
-                        <div id="history-content-header"
-                            class="p-4 border-b border-gray-100 bg-white flex items-center gap-3 hidden">
-                            <button onclick="App.backToHistoryList()" title="Back to Sessions"
-                                class="md:hidden w-8 h-8 rounded-full bg-gray-100 flex items-center justify-center text-gray-500 text-xs">
-                                <i class="fa-solid fa-chevron-left"></i>
-                            </button>
-                            <div>
-                                <h3 id="history-room-title" class="font-bold text-gray-900 text-sm">Room: ----</h3>
-                                <p id="history-room-date" class="text-[9px] text-gray-400 font-bold uppercase">Jan 31,
-                                    2026</p>
-                            </div>
-                        </div>
-                        <div id="history-content"
-                            class="flex-1 overflow-y-auto p-6 space-y-4 custom-scrollbar bg-slate-50">
-                            <div class="h-full flex flex-col items-center justify-center text-center px-10">
-                                <div
-                                    class="w-20 h-20 bg-white rounded-3xl shadow-sm border border-gray-100 flex items-center justify-center text-gray-200 text-4xl mb-6">
-                                    <i class="fa-solid fa-clock-rotate-left"></i>
-                                </div>
-                                <h4 class="font-bold text-gray-900 mb-2">Select a Session</h4>
-                                <p class="text-sm text-gray-400">Choose a room from the sidebar to view the transcript
-                                    archive.</p>
-                            </div>
-                        </div>
-                    </main>
                 </div>
             </div>
         </div>
@@ -658,7 +559,7 @@
     <!-- ================= LOGIC ================= -->
     <script type="module">
         import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
-        import { getDatabase, ref, push, onChildAdded, remove, get, set } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-database.js";
+        import { getDatabase, ref, push, onChildAdded, remove, get } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-database.js";
         import { createClient, LiveTranscriptionEvents } from 'https://cdn.jsdelivr.net/npm/@deepgram/sdk@3/+esm';
 
         // --- CREDENTIALS ---
@@ -671,12 +572,13 @@
                 "es": "5c5ad5e7-1020-476b-8b91-fdcbe9cc313c", // Daniela
                 "de": "38aabb6a-f52b-4fb0-a3d1-988518f4dc06", // Alina
                 "ar": "002622d8-19d0-4567-a16a-f99c7397c062", // Huda
+                "fr": "a8a1eb38-5f15-4c1d-8722-7ac0f329727d", // Calm French Woman
+                "ko": "304fdbd8-65e6-40d6-ab78-f9d18b9efdf9", // Jihyun
+                "ja": "2b568345-1d48-4047-b25f-7baccf842eb0", // Yumiko
+                "pt": "700d1ee3-a641-4018-ba6e-899dcadc9e2b", // Luana
+                "ta": "25d2c432-139c-4035-bfd6-9baaabcdd006", // Kavya
                 "te": "07bc462a-c644-49f1-baf7-82d5599131be", // Sindhu
-                "nl-NL": "9e8db62d-056f-47f3-b3b6-1b05767f9176", // Dutch Netherlands
-                "nl-BE": "aa3fdf22-9f5e-4238-8016-31f515ded9a3", // Flemish
-                "fr": "0418348a-0ca2-4e90-9986-800fb8b3bbc0", // French
-                "uk": "05ffab9c-d380-4909-8375-cd12f59238c3", // Ukrainian
-                "tl": "c4cbcb7d-d9fa-4eac-b547-46831718ef58", // Tagalog
+                "vls": "005af375-5aad-4c02-9551-7fc411430542", // West Flemish
                 "default": "cbaf8084-f009-4838-a096-07ee2e6612b1"
             },
             FIREBASE: {
@@ -707,9 +609,15 @@
             { code: 'it', name: 'Italian (Italiano)', flag: '🇮🇹' },
             { code: 'tr', name: 'Turkish (Türkçe)', flag: '🇹🇷' },
 
-            // --- BENELUX ---
-            { code: 'nl-NL', name: 'Dutch Netherlands', flag: '🇳🇱' },
-            { code: 'nl-BE', name: 'Dutch Belgium', flag: '🇧🇪' },
+            // --- BENELUX (Belgium, Netherlands, Luxembourg) ---
+            { code: 'nl', name: 'Dutch (Nederlands)', flag: '🇳🇱' },
+            { code: 'nl-BE', name: 'Flemish (Vlaams)', flag: '🇧🇪' },
+            { code: 'fr-BE', name: 'Belgian French (Français de Belgique)', flag: '🇧🇪' },
+            { code: 'de-BE', name: 'Belgian German (Belgisches Deutsch)', flag: '🇧🇪' },
+            { code: 'wa', name: 'Walloon (Walon)', flag: '🇧🇪' },
+            { code: 'vls', name: 'West Flemish (West-Vlams)', flag: '🇧🇪' },
+            { code: 'li', name: 'Limburgish (Limburgs)', flag: '🇳🇱' },
+            { code: 'fy', name: 'West Frisian (Frysk)', flag: '🇳🇱' },
             { code: 'lb', name: 'Luxembourgish (Lëtzebuergesch)', flag: '🇱🇺' },
 
             // --- FRANCE & REGIONAL ---
@@ -782,164 +690,16 @@
             { code: 'yo', name: 'Yoruba (Yorùbá)', flag: '🇳🇬' },
             { code: 'ig', name: 'Igbo (Asụsụ Igbo)', flag: '🇳🇬' },
             { code: 'zu', name: 'Zulu (isiZulu)', flag: '🇿🇦' },
+            { code: 'xh', name: 'Xhosa (isiXhosa)', flag: '🇿🇦' },
+            { code: 'af', name: 'Afrikaans', flag: '🇿🇦' },
+            { code: 'ha', name: 'Hausa (هَوْਸَ)', flag: '🇳🇬' },
+            { code: 'so', name: 'Somali (Soomaali)', flag: '🇸🇴' },
 
-            // --- ADDITIONAL 100+ LANGUAGES ---
-            { code: 'aa', name: 'Afar', flag: '🇪🇹' },
-            { code: 'ace', name: 'Acehnese', flag: '🇮🇩' },
-            { code: 'ach', name: 'Acholi', flag: '🇺🇬' },
-            { code: 'ada', name: 'Adangme', flag: '🇬🇭' },
-            { code: 'ady', name: 'Adyghe', flag: '🇷🇺' },
-            { code: 'ak', name: 'Akan', flag: '🇬🇭' },
-            { code: 'alt', name: 'Southern Altai', flag: '🇷🇺' },
-            { code: 'av', name: 'Avaric', flag: '🇷🇺' },
-            { code: 'awa', name: 'Awadhi', flag: '🇮🇳' },
-            { code: 'bal', name: 'Baluchi', flag: '🇵🇰' },
-            { code: 'ban', name: 'Balinese', flag: '🇮🇩' },
-            { code: 'ba', name: 'Bashkir', flag: '🇷🇺' },
-            { code: 'bjn', name: 'Banjar', flag: '🇮🇩' },
-            { code: 'bho', name: 'Bhojpuri', flag: '🇮🇳' },
-            { code: 'bik', name: 'Bikol', flag: '🇵🇭' },
-            { code: 'bin', name: 'Bini', flag: '🇳🇬' },
-            { code: 'bug', name: 'Buginese', flag: '🇮🇩' },
-            { code: 'ce', name: 'Chechen', flag: '🇷🇺' },
-            { code: 'ch', name: 'Chamorro', flag: '🇬🇺' },
-            { code: 'chk', name: 'Chuukese', flag: '🇫🇲' },
-            { code: 'chm', name: 'Mari', flag: '🇷🇺' },
-            { code: 'cho', name: 'Choctaw', flag: '🇺🇸' },
-            { code: 'chr', name: 'Cherokee', flag: '🇺🇸' },
-            { code: 'cv', name: 'Chuvash', flag: '🇷🇺' },
-            { code: 'dar', name: 'Dargwa', flag: '🇷🇺' },
-            { code: 'dv', name: 'Divehi', flag: '🇲🇻' },
-            { code: 'dz', name: 'Dzongkha', flag: '🇧🇹' },
-            { code: 'efi', name: 'Efik', flag: '🇳🇬' },
-            { code: 'fat', name: 'Fanti', flag: '🇬🇭' },
-            { code: 'fj', name: 'Fijian', flag: '🇫🇯' },
-            { code: 'fon', name: 'Fon', flag: '🇧🇯' },
-            { code: 'fur', name: 'Friulian', flag: '🇮🇹' },
-            { code: 'gaa', name: 'Ga', flag: '🇬🇭' },
-            { code: 'gez', name: 'Geez', flag: '🇪🇹' },
-            { code: 'gil', name: 'Gilbertese', flag: '🇰🇮' },
-            { code: 'gor', name: 'Gorontalo', flag: '🇮🇩' },
-            { code: 'gwi', name: 'Gwich\'in', flag: '🇨🇦' },
-            { code: 'hil', name: 'Hiligaynon', flag: '🇵🇭' },
-            { code: 'hmn', name: 'Hmong', flag: '🇨🇳' },
-            { code: 'ho', name: 'Hiri Motu', flag: '🇵🇬' },
-            { code: 'iba', name: 'Iban', flag: '🇲🇾' },
-            { code: 'ilo', name: 'Iloko', flag: '🇵🇭' },
-            { code: 'inh', name: 'Ingush', flag: '🇷🇺' },
-            { code: 'iu', name: 'Inuktitut', flag: '🇨🇦' },
-            { code: 'jv', name: 'Javanese', flag: '🇮🇩' },
-            { code: 'kab', name: 'Kabyle', flag: '🇩🇿' },
-            { code: 'kac', name: 'Kachin', flag: '🇲🇲' },
-            { code: 'kaj', name: 'Jju', flag: '🇳🇬' },
-            { code: 'kam', name: 'Kamba', flag: '🇰🇪' },
-            { code: 'kbd', name: 'Kabardian', flag: '🇷🇺' },
-            { code: 'kbp', name: 'Kabiye', flag: '🇹🇬' },
-            { code: 'kfo', name: 'Koro', flag: '🇨🇮' },
-            { code: 'kg', name: 'Kongo', flag: '🇨🇩' },
-            { code: 'kha', name: 'Khasi', flag: '🇮🇳' },
-            { code: 'ki', name: 'Kikuyu', flag: '🇰🇪' },
-            { code: 'kj', name: 'Kuanyama', flag: '🇦🇴' },
-            { code: 'kk', name: 'Kazakh', flag: '🇰🇿' },
-            { code: 'kmb', name: 'Kimbundu', flag: '🇦🇴' },
-            { code: 'kok', name: 'Konkani', flag: '🇮🇳' },
-            { code: 'kpe', name: 'Kpelle', flag: '🇱🇷' },
-            { code: 'kr', name: 'Kanuri', flag: '🇳🇬' },
-            { code: 'krc', name: 'Karachay-Balkar', flag: '🇷🇺' },
-            { code: 'kru', name: 'Kurukh', flag: '🇮🇳' },
-            { code: 'ks', name: 'Kashmiri', flag: '🇮🇳' },
-            { code: 'kum', name: 'Kumyk', flag: '🇷🇺' },
-            { code: 'kv', name: 'Komi', flag: '🇷🇺' },
-            { code: 'kw', name: 'Cornish', flag: '🇬🇧' },
-            { code: 'ky', name: 'Kirghiz', flag: '🇰🇬' },
-            { code: 'lad', name: 'Ladino', flag: '🇮🇱' },
-            { code: 'lez', name: 'Lezghian', flag: '🇷🇺' },
-            { code: 'li', name: 'Limburgish', flag: '🇳🇱' },
-            { code: 'loz', name: 'Lozi', flag: '🇿🇲' },
-            { code: 'lua', name: 'Luba-Lulua', flag: '🇨🇩' },
-            { code: 'lun', name: 'Lunda', flag: '🇿🇲' },
-            { code: 'lus', name: 'Lushai', flag: '🇮🇳' },
-            { code: 'mad', name: 'Madurese', flag: '🇮🇩' },
-            { code: 'mag', name: 'Magahi', flag: '🇮🇳' },
-            { code: 'mai', name: 'Maithili', flag: '🇮🇳' },
-            { code: 'mak', name: 'Makasar', flag: '🇮🇩' },
-            { code: 'man', name: 'Mandingo', flag: '🇬🇳' },
-            { code: 'mas', name: 'Masai', flag: '🇰🇪' },
-            { code: 'mdf', name: 'Moksha', flag: '🇷🇺' },
-            { code: 'mdr', name: 'Mandar', flag: '🇮🇩' },
-            { code: 'men', name: 'Mende', flag: '🇸🇱' },
-            { code: 'min', name: 'Minangkabau', flag: '🇮🇩' },
-            { code: 'mni', name: 'Manipuri', flag: '🇮🇳' },
-            { code: 'mos', name: 'Mossi', flag: '🇧🇫' },
-            { code: 'mus', name: 'Creek', flag: '🇺🇸' },
-            { code: 'mwl', name: 'Mirandese', flag: '🇵🇹' },
-            { code: 'myv', name: 'Erzya', flag: '🇷🇺' },
-            { code: 'na', name: 'Nauru', flag: '🇳🇷' },
-            { code: 'nap', name: 'Neapolitan', flag: '🇮🇹' },
-            { code: 'new', name: 'Newari', flag: '🇳🇵' },
-            { code: 'ng', name: 'Ndonga', flag: '🇳🇦' },
-            { code: 'nia', name: 'Nias', flag: '🇮🇩' },
-            { code: 'niu', name: 'Niuean', flag: '🇳🇺' },
-            { code: 'nog', name: 'Nogai', flag: '🇷🇺' },
-            { code: 'nqo', name: 'N\'Ko', flag: '🇬🇳' },
-            { code: 'nr', name: 'Ndebele, South', flag: '🇿🇦' },
-            { code: 'nso', name: 'Pedi', flag: '🇿🇦' },
-            { code: 'ny', name: 'Nyanja', flag: '🇲🇼' },
-            { code: 'nyn', name: 'Nyankole', flag: '🇺🇬' },
-            { code: 'pag', name: 'Pangasinan', flag: '🇵🇭' },
-            { code: 'pam', name: 'Pampanga', flag: '🇵🇭' },
-            { code: 'pap', name: 'Papiamento', flag: '🇦🇼' },
-            { code: 'pau', name: 'Palauan', flag: '🇵🇼' },
-            { code: 'pon', name: 'Pohnpeian', flag: '🇫🇲' },
-            { code: 'raj', name: 'Rajasthani', flag: '🇮🇳' },
-            { code: 'rar', name: 'Rarotongan', flag: '🇨🇰' },
-            { code: 'rm', name: 'Raeto-Romance', flag: '🇨🇭' },
-            { code: 'rom', name: 'Romany', flag: '🇪🇺' },
-            { code: 'rup', name: 'Aromanian', flag: '🇲🇰' },
-            { code: 'sad', name: 'Sandawe', flag: '🇹🇿' },
-            { code: 'sah', name: 'Yakut', flag: '🇷🇺' },
-            { code: 'sam', name: 'Samaritan Aramaic', flag: '🇮🇱' },
-            { code: 'sas', name: 'Sasak', flag: '🇮🇩' },
-            { code: 'sat', name: 'Santali', flag: '🇮🇳' },
-            { code: 'scn', name: 'Sicilian', flag: '🇮🇹' },
-            { code: 'sco', name: 'Scots', flag: '🇬🇧' },
-            { code: 'sel', name: 'Selkup', flag: '🇷🇺' },
-            { code: 'shn', name: 'Shan', flag: '🇲🇲' },
-            { code: 'sid', name: 'Sidamo', flag: '🇪🇹' },
-            { code: 'sms', name: 'Skolt Sami', flag: '🇫🇮' },
-            { code: 'snk', name: 'Soninke', flag: '🇲🇱' },
-            { code: 'srn', name: 'Sranan Tongo', flag: '🇸🇷' },
-            { code: 'ss', name: 'Swati', flag: '🇸🇿' },
-            { code: 'st', name: 'Sotho, Southern', flag: '🇱🇸' },
-            { code: 'suk', name: 'Sukuma', flag: '🇹🇿' },
-            { code: 'sus', name: 'Susu', flag: '🇬🇳' },
-            { code: 'syr', name: 'Syriac', flag: '🇮🇶' },
-            { code: 'tem', name: 'Timne', flag: '🇸🇱' },
-            { code: 'tet', name: 'Tetum', flag: '🇹🇱' },
-            { code: 'tig', name: 'Tigre', flag: '🇪🇷' },
-            { code: 'tiv', name: 'Tiv', flag: '🇳🇬' },
-            { code: 'tkl', name: 'Tokelau', flag: '🇹🇰' },
-            { code: 'tlh', name: 'Klingon', flag: '🖖' },
-            { code: 'tli', name: 'Tlingit', flag: '🇺🇸' },
-            { code: 'tmh', name: 'Tamashek', flag: '🇲🇱' },
-            { code: 'tn', name: 'Tswana', flag: '🇿🇦' },
-            { code: 'to', name: 'Tonga', flag: '🇹🇴' },
-            { code: 'tpi', name: 'Tok Pisin', flag: '🇵🇬' },
-            { code: 'ts', name: 'Tsonga', flag: '🇿🇦' },
-            { code: 'tt', name: 'Tatar', flag: '🇷🇺' },
-            { code: 'tum', name: 'Tumbuka', flag: '🇲🇼' },
-            { code: 'tvl', name: 'Tuvalu', flag: '🇹🇻' },
-            { code: 'ty', name: 'Tahitian', flag: '🇵🇫' },
-            { code: 'tyv', name: 'Tuvinian', flag: '🇷🇺' },
-            { code: 'udm', name: 'Udmurt', flag: '🇷🇺' },
-            { code: 'umb', name: 'Umbundu', flag: '🇦🇴' },
-            { code: 've', name: 'Venda', flag: '🇿🇦' },
-            { code: 'wa', name: 'Walloon', flag: '🇧🇪' },
-            { code: 'war', name: 'Waray', flag: '🇵🇭' },
-            { code: 'xal', name: 'Kalmyk', flag: '🇷🇺' },
-            { code: 'yao', name: 'Yao', flag: '🇲🇼' },
-            { code: 'yap', name: 'Yapese', flag: '🇫🇲' },
-            { code: 'zun', name: 'Zuni', flag: '🇺🇸' }
+            // --- AMERICAS ---
+            { code: 'qu', name: 'Quechua (Runa Simi)', flag: '🇵🇪' },
+            { code: 'ay', name: 'Aymara', flag: '🇧🇴' },
+            { code: 'gn', name: 'Guarani (Avañe\'ẽ)', flag: '🇵🇾' },
+            { code: 'ht', name: 'Haitian Creole (Kreyòl ayisyen)', flag: '🇭🇹' }
         ];
 
         class SuccesApp {
@@ -955,14 +715,9 @@
                     lang: 'en',
                     isMicActive: false,
                     isTTSActive: false,
-                    isAudioPlaying: false,
-                    isStudentMicEnabled: false,
                     audioQueue: [],
-                    history: []
+                    isAudioPlaying: false
                 };
-
-                this.deviceId = localStorage.getItem('orbit_device_id') || this.generateId();
-                localStorage.setItem('orbit_device_id', this.deviceId);
 
                 this.dgClient = null;
                 this.dgSocket = null;
@@ -981,21 +736,6 @@
                     lang: this.state.lang,
                     currentView: this.state.currentView
                 }));
-                if (this.state.room) this.saveRoomToHistory(this.state.room);
-            }
-
-            saveRoomToHistory(room) {
-                const historyRef = ref(this.db, `users/${this.deviceId}/history/${room}`);
-                import("https://www.gstatic.com/firebasejs/10.7.1/firebase-database.js").then(db => {
-                    db.set(historyRef, {
-                        lastJoined: Date.now(),
-                        roomCode: room
-                    });
-                });
-            }
-
-            generateId() {
-                return 'dev_' + Math.random().toString(36).substr(2, 9);
             }
 
             clearState() {
@@ -1089,17 +829,14 @@
 
                 if (modal.classList.contains('hidden')) {
                     modal.classList.remove('hidden');
-                    if (type === 'history') {
-                        this.loadHistory();
-                        this.backToHistoryList(); // Reset view to list
-                    }
+                    if (type === 'history') this.loadHistory();
                     setTimeout(() => {
-                        if (bd) bd.style.opacity = '1';
-                        if (panel) panel.style.transform = (window.innerWidth < 768) ? 'translateY(0)' : 'translate(-50%, -50%)';
+                        bd.style.opacity = '1';
+                        panel.style.transform = (window.innerWidth < 768) ? 'translateY(0)' : 'translate(-50%, -50%)';
                     }, 10);
                 } else {
-                    if (bd) bd.style.opacity = '0';
-                    if (panel) panel.style.transform = (window.innerWidth < 768) ? 'translateY(100%)' : 'translate(-50%, 0)';
+                    bd.style.opacity = '0';
+                    panel.style.transform = (window.innerWidth < 768) ? 'translateY(100%)' : 'translate(-50%, 0)';
                     setTimeout(() => modal.classList.add('hidden'), 300);
                 }
             }
@@ -1265,7 +1002,6 @@
 
             // --- STUDENT LOGIC ---
             initStudent() {
-                this.listenForSpeakPermission();
                 document.getElementById('student-name-display').innerText = this.state.name;
                 document.getElementById('student-room-code').innerText = this.state.room;
                 const badge = document.getElementById('student-lang-badge');
@@ -1367,27 +1103,13 @@
                             this.state.isAudioPlaying = false;
                             this.processAudioQueue();
                         };
-                        audio.onerror = () => {
-                            console.error("Audio Playback Error");
-                            this.state.isAudioPlaying = false;
-                            this.processAudioQueue();
-                        };
-                        try {
-                            await audio.play();
-                        } catch (e) {
-                            console.error("Autoplay prevented", e);
-                            this.state.isAudioPlaying = false;
-                            this.processAudioQueue();
-                        }
+                        audio.play();
                     } else {
-                        console.error("TTS API Error", res.status);
                         this.state.isAudioPlaying = false;
-                        this.processAudioQueue();
                     }
                 } catch (e) {
                     console.error("TTS Error", e);
                     this.state.isAudioPlaying = false;
-                    this.processAudioQueue();
                 }
             }
 
@@ -1408,9 +1130,7 @@
 
             // --- TEACHER LOGIC (DEEPGRAM) ---
             initTeacher() {
-                // UI Updates
-                const codeDisplay = document.getElementById('teacher-code-display');
-                if (codeDisplay) codeDisplay.innerText = this.state.room;
+                document.getElementById('teacher-code-display').innerText = this.state.room;
 
                 // Questions Listener
                 const qRef = ref(this.db, `chats/${this.state.room}/questions`);
@@ -1427,206 +1147,6 @@
                         this.queueAudio(trans, 'Female');
                     }
                 });
-
-                // Speak Queue Listener
-                const requestsRef = ref(this.db, `chats/${this.state.room}/speakRequests`);
-                import("https://www.gstatic.com/firebasejs/10.7.1/firebase-database.js").then(db => {
-                    db.onValue(requestsRef, (snap) => {
-                        this.renderSpeakQueue(snap.val() || {});
-                    });
-                });
-
-                // Global Config Listener (for Student Mic state)
-                const configRef = ref(this.db, `chats/${this.state.room}/config`);
-                import("https://www.gstatic.com/firebasejs/10.7.1/firebase-database.js").then(db => {
-                    db.onValue(configRef, (snap) => {
-                        const config = snap.val();
-                        if (config && config.studentMic !== undefined) {
-                            this.state.isStudentMicEnabled = config.studentMic;
-                            this.updateStudentMicUI();
-                        }
-                    });
-                });
-            }
-
-            requestSpeak() {
-                const btn = document.getElementById('student-speak-btn');
-                if (btn.classList.contains('text-blue-500')) {
-                    this.showToast("Request already sent", "info");
-                    return;
-                }
-
-                const requestRef = ref(this.db, `chats/${this.state.room}/speakRequests/${this.deviceId}`);
-                import("https://www.gstatic.com/firebasejs/10.7.1/firebase-database.js").then(db => {
-                    db.set(requestRef, {
-                        name: this.state.name,
-                        timestamp: Date.now()
-                    });
-                    btn.classList.add('text-blue-500', 'animate-pulse');
-                    this.showToast("Speak request sent", "success");
-                });
-            }
-
-            renderSpeakQueue(requests) {
-                const list = document.getElementById('teacher-requests');
-                const count = document.getElementById('request-count');
-                list.innerHTML = '';
-                const entries = Object.entries(requests);
-                count.innerText = entries.length;
-
-                if (entries.length === 0) {
-                    list.innerHTML = '<div class="text-center py-4 opacity-40"><p class="text-[10px]">Empty Queue</p></div>';
-                    return;
-                }
-
-                entries.sort((a, b) => a[1].timestamp - b[1].timestamp).forEach(([id, data]) => {
-                    const div = document.createElement('div');
-                    div.className = 'flex items-center justify-between p-2 bg-white rounded-lg border border-gray-100 shadow-sm';
-                    div.innerHTML = `
-                        <p class="text-xs font-bold text-gray-700">${data.name}</p>
-                        <button onclick="App.approveSpeak('${id}')" class="px-2 py-1 bg-green-500 text-white text-[10px] font-black rounded-md hover:bg-green-600">APPROVE</button>
-                    `;
-                    list.appendChild(div);
-                });
-            }
-
-            approveSpeak(studentDeviceId) {
-                const configRef = ref(this.db, `chats/${this.state.room}/config`);
-                import("https://www.gstatic.com/firebasejs/10.7.1/firebase-database.js").then(db => {
-                    db.update(configRef, { currentSpeaker: studentDeviceId });
-                    // Remove from queue
-                    db.remove(ref(this.db, `chats/${this.state.room}/speakRequests/${studentDeviceId}`));
-                    this.showToast("Student authorized", "success");
-                });
-            }
-
-            listenForSpeakPermission() {
-                const configRef = ref(this.db, `chats/${this.state.room}/config`);
-                import("https://www.gstatic.com/firebasejs/10.7.1/firebase-database.js").then(db => {
-                    db.onValue(configRef, (snap) => {
-                        const config = snap.val() || {};
-                        const isMe = config.currentSpeaker === this.deviceId;
-                        const btn = document.getElementById('student-speak-btn');
-
-                        if (isMe) {
-                            btn.classList.remove('text-blue-500', 'animate-pulse');
-                            btn.classList.add('bg-red-500', 'text-white', 'mic-active-ring');
-                            this.showToast("You are authorized to speak!", "success");
-                            this.startStudentRecording();
-                        } else {
-                            btn.classList.remove('bg-red-500', 'text-white', 'mic-active-ring');
-                            btn.classList.add('text-gray-400');
-                        }
-                    });
-                });
-            }
-
-            updateStudentMicUI() {
-                const icon = document.getElementById('student-mic-icon');
-                const btn = document.getElementById('student-mic-toggle');
-                const speakBtn = document.getElementById('btn-speak-mode');
-
-                if (icon && btn) {
-                    if (this.state.isStudentMicEnabled) {
-                        icon.className = "fa-solid fa-microphone-lines";
-                        btn.classList.add('text-green-500');
-                    } else {
-                        icon.className = "fa-solid fa-microphone-lines-slash";
-                        btn.classList.remove('text-green-500');
-                    }
-                }
-
-                if (speakBtn) speakBtn.disabled = !this.state.isStudentMicEnabled;
-            }
-
-            switchQuestionMode(mode) {
-                this.toggleModal('question');
-                if (mode === 'type') {
-                    this.toggleModal('text-input');
-                } else {
-                    this.startStudentRecording();
-                }
-            }
-
-            async startStudentRecording() {
-                try {
-                    const stream = await navigator.mediaDevices.getUserMedia({
-                        audio: {
-                            echoCancellation: true,
-                            noiseSuppression: true,
-                            autoGainControl: true
-                        }
-                    });
-                    this.mediaRecorder = new MediaRecorder(stream);
-                    const chunks = [];
-
-                    this.mediaRecorder.ondataavailable = (e) => chunks.push(e.data);
-                    this.mediaRecorder.onstop = async () => {
-                        const blob = new Blob(chunks, { type: 'audio/webm' });
-                        this.processStudentVoice(blob);
-                        stream.getTracks().forEach(t => t.stop());
-                    };
-
-                    this.mediaRecorder.start();
-                    this.toggleModal('recording');
-                    this.startTimer();
-                } catch (e) {
-                    this.showToast("Microphone access denied", "error");
-                }
-            }
-
-            stopStudentRecording() {
-                if (this.mediaRecorder && this.mediaRecorder.state !== 'inactive') {
-                    this.mediaRecorder.stop();
-                    this.toggleModal('recording');
-                    this.stopTimer();
-
-                    // AUTO-LOCK: Clear current speaker in Firebase
-                    import("https://www.gstatic.com/firebasejs/10.7.1/firebase-database.js").then(db => {
-                        db.update(ref(this.db, `chats/${this.state.room}/config`), { currentSpeaker: null });
-                    });
-                }
-            }
-
-            startTimer() {
-                let sec = 0;
-                this.timerInterval = setInterval(() => {
-                    sec++;
-                    const m = Math.floor(sec / 60).toString().padStart(2, '0');
-                    const s = (sec % 60).toString().padStart(2, '0');
-                    document.getElementById('recording-timer').innerText = `${m}:${s}`;
-                }, 1000);
-            }
-
-            stopTimer() {
-                clearInterval(this.timerInterval);
-                document.getElementById('recording-timer').innerText = '00:00';
-            }
-
-            async processStudentVoice(blob) {
-                this.showToast("Transcribing voice...", "info");
-                try {
-                    const url = `https://api.deepgram.com/v1/listen?smart_format=true&noise_suppression=true&diarize=true&vad_events=true&language=${this.getSTTLang(this.state.lang)}`;
-                    const res = await fetch(url, {
-                        method: "POST",
-                        headers: {
-                            "Authorization": "Token " + CREDENTIALS.DEEPGRAM,
-                            "Content-Type": "audio/webm"
-                        },
-                        body: blob
-                    });
-                    const data = await res.json();
-                    const text = data.results.channels[0].alternatives[0].transcript;
-
-                    if (text) {
-                        document.getElementById('q-input').value = text;
-                        this.sendQuestion();
-                    } else {
-                        this.showToast("Could not recognize speech", "error");
-                    }
-                } catch (e) {
-                    this.showToast("Transcription failed", "error");
-                }
             }
 
             renderQuestion(text, original, sender) {
@@ -1669,13 +1189,7 @@
             }
 
             async startDeepgram() {
-                const stream = await navigator.mediaDevices.getUserMedia({
-                    audio: {
-                        echoCancellation: true,
-                        noiseSuppression: true,
-                        autoGainControl: true
-                    }
-                });
+                const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
 
                 // Wake Lock
                 if ('wakeLock' in navigator) {
@@ -1685,15 +1199,11 @@
                 this.dgClient = createClient(CREDENTIALS.DEEPGRAM);
                 this.dgSocket = this.dgClient.listen.live({
                     model: "nova-3",
-                    language: this.getSTTLang(this.state.lang),
+                    language: this.state.lang.split('-')[0], // Handle en-US etc
                     smart_format: true,
                     interim_results: true,
-                    endpointing: 250,
-                    utterance_end_ms: 1000,
-                    noise_suppression: true,
-                    diarize: true,
-                    vad_events: true,
-                    keywords: ["classroom", "teacher", "student", "question", "help", "translate", "instruction"]
+                    endpointing: 250, // Ultra-fast endpointing for 1.5s latency target
+                    utterance_end_ms: 1000
                 });
 
                 this.dgSocket.on(LiveTranscriptionEvents.Open, () => {
@@ -1758,26 +1268,19 @@
             // --- UTILS ---
             toggleModal(id) {
                 const modal = document.getElementById('modal-' + id);
-                if (!modal) return;
-
                 const backdrop = modal.querySelector('#modal-backdrop');
                 const panel = modal.querySelector('#modal-panel');
 
-                const isHistory = id === 'history';
-
                 if (modal.classList.contains('hidden')) {
                     modal.classList.remove('hidden');
-                    if (isHistory) {
-                        this.loadHistory();
-                        this.backToHistoryList();
-                    }
                     requestAnimationFrame(() => {
-                        if (backdrop) backdrop.classList.remove('opacity-0');
-                        if (panel) panel.classList.remove('translate-y-full');
+                        backdrop.classList.remove('opacity-0');
+                        panel.classList.remove('translate-y-full');
+                        document.getElementById('q-input').focus();
                     });
                 } else {
-                    if (backdrop) backdrop.classList.add('opacity-0');
-                    if (panel) panel.classList.add('translate-y-full');
+                    backdrop.classList.add('opacity-0');
+                    panel.classList.add('translate-y-full');
                     setTimeout(() => modal.classList.add('hidden'), 300);
                 }
             }
@@ -1824,104 +1327,6 @@
             copyCode() {
                 navigator.clipboard.writeText(this.state.room);
                 this.showToast("Copied to clipboard", "success");
-            }
-
-            generateId() {
-                return 'dev_' + Math.random().toString(36).substr(2, 9);
-            }
-
-            saveRoomToHistory(room) {
-                if (!room) return;
-                const historyRef = ref(this.db, `users/${this.deviceId}/history/${room}`);
-                set(historyRef, {
-                    lastJoined: Date.now(),
-                    roomCode: room
-                });
-            }
-
-            async loadHistory() {
-                const historyRef = ref(this.db, `users/${this.deviceId}/history`);
-                const snapshot = await get(historyRef);
-                const sessions = snapshot.val() || {};
-                const list = document.getElementById('history-sessions');
-                list.innerHTML = '';
-
-                Object.values(sessions).sort((a, b) => b.lastJoined - a.lastJoined).forEach(session => {
-                    const div = document.createElement('div');
-                    div.className = 'group p-4 bg-white border border-gray-100 rounded-2xl hover:border-blue-500 hover:shadow-md cursor-pointer transition-all duration-300';
-                    div.onclick = () => {
-                        this.loadSession(session.roomCode, session.lastJoined);
-                        if (window.innerWidth < 768) {
-                            document.getElementById('history-sidebar').classList.add('-translate-x-full');
-                        }
-                    };
-                    div.innerHTML = `
-                        <div class="flex items-center justify-between">
-                            <div class="flex items-center gap-4">
-                                <div class="w-10 h-10 rounded-xl bg-blue-50 text-blue-600 flex items-center justify-center group-hover:bg-blue-600 group-hover:text-white transition-colors">
-                                    <i class="fa-solid fa-door-open text-sm"></i>
-                                </div>
-                                <div class="text-left">
-                                    <p class="font-black text-gray-900 text-sm">Room: ${session.roomCode}</p>
-                                    <p class="text-[10px] text-gray-400 font-bold uppercase tracking-wider">${new Date(session.lastJoined).toLocaleDateString(undefined, { month: 'short', day: 'numeric', year: 'numeric' })}</p>
-                                </div>
-                            </div>
-                            <i class="fa-solid fa-chevron-right text-gray-300 text-[10px] group-hover:text-blue-500 transform group-hover:translate-x-1 transition-all"></i>
-                        </div>
-                    `;
-                    list.appendChild(div);
-                });
-            }
-
-            backToHistoryList() {
-                const sidebar = document.getElementById('history-sidebar');
-                sidebar.classList.remove('-translate-x-full');
-            }
-
-            async loadSession(room, timestamp) {
-                document.getElementById('history-content-header').classList.remove('hidden');
-                document.getElementById('history-room-title').innerText = `Room: ${room}`;
-                if (timestamp) {
-                    document.getElementById('history-room-date').innerText = new Date(timestamp).toLocaleDateString(undefined, { month: 'short', day: 'numeric', year: 'numeric' });
-                }
-
-                const content = document.getElementById('history-content');
-                content.innerHTML = '<div class="text-center py-10 animate-pulse text-gray-400">Loading history...</div>';
-
-                const messagesRef = ref(this.db, `rooms/${room}/messages`);
-                const snapshot = await get(messagesRef);
-                const messages = snapshot.val() || {};
-                content.innerHTML = '';
-
-                Object.values(messages).sort((a, b) => a.timestamp - b.timestamp).forEach(msg => {
-                    const div = document.createElement('div');
-                    div.className = `flex ${msg.role === 'teacher' ? 'justify-start' : 'justify-end'}`;
-                    div.innerHTML = `
-                        <div class="max-w-[85%] p-4 rounded-2xl text-sm ${msg.role === 'teacher'
-                            ? 'bg-white text-gray-800 border border-gray-100 rounded-bl-none shadow-sm'
-                            : 'bg-blue-600 text-white rounded-br-none shadow-lg shadow-blue-500/10'
-                        }">
-                            <div class="flex items-center justify-between mb-1.5 gap-4">
-                                <p class="font-black text-[9px] uppercase tracking-widest opacity-50">${msg.senderName}</p>
-                                <p class="text-[8px] opacity-40 font-mono">${new Date(msg.timestamp).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}</p>
-                            </div>
-                            <p class="font-medium leading-relaxed">${msg.text}</p>
-                        </div>
-                    `;
-                    content.appendChild(div);
-                });
-            }
-
-            getSTTLang(lang) {
-                // Priority mappings for dialect/region support
-                const mappings = {
-                    'nl-NL': 'nl',
-                    'nl-BE': 'nl',
-                    'tl': 'fil', // Deepgram uses 'fil' for Tagalog/Filipino
-                    'uk': 'uk',
-                    'fr': 'fr'
-                };
-                return mappings[lang] || lang.split('-')[0];
             }
         }
 
