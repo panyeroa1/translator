@@ -445,11 +445,6 @@
                         class="text-gray-400 hover:text-blue-500 transition-colors">
                         <i id="teacher-tts-icon" class="fa-solid fa-volume-xmark"></i>
                     </button>
-                    <!-- Mic Toggle -->
-                    <button id="mic-btn" onclick="App.toggleMic()" title="Toggle Microphone"
-                        class="btn-modern relative w-10 h-10 rounded-full bg-gray-100 text-gray-600 flex items-center justify-center transition-all hover:bg-gray-200">
-                        <i class="fa-solid fa-microphone-slash text-sm"></i>
-                    </button>
                 </div>
             </header>
 
@@ -626,7 +621,7 @@
     <!-- ================= LOGIC ================= -->
     <script type="module">
         import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
-        import { getDatabase, ref, push, onChildAdded, remove, get } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-database.js";
+        import { getDatabase, ref, push, onChildAdded, remove, get, set } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-database.js";
         import { createClient, LiveTranscriptionEvents } from 'https://cdn.jsdelivr.net/npm/@deepgram/sdk@3/+esm';
 
         // --- CREDENTIALS ---
@@ -639,13 +634,12 @@
                 "es": "5c5ad5e7-1020-476b-8b91-fdcbe9cc313c", // Daniela
                 "de": "38aabb6a-f52b-4fb0-a3d1-988518f4dc06", // Alina
                 "ar": "002622d8-19d0-4567-a16a-f99c7397c062", // Huda
-                "fr": "a8a1eb38-5f15-4c1d-8722-7ac0f329727d", // Calm French Woman
-                "ko": "304fdbd8-65e6-40d6-ab78-f9d18b9efdf9", // Jihyun
-                "ja": "2b568345-1d48-4047-b25f-7baccf842eb0", // Yumiko
-                "pt": "700d1ee3-a641-4018-ba6e-899dcadc9e2b", // Luana
-                "ta": "25d2c432-139c-4035-bfd6-9baaabcdd006", // Kavya
                 "te": "07bc462a-c644-49f1-baf7-82d5599131be", // Sindhu
-                "nl-BE": "005af375-5aad-4c02-9551-7fc411430542", // West Flemish / Flemish
+                "nl-NL": "9e8db62d-056f-47f3-b3b6-1b05767f9176", // Dutch Netherlands
+                "nl-BE": "aa3fdf22-9f5e-4238-8016-31f515ded9a3", // Flemish
+                "fr": "0418348a-0ca2-4e90-9986-800fb8b3bbc0", // French
+                "uk": "05ffab9c-d380-4909-8375-cd12f59238c3", // Ukrainian
+                "tl": "c4cbcb7d-d9fa-4eac-b547-46831718ef58", // Tagalog
                 "default": "cbaf8084-f009-4838-a096-07ee2e6612b1"
             },
             FIREBASE: {
@@ -677,7 +671,8 @@
             { code: 'tr', name: 'Turkish (Türkçe)', flag: '🇹🇷' },
 
             // --- BENELUX ---
-            { code: 'nl-BE', name: 'Dutch Flemish', flag: '🇧🇪' },
+            { code: 'nl-NL', name: 'Dutch Netherlands', flag: '🇳🇱' },
+            { code: 'nl-BE', name: 'Dutch Belgium', flag: '🇧🇪' },
             { code: 'lb', name: 'Luxembourgish (Lëtzebuergesch)', flag: '🇱🇺' },
 
             // --- FRANCE & REGIONAL ---
@@ -1681,11 +1676,9 @@
             saveRoomToHistory(room) {
                 if (!room) return;
                 const historyRef = ref(this.db, `users/${this.deviceId}/history/${room}`);
-                import("https://www.gstatic.com/firebasejs/10.7.1/firebase-database.js").then(db => {
-                    db.set(historyRef, {
-                        lastJoined: Date.now(),
-                        roomCode: room
-                    });
+                set(historyRef, {
+                    lastJoined: Date.now(),
+                    roomCode: room
                 });
             }
 
