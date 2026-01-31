@@ -391,19 +391,23 @@
             <!-- Controls -->
             <div class="absolute bottom-0 left-0 right-0 p-6 bg-gradient-to-t from-white via-white to-transparent z-20">
                 <div class="flex items-center justify-between gap-4">
-                    <!-- Reactions -->
-                    <div class="flex gap-3">
+                    <!-- Reactions & Speak Request -->
+                    <div class="flex items-center gap-3">
                         <button onclick="App.sendReaction('👍')" title="Thumbs Up"
-                            class="btn-modern w-12 h-12 rounded-full bg-white border border-gray-200 shadow-sm text-xl flex items-center justify-center hover:bg-gray-50 hover:scale-110">👍</button>
+                            class="btn-modern w-10 h-10 rounded-full bg-white border border-gray-200 shadow-sm text-lg flex items-center justify-center hover:bg-gray-50">👍</button>
                         <button onclick="App.sendReaction('❤️')" title="Heart"
-                            class="btn-modern w-12 h-12 rounded-full bg-white border border-gray-200 shadow-sm text-xl flex items-center justify-center hover:bg-gray-50 hover:scale-110">❤️</button>
+                            class="btn-modern w-10 h-10 rounded-full bg-white border border-gray-200 shadow-sm text-lg flex items-center justify-center hover:bg-gray-50">❤️</button>
+                        <button id="student-speak-btn" onclick="App.requestSpeak()" title="Request to Speak"
+                            class="btn-modern w-10 h-10 rounded-full bg-white border border-gray-200 shadow-sm text-lg flex items-center justify-center hover:bg-blue-50 hover:text-blue-500 transition-all text-gray-400">
+                            <i class="fa-solid fa-microphone"></i>
+                        </button>
                     </div>
 
                     <!-- Ask Question FAB -->
-                    <button onclick="App.toggleModal('question')" title="Raise Hand / Ask Question"
+                    <button onclick="App.toggleModal('question')" title="Ask Question"
                         class="btn-modern h-12 px-6 rounded-full bg-[#0ea5e9] hover:bg-[#0284c7] text-white font-semibold shadow-lg shadow-blue-500/20 flex items-center gap-2">
-                        <i class="fa-solid fa-hand"></i>
-                        <span>Raise Hand</span>
+                        <i class="fa-solid fa-paper-plane"></i>
+                        <span>Ask</span>
                     </button>
                 </div>
             </div>
@@ -433,10 +437,11 @@
 
                 <!-- Actions -->
                 <div class="flex items-center gap-4">
-                    <button id="student-mic-toggle" onclick="App.toggleStudentMic()" title="Enable Student Speech"
-                        class="text-gray-400 hover:text-green-500 transition-colors">
-                        <i id="student-mic-icon" class="fa-solid fa-microphone-lines-slash"></i>
+                    <button id="mic-btn" onclick="App.toggleMic()" title="Start Broadcasting"
+                        class="w-10 h-10 rounded-full bg-gray-100 flex items-center justify-center text-gray-600 hover:bg-red-50 hover:text-red-500 transition-all">
+                        <i class="fa-solid fa-microphone-slash"></i>
                     </button>
+                    <div class="h-8 w-px bg-gray-100 mx-1"></div>
                     <button onclick="App.toggleModal('history')" title="View History"
                         class="text-gray-400 hover:text-blue-500 transition-colors">
                         <i class="fa-solid fa-clock-rotate-left"></i>
@@ -471,19 +476,35 @@
                     </div>
                 </div>
 
-                <!-- Incoming Questions -->
-                <div class="bg-white rounded-2xl shadow-sm border border-gray-100 flex flex-col overflow-hidden">
-                    <div class="px-4 py-3 bg-gray-50/50 border-b border-gray-100 flex justify-between items-center">
-                        <h3 class="text-xs font-bold text-gray-500 uppercase tracking-wider">Student Questions</h3>
-                        <span id="question-count"
-                            class="bg-blue-100 text-blue-700 text-[10px] font-bold px-2 py-0.5 rounded-full">0</span>
+                <!-- Questions & Requests -->
+                <div class="grid grid-cols-2 gap-4">
+                    <!-- Incoming Questions -->
+                    <div class="bg-white rounded-2xl shadow-sm border border-gray-100 flex flex-col overflow-hidden">
+                        <div class="px-4 py-3 bg-gray-50/50 border-b border-gray-100 flex justify-between items-center">
+                            <h3 class="text-xs font-bold text-gray-500 uppercase tracking-wider">Questions</h3>
+                            <span id="question-count"
+                                class="bg-blue-100 text-blue-700 text-[10px] font-bold px-2 py-0.5 rounded-full">0</span>
+                        </div>
+                        <div id="teacher-questions"
+                            class="flex-1 p-4 overflow-y-auto space-y-3 bg-gray-50/30 custom-scrollbar">
+                            <div class="text-center py-4 opacity-40">
+                                <p class="text-[10px]">No questions</p>
+                            </div>
+                        </div>
                     </div>
-                    <div id="teacher-questions"
-                        class="flex-1 p-4 overflow-y-auto space-y-3 bg-gray-50 custom-scrollbar">
-                        <!-- Questions injected here -->
-                        <div class="text-center py-8 opacity-40">
-                            <i class="fa-regular fa-comments text-2xl mb-2 text-gray-400"></i>
-                            <p class="text-xs text-gray-500">No questions yet</p>
+
+                    <!-- Speak Requests -->
+                    <div class="bg-white rounded-2xl shadow-sm border border-gray-100 flex flex-col overflow-hidden">
+                        <div class="px-4 py-3 bg-gray-50/50 border-b border-gray-100 flex justify-between items-center">
+                            <h3 class="text-xs font-bold text-gray-500 uppercase tracking-wider">Speak Queue</h3>
+                            <span id="request-count"
+                                class="bg-green-100 text-green-700 text-[10px] font-bold px-2 py-0.5 rounded-full">0</span>
+                        </div>
+                        <div id="teacher-requests"
+                            class="flex-1 p-4 overflow-y-auto space-y-2 bg-gray-50/30 custom-scrollbar">
+                            <div class="text-center py-4 opacity-40">
+                                <p class="text-[10px]">Empty Queue</p>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -574,13 +595,13 @@
 
         <!-- ================= MODAL: HISTORY ================= -->
         <div id="modal-history" class="fixed inset-0 z-50 hidden bg-white">
-            <div class="flex flex-col h-full">
+            <div class="flex flex-col h-full bg-slate-50">
                 <!-- Header -->
                 <header
-                    class="h-16 border-b border-gray-100 flex items-center justify-between px-6 bg-white/80 backdrop-blur-md sticky top-0 z-10">
+                    class="h-16 border-b border-gray-100 flex items-center justify-between px-6 bg-white/80 backdrop-blur-md sticky top-0 z-20">
                     <div class="flex items-center gap-4">
                         <button onclick="App.toggleModal('history')" title="Close History"
-                            class="text-gray-400 hover:text-gray-900 transition-colors">
+                            class="w-10 h-10 rounded-full hover:bg-gray-100 flex items-center justify-center text-gray-400 hover:text-gray-900 transition-all">
                             <i class="fa-solid fa-arrow-left text-xl"></i>
                         </button>
                         <div>
@@ -591,24 +612,40 @@
                     </div>
                 </header>
 
-                <div class="flex flex-1 overflow-hidden">
+                <div class="flex flex-1 overflow-hidden relative">
                     <!-- Sidebar: Session List -->
-                    <aside class="w-80 border-r border-gray-100 bg-gray-50/30 overflow-y-auto hidden md:block"
+                    <aside
+                        class="absolute inset-0 md:relative md:inset-auto md:w-80 border-r border-gray-100 bg-white overflow-y-auto z-10 transition-transform duration-300 transform"
                         id="history-sidebar">
-                        <div class="p-4 space-y-2" id="history-sessions">
+                        <div class="p-4 space-y-3" id="history-sessions">
                             <!-- Sessions injected here -->
                         </div>
                     </aside>
 
                     <!-- Main Content: Message View -->
-                    <main class="flex-1 flex flex-col bg-white overflow-hidden">
-                        <div id="history-content-header" class="p-4 border-b border-gray-100 bg-gray-50/50 hidden">
-                            <h3 id="history-room-title" class="font-bold text-gray-900 text-sm">Room: ----</h3>
+                    <main class="flex-1 flex flex-col bg-slate-50 overflow-hidden relative z-0">
+                        <div id="history-content-header"
+                            class="p-4 border-b border-gray-100 bg-white flex items-center gap-3 hidden">
+                            <button onclick="App.backToHistoryList()" title="Back to Sessions"
+                                class="md:hidden w-8 h-8 rounded-full bg-gray-100 flex items-center justify-center text-gray-500 text-xs">
+                                <i class="fa-solid fa-chevron-left"></i>
+                            </button>
+                            <div>
+                                <h3 id="history-room-title" class="font-bold text-gray-900 text-sm">Room: ----</h3>
+                                <p id="history-room-date" class="text-[9px] text-gray-400 font-bold uppercase">Jan 31,
+                                    2026</p>
+                            </div>
                         </div>
-                        <div id="history-content" class="flex-1 overflow-y-auto p-6 space-y-6 custom-scrollbar">
-                            <div class="h-full flex flex-col items-center justify-center opacity-20">
-                                <i class="fa-solid fa-clock-rotate-left text-6xl mb-4"></i>
-                                <p class="font-bold">Select a session to view archive</p>
+                        <div id="history-content"
+                            class="flex-1 overflow-y-auto p-6 space-y-4 custom-scrollbar bg-slate-50">
+                            <div class="h-full flex flex-col items-center justify-center text-center px-10">
+                                <div
+                                    class="w-20 h-20 bg-white rounded-3xl shadow-sm border border-gray-100 flex items-center justify-center text-gray-200 text-4xl mb-6">
+                                    <i class="fa-solid fa-clock-rotate-left"></i>
+                                </div>
+                                <h4 class="font-bold text-gray-900 mb-2">Select a Session</h4>
+                                <p class="text-sm text-gray-400">Choose a room from the sidebar to view the transcript
+                                    archive.</p>
                             </div>
                         </div>
                     </main>
@@ -1052,14 +1089,17 @@
 
                 if (modal.classList.contains('hidden')) {
                     modal.classList.remove('hidden');
-                    if (type === 'history') this.loadHistory();
+                    if (type === 'history') {
+                        this.loadHistory();
+                        this.backToHistoryList(); // Reset view to list
+                    }
                     setTimeout(() => {
-                        bd.style.opacity = '1';
-                        panel.style.transform = (window.innerWidth < 768) ? 'translateY(0)' : 'translate(-50%, -50%)';
+                        if (bd) bd.style.opacity = '1';
+                        if (panel) panel.style.transform = (window.innerWidth < 768) ? 'translateY(0)' : 'translate(-50%, -50%)';
                     }, 10);
                 } else {
-                    bd.style.opacity = '0';
-                    panel.style.transform = (window.innerWidth < 768) ? 'translateY(100%)' : 'translate(-50%, 0)';
+                    if (bd) bd.style.opacity = '0';
+                    if (panel) panel.style.transform = (window.innerWidth < 768) ? 'translateY(100%)' : 'translate(-50%, 0)';
                     setTimeout(() => modal.classList.add('hidden'), 300);
                 }
             }
@@ -1225,6 +1265,7 @@
 
             // --- STUDENT LOGIC ---
             initStudent() {
+                this.listenForSpeakPermission();
                 document.getElementById('student-name-display').innerText = this.state.name;
                 document.getElementById('student-room-code').innerText = this.state.room;
                 const badge = document.getElementById('student-lang-badge');
@@ -1384,12 +1425,90 @@
                 });
             }
 
-            toggleStudentMic() {
-                if (this.state.role !== 'teacher') return;
-                const newState = !this.state.isStudentMicEnabled;
+            initTeacher() {
+                const roomRef = ref(this.db, `chats/${this.state.room}`);
+                onChildAdded(ref(this.db, `chats/${this.state.room}/questions`), (snap) => {
+                    this.renderQuestion(snap.val());
+                });
+
+                // Speak Queue
+                const requestsRef = ref(this.db, `chats/${this.state.room}/speakRequests`);
                 import("https://www.gstatic.com/firebasejs/10.7.1/firebase-database.js").then(db => {
-                    db.update(ref(this.db, `chats/${this.state.room}/config`), { studentMic: newState });
-                    this.showToast(`Student Microphones ${newState ? 'Enabled' : 'Disabled'}`, newState ? "success" : "info");
+                    db.onValue(requestsRef, (snap) => {
+                        this.renderSpeakQueue(snap.val() || {});
+                    });
+                });
+            }
+
+            requestSpeak() {
+                const btn = document.getElementById('student-speak-btn');
+                if (btn.classList.contains('text-blue-500')) {
+                    this.showToast("Request already sent", "info");
+                    return;
+                }
+
+                const requestRef = ref(this.db, `chats/${this.state.room}/speakRequests/${this.deviceId}`);
+                import("https://www.gstatic.com/firebasejs/10.7.1/firebase-database.js").then(db => {
+                    db.set(requestRef, {
+                        name: this.state.name,
+                        timestamp: Date.now()
+                    });
+                    btn.classList.add('text-blue-500', 'animate-pulse');
+                    this.showToast("Speak request sent", "success");
+                });
+            }
+
+            renderSpeakQueue(requests) {
+                const list = document.getElementById('teacher-requests');
+                const count = document.getElementById('request-count');
+                list.innerHTML = '';
+                const entries = Object.entries(requests);
+                count.innerText = entries.length;
+
+                if (entries.length === 0) {
+                    list.innerHTML = '<div class="text-center py-4 opacity-40"><p class="text-[10px]">Empty Queue</p></div>';
+                    return;
+                }
+
+                entries.sort((a, b) => a[1].timestamp - b[1].timestamp).forEach(([id, data]) => {
+                    const div = document.createElement('div');
+                    div.className = 'flex items-center justify-between p-2 bg-white rounded-lg border border-gray-100 shadow-sm';
+                    div.innerHTML = `
+                        <p class="text-xs font-bold text-gray-700">${data.name}</p>
+                        <button onclick="App.approveSpeak('${id}')" class="px-2 py-1 bg-green-500 text-white text-[10px] font-black rounded-md hover:bg-green-600">APPROVE</button>
+                    `;
+                    list.appendChild(div);
+                });
+            }
+
+            approveSpeak(studentDeviceId) {
+                const configRef = ref(this.db, `chats/${this.state.room}/config`);
+                import("https://www.gstatic.com/firebasejs/10.7.1/firebase-database.js").then(db => {
+                    db.update(configRef, { currentSpeaker: studentDeviceId });
+                    // Remove from queue
+                    db.remove(ref(this.db, `chats/${this.state.room}/speakRequests/${studentDeviceId}`));
+                    this.showToast("Student authorized", "success");
+                });
+            }
+
+            listenForSpeakPermission() {
+                const configRef = ref(this.db, `chats/${this.state.room}/config`);
+                import("https://www.gstatic.com/firebasejs/10.7.1/firebase-database.js").then(db => {
+                    db.onValue(configRef, (snap) => {
+                        const config = snap.val() || {};
+                        const isMe = config.currentSpeaker === this.deviceId;
+                        const btn = document.getElementById('student-speak-btn');
+
+                        if (isMe) {
+                            btn.classList.remove('text-blue-500', 'animate-pulse');
+                            btn.classList.add('bg-red-500', 'text-white', 'mic-active-ring');
+                            this.showToast("You are authorized to speak!", "success");
+                            this.startStudentRecording();
+                        } else {
+                            btn.classList.remove('bg-red-500', 'text-white', 'mic-active-ring');
+                            btn.classList.add('text-gray-400');
+                        }
+                    });
                 });
             }
 
@@ -1422,7 +1541,13 @@
 
             async startStudentRecording() {
                 try {
-                    const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
+                    const stream = await navigator.mediaDevices.getUserMedia({
+                        audio: {
+                            echoCancellation: true,
+                            noiseSuppression: true,
+                            autoGainControl: true
+                        }
+                    });
                     this.mediaRecorder = new MediaRecorder(stream);
                     const chunks = [];
 
@@ -1442,10 +1567,15 @@
             }
 
             stopStudentRecording() {
-                if (this.mediaRecorder && this.mediaRecorder.state === 'recording') {
+                if (this.mediaRecorder && this.mediaRecorder.state !== 'inactive') {
                     this.mediaRecorder.stop();
                     this.toggleModal('recording');
                     this.stopTimer();
+
+                    // AUTO-LOCK: Clear current speaker in Firebase
+                    import("https://www.gstatic.com/firebasejs/10.7.1/firebase-database.js").then(db => {
+                        db.update(ref(this.db, `chats/${this.state.room}/config`), { currentSpeaker: null });
+                    });
                 }
             }
 
@@ -1467,7 +1597,8 @@
             async processStudentVoice(blob) {
                 this.showToast("Transcribing voice...", "info");
                 try {
-                    const res = await fetch("https://api.deepgram.com/v1/listen?smart_format=true&language=" + this.state.lang.split('-')[0], {
+                    const url = `https://api.deepgram.com/v1/listen?smart_format=true&noise_suppression=true&diarize=true&vad_events=true&language=${this.getSTTLang(this.state.lang)}`;
+                    const res = await fetch(url, {
                         method: "POST",
                         headers: {
                             "Authorization": "Token " + CREDENTIALS.DEEPGRAM,
@@ -1529,7 +1660,13 @@
             }
 
             async startDeepgram() {
-                const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
+                const stream = await navigator.mediaDevices.getUserMedia({
+                    audio: {
+                        echoCancellation: true,
+                        noiseSuppression: true,
+                        autoGainControl: true
+                    }
+                });
 
                 // Wake Lock
                 if ('wakeLock' in navigator) {
@@ -1539,11 +1676,15 @@
                 this.dgClient = createClient(CREDENTIALS.DEEPGRAM);
                 this.dgSocket = this.dgClient.listen.live({
                     model: "nova-3",
-                    language: this.state.lang.split('-')[0], // Handle en-US etc
+                    language: this.getSTTLang(this.state.lang),
                     smart_format: true,
                     interim_results: true,
-                    endpointing: 250, // Ultra-fast endpointing for 1.5s latency target
-                    utterance_end_ms: 1000
+                    endpointing: 250,
+                    utterance_end_ms: 1000,
+                    noise_suppression: true,
+                    diarize: true,
+                    vad_events: true,
+                    keywords: ["classroom", "teacher", "student", "question", "help", "translate", "instruction"]
                 });
 
                 this.dgSocket.on(LiveTranscriptionEvents.Open, () => {
@@ -1691,26 +1832,42 @@
 
                 Object.values(sessions).sort((a, b) => b.lastJoined - a.lastJoined).forEach(session => {
                     const div = document.createElement('div');
-                    div.className = 'p-4 border-b border-gray-100 hover:bg-blue-50 cursor-pointer transition-colors';
-                    div.onclick = () => this.loadSession(session.roomCode);
+                    div.className = 'group p-4 bg-white border border-gray-100 rounded-2xl hover:border-blue-500 hover:shadow-md cursor-pointer transition-all duration-300';
+                    div.onclick = () => {
+                        this.loadSession(session.roomCode, session.lastJoined);
+                        if (window.innerWidth < 768) {
+                            document.getElementById('history-sidebar').classList.add('-translate-x-full');
+                        }
+                    };
                     div.innerHTML = `
-                        <div class="flex items-center gap-3">
-                            <div class="w-8 h-8 rounded-lg bg-gray-100 flex items-center justify-center text-gray-500">
-                                <i class="fa-solid fa-door-open text-xs"></i>
+                        <div class="flex items-center justify-between">
+                            <div class="flex items-center gap-4">
+                                <div class="w-10 h-10 rounded-xl bg-blue-50 text-blue-600 flex items-center justify-center group-hover:bg-blue-600 group-hover:text-white transition-colors">
+                                    <i class="fa-solid fa-door-open text-sm"></i>
+                                </div>
+                                <div class="text-left">
+                                    <p class="font-black text-gray-900 text-sm">Room: ${session.roomCode}</p>
+                                    <p class="text-[10px] text-gray-400 font-bold uppercase tracking-wider">${new Date(session.lastJoined).toLocaleDateString(undefined, { month: 'short', day: 'numeric', year: 'numeric' })}</p>
+                                </div>
                             </div>
-                            <div>
-                                <p class="font-bold text-gray-900 text-sm">Room: ${session.roomCode}</p>
-                                <p class="text-[10px] text-gray-400 font-medium">${new Date(session.lastJoined).toLocaleDateString()}</p>
-                            </div>
+                            <i class="fa-solid fa-chevron-right text-gray-300 text-[10px] group-hover:text-blue-500 transform group-hover:translate-x-1 transition-all"></i>
                         </div>
                     `;
                     list.appendChild(div);
                 });
             }
 
-            async loadSession(room) {
+            backToHistoryList() {
+                const sidebar = document.getElementById('history-sidebar');
+                sidebar.classList.remove('-translate-x-full');
+            }
+
+            async loadSession(room, timestamp) {
                 document.getElementById('history-content-header').classList.remove('hidden');
                 document.getElementById('history-room-title').innerText = `Room: ${room}`;
+                if (timestamp) {
+                    document.getElementById('history-room-date').innerText = new Date(timestamp).toLocaleDateString(undefined, { month: 'short', day: 'numeric', year: 'numeric' });
+                }
 
                 const content = document.getElementById('history-content');
                 content.innerHTML = '<div class="text-center py-10 animate-pulse text-gray-400">Loading history...</div>';
@@ -1724,95 +1881,31 @@
                     const div = document.createElement('div');
                     div.className = `flex ${msg.role === 'teacher' ? 'justify-start' : 'justify-end'}`;
                     div.innerHTML = `
-                        <div class="max-w-[85%] p-3 rounded-2xl text-sm ${msg.role === 'teacher'
-                            ? 'bg-white text-gray-800 border border-gray-100 rounded-bl-none'
-                            : 'bg-blue-600 text-white rounded-br-none shadow-sm'
+                        <div class="max-w-[85%] p-4 rounded-2xl text-sm ${msg.role === 'teacher'
+                            ? 'bg-white text-gray-800 border border-gray-100 rounded-bl-none shadow-sm'
+                            : 'bg-blue-600 text-white rounded-br-none shadow-lg shadow-blue-500/10'
                         }">
-                            <p class="font-black text-[10px] uppercase tracking-widest opacity-50 mb-1">${msg.senderName}</p>
-                            <p class="font-medium">${msg.text}</p>
-                            <p class="text-[9px] mt-1 opacity-50 font-mono">${new Date(msg.timestamp).toLocaleTimeString()}</p>
+                            <div class="flex items-center justify-between mb-1.5 gap-4">
+                                <p class="font-black text-[9px] uppercase tracking-widest opacity-50">${msg.senderName}</p>
+                                <p class="text-[8px] opacity-40 font-mono">${new Date(msg.timestamp).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}</p>
+                            </div>
+                            <p class="font-medium leading-relaxed">${msg.text}</p>
                         </div>
                     `;
                     content.appendChild(div);
                 });
             }
 
-            switchQuestionMode(mode) {
-                this.toggleModal('question');
-                if (mode === 'type') {
-                    this.toggleModal('text-input');
-                } else {
-                    this.startStudentRecording();
-                }
-            }
-
-            async startStudentRecording() {
-                try {
-                    const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
-                    this.mediaRecorder = new MediaRecorder(stream);
-                    const chunks = [];
-
-                    this.mediaRecorder.ondataavailable = (e) => chunks.push(e.data);
-                    this.mediaRecorder.onstop = async () => {
-                        const blob = new Blob(chunks, { type: 'audio/webm' });
-                        this.processStudentVoice(blob);
-                        stream.getTracks().forEach(t => t.stop());
-                    };
-
-                    this.mediaRecorder.start();
-                    this.toggleModal('recording');
-                    this.startTimer();
-                } catch (e) {
-                    this.showToast("Microphone access denied", "error");
-                }
-            }
-
-            stopStudentRecording() {
-                if (this.mediaRecorder && this.mediaRecorder.state !== 'inactive') {
-                    this.mediaRecorder.stop();
-                    this.toggleModal('recording');
-                    this.stopTimer();
-                }
-            }
-
-            async processStudentVoice(blob) {
-                this.showToast("Transcribing voice...", "info");
-                try {
-                    const res = await fetch("https://api.deepgram.com/v1/listen?smart_format=true&language=" + this.state.lang.split('-')[0], {
-                        method: "POST",
-                        headers: {
-                            "Authorization": "Token " + CREDENTIALS.DEEPGRAM,
-                            "Content-Type": "audio/webm"
-                        },
-                        body: blob
-                    });
-                    const data = await res.json();
-                    const text = data.results.channels[0].alternatives[0].transcript;
-
-                    if (text) {
-                        document.getElementById('q-input').value = text;
-                        this.sendQuestion();
-                    } else {
-                        this.showToast("Could not recognize speech", "error");
-                    }
-                } catch (e) {
-                    this.showToast("Transcription failed", "error");
-                }
-            }
-
-            startTimer() {
-                let sec = 0;
-                this.timerInterval = setInterval(() => {
-                    sec++;
-                    const m = Math.floor(sec / 60).toString().padStart(2, '0');
-                    const s = (sec % 60).toString().padStart(2, '0');
-                    document.getElementById('recording-timer').innerText = `${m}:${s}`;
-                }, 1000);
-            }
-
-            stopTimer() {
-                clearInterval(this.timerInterval);
-                document.getElementById('recording-timer').innerText = '00:00';
+            getSTTLang(lang) {
+                // Priority mappings for dialect/region support
+                const mappings = {
+                    'nl-NL': 'nl',
+                    'nl-BE': 'nl',
+                    'tl': 'fil', // Deepgram uses 'fil' for Tagalog/Filipino
+                    'uk': 'uk',
+                    'fr': 'fr'
+                };
+                return mappings[lang] || lang.split('-')[0];
             }
         }
 
