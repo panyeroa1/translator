@@ -6,10 +6,24 @@
     <meta name="viewport"
         content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
     <meta name="theme-color" content="#3b82f6">
-    <link rel="manifest"
-        href='data:application/json,{"name":"Succes Class","short_name":"Succes","start_url":"./","display":"standalone","background_color":"#ffffff","theme_color":"#3b82f6","icons":[{"src":"pwa_icon.png","sizes":"512x512","type":"image/png"}]}'>
+    <link rel="manifest" href='data:application/json,{
+        "id": "/index.html",
+        "name": "Succes Class",
+        "short_name": "Succes",
+        "start_url": "./",
+        "display": "standalone",
+        "orientation": "portrait",
+        "background_color": "#ffffff",
+        "theme_color": "#3b82f6",
+        "icons": [
+            { "src": "pwa_icon.png", "sizes": "512x512", "type": "image/png", "purpose": "any maskable" }
+        ],
+        "description": "Real-time AI Translation and Hybrid Learning Platform"
+    }'>
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="apple-mobile-web-app-title" content="Succes Class">
+    <link rel="apple-touch-icon" href="pwa_icon.png">
     <title>Succes Class - Real-time Translation & Hybrid Learning</title>
 
     <!-- Dependencies -->
@@ -86,6 +100,7 @@
         /* Input Reset & Styling */
         .input-glass {
             background: rgba(255, 255, 255, 0.6);
+            -webkit-backdrop-filter: blur(8px);
             backdrop-filter: blur(8px);
             border: 1px solid rgba(0, 0, 0, 0.05);
             box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.02);
@@ -567,19 +582,50 @@
             DEEPGRAM: "11ee938d032ce7c36c6fa82338274be5e4ada847",
             CARTESIA: "sk_car_yWEX9Mp2LwKju8FXyosGhj",
             CARTESIA_VOICES: {
-                "en": "cbaf8084-f009-4838-a096-07ee2e6612b1", // Cathy
-                "hi": "faf0731e-dfb9-4cfc-8119-259a79b27e12", // Riya
-                "es": "5c5ad5e7-1020-476b-8b91-fdcbe9cc313c", // Daniela
-                "de": "38aabb6a-f52b-4fb0-a3d1-988518f4dc06", // Alina
-                "ar": "002622d8-19d0-4567-a16a-f99c7397c062", // Huda
-                "fr": "ab636c8b-9960-4fb3-bb0c-b7b655fb9745", // Calm French Woman
-                "ko": "304fdbd8-65e6-40d6-ab78-f9d18b9efdf9", // Jihyun
-                "ja": "2b568345-1d48-4047-b25f-7baccf842eb0", // Yumiko
-                "pt": "700d1ee3-a641-4018-ba6e-899dcadc9e2b", // Luana
-                "ta": "25d2c432-139c-4035-bfd6-9baaabcdd006", // Kavya
-                "te": "07bc462a-c644-49f1-baf7-82d5599131be", // Sindhu
-                "vls": "005af375-5aad-4c02-9551-7fc411430542", // West Flemish
-                "default": "cbaf8084-f009-4838-a096-07ee2e6612b1"
+                "en": "79f8b5fb-2cc8-479a-80df-29f7a7cf1a3e", // Nonfiction Man
+                "fr": "5c3c89e5-535f-43ef-b14d-f8ffe148c1f0", // French Narrator Man
+                "de": "db229dfe-f5de-4be4-91fd-7b077c158578", // German Storyteller Man
+                "es": "a67e0421-22e0-4d5b-b586-bd4a64aee41d", // Spanish Narrator Man
+                "pt": "6a16c1f4-462b-44de-998d-ccdaa4125a0a", // Brazilian Man
+                "zh": "eda5bbff-1ff1-4886-8ef1-4e69a77640a0", // Chinese Commercial Man
+                "ja": "e8a863c6-22c7-4671-86ca-91cacffc038d", // Japanese Male
+                "hi": "638efaaa-4d0c-442e-b701-3fae16aad012", // Indian Man
+                "it": "408daed0-c597-4c27-aae8-fa0497d644bf", // Italian Calm Man
+                "ko": "57dba6ff-fe3b-479d-836e-06f5a61cb5de", // Korean Narrator Man
+                "nl": "4aa74047-d005-4463-ba2e-a0d9b261fb87", // Dutch Man
+                "pl": "3d335974-4c4a-400a-84dc-ebf4b73aada6", // Polish Confident Man
+                "ru": "2b3bb17d-26b9-421f-b8ca-1dd92332279f", // Russian Narrator Man 1
+                "sv": "38a146c3-69d7-40ad-aada-76d5a2621758", // Swedish Narrator Man
+                "tr": "5a31e4fb-f823-4359-aa91-82c0ae9a991c", // Turkish Narrator Man
+                "tl": "a167e0f3-df7e-4d52-a9c3-f949145efdab", // Customer Support Man (Multilingual)
+                "bg": "b043dea0-a007-4bbe-a708-769dc0d0c569", // Wise Man
+                "ro": "b043dea0-a007-4bbe-a708-769dc0d0c569", // Wise Man
+                "ar": "b043dea0-a007-4bbe-a708-769dc0d0c569", // Wise Man
+                "cs": "b043dea0-a007-4bbe-a708-769dc0d0c569", // Wise Man
+                "el": "b043dea0-a007-4bbe-a708-769dc0d0c569", // Wise Man
+                "fi": "b043dea0-a007-4bbe-a708-769dc0d0c569", // Wise Man
+                "hr": "b043dea0-a007-4bbe-a708-769dc0d0c569", // Wise Man
+                "ms": "b043dea0-a007-4bbe-a708-769dc0d0c569", // Wise Man
+                "sk": "b043dea0-a007-4bbe-a708-769dc0d0c569", // Wise Man
+                "da": "b043dea0-a007-4bbe-a708-769dc0d0c569", // Wise Man
+                "ta": "638efaaa-4d0c-442e-b701-3fae16aad012", // Indian Man
+                "uk": "05ffab9c-d380-4909-8375-cd12f59238c3", // Ukrainian Male (User)
+                "hu": "b043dea0-a007-4bbe-a708-769dc0d0c569", // Wise Man
+                "no": "b043dea0-a007-4bbe-a708-769dc0d0c569", // Wise Man
+                "vi": "b043dea0-a007-4bbe-a708-769dc0d0c569", // Wise Man
+                "bn": "638efaaa-4d0c-442e-b701-3fae16aad012", // Indian Man
+                "th": "b043dea0-a007-4bbe-a708-769dc0d0c569", // Wise Man
+                "he": "b043dea0-a007-4bbe-a708-769dc0d0c569", // Wise Man
+                "ka": "b043dea0-a007-4bbe-a708-769dc0d0c569", // Wise Man
+                "id": "b043dea0-a007-4bbe-a708-769dc0d0c569", // Wise Man
+                "te": "638efaaa-4d0c-442e-b701-3fae16aad012", // Indian Man
+                "gu": "638efaaa-4d0c-442e-b701-3fae16aad012", // Indian Man
+                "kn": "638efaaa-4d0c-442e-b701-3fae16aad012", // Indian Man
+                "ml": "638efaaa-4d0c-442e-b701-3fae16aad012", // Indian Man
+                "mr": "638efaaa-4d0c-442e-b701-3fae16aad012", // Indian Man
+                "pa": "638efaaa-4d0c-442e-b701-3fae16aad012", // Indian Man
+                "nl-BE": "005af375-5aad-4c02-9551-7fc411430542", // Flemish Male (User)
+                "default": "79f8b5fb-2cc8-479a-80df-29f7a7cf1a3e"
             },
             FIREBASE: {
                 apiKey: "AIzaSyC93B2GgE3HzaWl5gW_mRroobQybaZNFJs",
@@ -593,113 +639,48 @@
         };
 
         const LANGUAGES = [
-            { code: 'en', name: 'English (United States)', flag: '🇺🇸' },
-            { code: 'es', name: 'Spanish (Español)', flag: '🇪🇸' },
-            { code: 'fr', name: 'French (Français)', flag: '🇫🇷' },
-            { code: 'de', name: 'German (Deutsch)', flag: '🇩🇪' },
-            { code: 'zh', name: 'Chinese (中文 - Mandarin)', flag: '🇨🇳' },
-            { code: 'hi', name: 'Hindi (हिन्दी)', flag: '🇮🇳' },
-            { code: 'ar', name: 'Arabic (العربية)', flag: '🇸🇦' },
-            { code: 'pt', name: 'Portuguese (Português)', flag: '🇵🇹' },
-            { code: 'bn', name: 'Bengali (বাংলা)', flag: '🇧🇩' },
-            { code: 'ru', name: 'Russian (Русский)', flag: '🇷🇺' },
-            { code: 'ja', name: 'Japanese (日本語)', flag: '🇯🇵' },
-            { code: 'ko', name: 'Korean (한국어)', flag: '🇰🇷' },
-            { code: 'vi', name: 'Vietnamese (Tiếng Việt)', flag: '🇻🇳' },
-            { code: 'it', name: 'Italian (Italiano)', flag: '🇮🇹' },
-            { code: 'tr', name: 'Turkish (Türkçe)', flag: '🇹🇷' },
-
-            // --- BENELUX (Belgium, Netherlands, Luxembourg) ---
-            { code: 'nl', name: 'Dutch (Nederlands)', flag: '🇳🇱' },
-            { code: 'nl-BE', name: 'Flemish (Vlaams)', flag: '🇧🇪' },
-            { code: 'fr-BE', name: 'Belgian French (Français de Belgique)', flag: '🇧🇪' },
-            { code: 'de-BE', name: 'Belgian German (Belgisches Deutsch)', flag: '🇧🇪' },
-            { code: 'wa', name: 'Walloon (Walon)', flag: '🇧🇪' },
-            { code: 'vls', name: 'West Flemish (West-Vlams)', flag: '🇧🇪' },
-            { code: 'li', name: 'Limburgish (Limburgs)', flag: '🇳🇱' },
-            { code: 'fy', name: 'West Frisian (Frysk)', flag: '🇳🇱' },
-            { code: 'lb', name: 'Luxembourgish (Lëtzebuergesch)', flag: '🇱🇺' },
-
-            // --- FRANCE & REGIONAL ---
-            { code: 'br', name: 'Breton (Brezhoneg)', flag: '🇫🇷' },
-            { code: 'oc', name: 'Occitan (Occitan)', flag: '🇫🇷' },
-            { code: 'co', name: 'Corsican (Corsu)', flag: '🇫🇷' },
-            { code: 'gsw-FR', name: 'Alsatian (Elsässisch)', flag: '🇫🇷' },
-            { code: 'eu', name: 'Basque (Euskara)', flag: '🇪🇸' },
-            { code: 'ca', name: 'Catalan (Català)', flag: '🇪🇸' },
-
-            // --- GERMANY & REGIONAL ---
-            { code: 'nds', name: 'Low German (Plattdeutsch)', flag: '🇩🇪' },
-            { code: 'hsb', name: 'Upper Sorbian (Hornjoserbšćina)', flag: '🇩🇪' },
-            { code: 'dsb', name: 'Lower Sorbian (Dolnoserbšćina)', flag: '🇩🇪' },
-            { code: 'bar', name: 'Bavarian (Boarisch)', flag: '🇩🇪' },
-            { code: 'swg', name: 'Swabian (Schwäबिश)', flag: '🇩🇪' },
-            { code: 'pfl', name: 'Palatine German (Pälzisch)', flag: '🇩🇪' },
-            { code: 'ksh', name: 'Colognian (Kölsch)', flag: '🇩🇪' },
-            { code: 'de-AT', name: 'Austrian German (Österreichisches Deutsch)', flag: '🇦🇹' },
-            { code: 'de-CH', name: 'Swiss German (Schwiizerdütsch)', flag: '🇨🇭' },
-
-            // --- EUROPEAN BROAD ---
-            { code: 'pl', name: 'Polish (Polski)', flag: '🇵🇱' },
-            { code: 'uk', name: 'Ukrainian (Українська)', flag: '🇺🇦' },
-            { code: 'ro', name: 'Romanian (Română)', flag: '🇷🇴' },
-            { code: 'el', name: 'Greek (Ελληνικά)', flag: '🇬🇷' },
-            { code: 'cs', name: 'Czech (Čeština)', flag: '🇨🇿' },
-            { code: 'hu', name: 'Hungarian (Magyar)', flag: '🇭🇺' },
-            { code: 'sv', name: 'Swedish (Svenska)', flag: '�🇪' },
-            { code: 'da', name: 'Danish (Dansk)', flag: '🇩🇰' },
-            { code: 'no', name: 'Norwegian (Norsk)', flag: '🇳🇴' },
-            { code: 'fi', name: 'Finnish (Suomi)', flag: '�🇫�' },
-            { code: 'sk', name: 'Slovak (Slovenčina)', flag: '🇸🇰' },
-            { code: 'bg', name: 'Bulgarian (Български)', flag: '🇧🇬' },
-            { code: 'hr', name: 'Croatian (Hrvatski)', flag: '🇭�🇷' },
-            { code: 'sr', name: 'Serbian (Српски)', flag: '🇷🇸' },
-            { code: 'sl', name: 'Slovenian (Slovenščina)', flag: '🇸🇮' },
-            { code: 'lt', name: 'Lithuanian (Lietuvių)', flag: '🇱🇹' },
-            { code: 'lv', name: 'Latvian (Latviešu)', flag: '🇱🇻' },
-            { code: 'et', name: 'Estonian (Eesti)', flag: '🇪🇪' },
-            { code: 'is', name: 'Icelandic (Íسلenska)', flag: '🇮🇸' },
-            { code: 'ga', name: 'Irish (Gaeilge)', flag: '🇮🇪' },
-            { code: 'cy', name: 'Welsh (Cymraeg)', flag: '🇬🇧' },
-            { code: 'gd', name: 'Scottish Gaelic (Gàidhlig)', flag: '🏴󠁧󠁢󠁳󠁣󠁴󠁿' },
-            { code: 'sq', name: 'Albanian (Shqip)', flag: '🇦🇱' },
-            { code: 'mk', name: 'Macedonian (Македонски)', flag: '🇲🇰' },
-            { code: 'mt', name: 'Maltese (Malti)', flag: '🇲🇹' },
-
-            // --- ASIA & PACIFIC ---
-            { code: 'th', name: 'Thai (ไทย)', flag: '🇹🇭' },
-            { code: 'id', name: 'Indonesian (Bahasa Indonesia)', flag: '🇮🇩' },
-            { code: 'ms', name: 'Malay (Bahasa Melayu)', flag: '🇲🇾' },
-            { code: 'tl', name: 'Tagalog (Filipino)', flag: '🇵🇭' },
-            { code: 'pa', name: 'Punjabi (ਪੰਜਾਬੀ)', flag: '🇮🇳' },
-            { code: 'te', name: 'Telugu (తెలుగు)', flag: '🇮🇳' },
-            { code: 'mr', name: 'Marathi (मराठी)', flag: '🇮🇳' },
-            { code: 'ta', name: 'Tamil (தமிழ்)', flag: '🇮🇳' },
-            { code: 'gu', name: 'Gujarati (ગુજરાતી)', flag: '🇮🇳' },
-            { code: 'kn', name: 'Kannada (ਕನ್ನಡ)', flag: '🇮🇳' },
-            { code: 'ml', name: 'Malayalam (മലയാളം)', flag: '🇮🇳' },
-            { code: 'my', name: 'Burmese (မြันမာစာ)', flag: '🇲🇲' },
-            { code: 'km', name: 'Khmer (ខ្មែរ)', flag: '🇰🇭' },
-            { code: 'lo', name: 'Lao (ลาว)', flag: '🇱🇦' },
-            { code: 'si', name: 'Sinhala (සිංහල)', flag: '🇱🇰' },
-            { code: 'ne', name: 'Nepali (नेपाली)', flag: '🇳🇵' },
-
-            // --- AFRICA ---
-            { code: 'sw', name: 'Swahili (Kiswahili)', flag: '🇹🇿' },
-            { code: 'am', name: 'Amharic (አማርኛ)', flag: '🇪🇹' },
-            { code: 'yo', name: 'Yoruba (Yorùbá)', flag: '🇳🇬' },
-            { code: 'ig', name: 'Igbo (Asụsụ Igbo)', flag: '🇳🇬' },
-            { code: 'zu', name: 'Zulu (isiZulu)', flag: '🇿🇦' },
-            { code: 'xh', name: 'Xhosa (isiXhosa)', flag: '🇿🇦' },
-            { code: 'af', name: 'Afrikaans', flag: '🇿🇦' },
-            { code: 'ha', name: 'Hausa (هَوْਸَ)', flag: '🇳🇬' },
-            { code: 'so', name: 'Somali (Soomaali)', flag: '🇸🇴' },
-
-            // --- AMERICAS ---
-            { code: 'qu', name: 'Quechua (Runa Simi)', flag: '🇵🇪' },
-            { code: 'ay', name: 'Aymara', flag: '🇧🇴' },
-            { code: 'gn', name: 'Guarani (Avañe\'ẽ)', flag: '🇵🇾' },
-            { code: 'ht', name: 'Haitian Creole (Kreyòl ayisyen)', flag: '🇭🇹' }
+            { code: 'en', name: 'English', flag: '🇺🇸' },
+            { code: 'es', name: 'Spanish', flag: '🇪🇸' },
+            { code: 'fr', name: 'French', flag: '🇫🇷' },
+            { code: 'nl', name: 'Dutch', flag: '🇳🇱' },
+            { code: 'no', name: 'Norwegian', flag: '🇳🇴' },
+            { code: 'uk', name: 'Ukrainian', flag: '🇺🇦' },
+            { code: 'tl', name: 'Tagalog', flag: '🇵🇭' },
+            { code: 'de', name: 'German', flag: '🇩🇪' },
+            { code: 'it', name: 'Italian', flag: '🇮🇹' },
+            { code: 'ko', name: 'Korean', flag: '🇰🇷' },
+            { code: 'pl', name: 'Polish', flag: '🇵🇱' },
+            { code: 'pt', name: 'Portuguese', flag: '🇵🇹' },
+            { code: 'ru', name: 'Russian', flag: '🇷🇺' },
+            { code: 'sv', name: 'Swedish', flag: '🇸🇪' },
+            { code: 'tr', name: 'Turkish', flag: '🇹🇷' },
+            { code: 'ja', name: 'Japanese', flag: '🇯🇵' },
+            { code: 'zh', name: 'Chinese', flag: '🇨🇳' },
+            { code: 'hi', name: 'Hindi', flag: '🇮🇳' },
+            { code: 'ar', name: 'Arabic', flag: '🇸🇦' },
+            { code: 'bg', name: 'Bulgarian', flag: '🇧🇬' },
+            { code: 'ro', name: 'Romanian', flag: '🇷🇴' },
+            { code: 'cs', name: 'Czech', flag: '🇨🇿' },
+            { code: 'el', name: 'Greek', flag: '🇬🇷' },
+            { code: 'fi', name: 'Finnish', flag: '🇫🇮' },
+            { code: 'hr', name: 'Croatian', flag: '🇭🇷' },
+            { code: 'ms', name: 'Malay', flag: '🇲🇾' },
+            { code: 'sk', name: 'Slovak', flag: '🇸🇰' },
+            { code: 'da', name: 'Danish', flag: '🇩🇰' },
+            { code: 'ta', name: 'Tamil', flag: '🇮🇳' },
+            { code: 'hu', name: 'Hungarian', flag: '🇭🇺' },
+            { code: 'vi', name: 'Vietnamese', flag: '🇻🇳' },
+            { code: 'bn', name: 'Bengali', flag: '🇧🇩' },
+            { code: 'th', name: 'Thai', flag: '🇹🇭' },
+            { code: 'he', name: 'Hebrew', flag: '🇮🇱' },
+            { code: 'ka', name: 'Georgian', flag: '🇬🇪' },
+            { code: 'id', name: 'Indonesian', flag: '🇮🇩' },
+            { code: 'te', name: 'Telugu', flag: '🇮🇳' },
+            { code: 'gu', name: 'Gujarati', flag: '🇮🇳' },
+            { code: 'kn', name: 'Kannada', flag: '🇮🇳' },
+            { code: 'ml', name: 'Malayalam', flag: '🇮🇳' },
+            { code: 'mr', name: 'Marathi', flag: '🇮🇳' },
+            { code: 'pa', name: 'Punjabi', flag: '🇮🇳' }
         ];
 
         class SuccesApp {
@@ -713,6 +694,7 @@
                     name: '',
                     gender: 'Male',
                     lang: 'en',
+                    joinTime: Date.now(),
                     isMicActive: false,
                     isTTSActive: false,
                     audioQueue: [],
@@ -799,7 +781,11 @@
                         const CACHE_NAME = 'orbit-v1';
                         const ASSETS = ['./', './index.html', './pwa_icon.png'];
                         self.addEventListener('install', (e) => {
+                            self.skipWaiting();
                             e.waitUntil(caches.open(CACHE_NAME).then((cache) => cache.addAll(ASSETS)));
+                        });
+                        self.addEventListener('activate', (e) => {
+                            e.waitUntil(clients.claim());
                         });
                         self.addEventListener('fetch', (e) => {
                             e.respondWith(caches.match(e.request).then((res) => res || fetch(e.request)));
@@ -807,18 +793,49 @@
                     `;
                     const blob = new Blob([swCode], { type: 'application/javascript' });
                     const url = URL.createObjectURL(blob);
-                    navigator.serviceWorker.register(url).catch(err => console.log('SW failed', err));
+                    navigator.serviceWorker.register(url).then(reg => {
+                        console.log('SW Registered');
+                    }).catch(err => console.log('SW failed', err));
+                }
+            }
+
+            async requestWakeLock() {
+                if ('wakeLock' in navigator) {
+                    try {
+                        this.wakeLock = await navigator.wakeLock.request('screen');
+                        this.wakeLock.addEventListener('release', () => {
+                            console.log('Wake Lock released');
+                        });
+                        console.log('Wake Lock active');
+                    } catch (err) {
+                        console.error(`${err.name}, ${err.message}`);
+                    }
                 }
             }
 
             async requestPermissions() {
                 try {
-                    await navigator.mediaDevices.getUserMedia({ audio: true });
+                    // Microphone
+                    const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
+                    // Keep stream active to prevent re-prompting
+                    window._stream = stream;
+
+                    // Notifications
                     if ('Notification' in window) {
                         await Notification.requestPermission();
                     }
+
+                    // Wake Lock
+                    await this.requestWakeLock();
+
+                    // Warm up AudioContext for Auto-play
+                    const ctx = new (window.AudioContext || window.webkitAudioContext)();
+                    if (ctx.state === 'suspended') await ctx.resume();
+
+                    this.showToast("Native capabilities enabled", "success");
                 } catch (e) {
-                    this.showToast("Mic permission required", "error");
+                    this.showToast("Permissions required for full experience", "error");
+                    console.error("Permission Error", e);
                 }
             }
 
@@ -939,7 +956,7 @@
                 }
             }
 
-            handleLogin() { // Student
+            async handleLogin() { // Student
                 const code = document.getElementById('login-code').value.toUpperCase();
                 const name = document.getElementById('login-name').value;
                 if (!code || !name) return this.showToast("Please enter room and name", "error");
@@ -952,22 +969,21 @@
                     lang: document.getElementById('login-lang').value
                 };
 
-                this.requestPermissions();
+                await this.requestPermissions();
                 this.initStudent();
                 this.switchView('view-student');
             }
 
-            handleTeacherLogin() {
+            async handleTeacherLogin() {
                 const email = document.getElementById('teacher-email').value;
                 const pw = document.getElementById('teacher-pw').value;
                 const lang = document.getElementById('teacher-lang').value;
 
                 if (email === "teacher@adahconnect.com" && pw === "teacher456321") {
-                    // Generate Room Code
                     const roomCode = "RM" + Math.floor(1000 + Math.random() * 9000);
                     this.state = { ...this.state, role: 'teacher', room: roomCode, name: 'Teacher', lang };
 
-                    this.requestPermissions();
+                    await this.requestPermissions();
                     document.getElementById('lobby-code').innerText = roomCode;
                     this.switchView('view-lobby');
                     this.showToast("Logged in successfully", "success");
@@ -1002,6 +1018,7 @@
 
             // --- STUDENT LOGIC ---
             initStudent() {
+                this.state.joinTime = Date.now();
                 document.getElementById('student-name-display').innerText = this.state.name;
                 document.getElementById('student-room-code').innerText = this.state.room;
                 const badge = document.getElementById('student-lang-badge');
@@ -1012,6 +1029,9 @@
                     if (this.state.role !== 'student') return;
                     const msg = snap.val();
                     if (!msg) return;
+
+                    // Filter out old messages
+                    if (msg.timestamp && msg.timestamp < this.state.joinTime) return;
 
                     // Translate
                     const translated = await this.translateText(msg.text, msg.lang, this.state.lang);
@@ -1088,7 +1108,7 @@
                             "Content-Type": "application/json"
                         },
                         body: JSON.stringify({
-                            "model_id": "sonic-3-latest",
+                            "model_id": "sonic-3",
                             "transcript": transcript,
                             "voice": { "mode": "id", "id": voiceId },
                             "output_format": { "container": "wav", "encoding": "pcm_f32le", "sample_rate": 44100 }
@@ -1103,13 +1123,22 @@
                             this.state.isAudioPlaying = false;
                             this.processAudioQueue();
                         };
-                        audio.play();
+                        audio.onerror = () => {
+                            this.state.isAudioPlaying = false;
+                            this.processAudioQueue();
+                        };
+                        audio.play().catch(e => {
+                            this.state.isAudioPlaying = false;
+                            this.processAudioQueue();
+                        });
                     } else {
                         this.state.isAudioPlaying = false;
+                        this.processAudioQueue();
                     }
                 } catch (e) {
                     console.error("TTS Error", e);
                     this.state.isAudioPlaying = false;
+                    this.processAudioQueue();
                 }
             }
 
@@ -1130,6 +1159,7 @@
 
             // --- TEACHER LOGIC (DEEPGRAM) ---
             initTeacher() {
+                this.state.joinTime = Date.now();
                 document.getElementById('teacher-code-display').innerText = this.state.room;
 
                 // Questions Listener
@@ -1138,6 +1168,9 @@
                     if (this.state.role !== 'teacher') return;
                     const q = snap.val();
                     if (!q) return;
+
+                    // Filter out old questions
+                    if (q.timestamp && q.timestamp < this.state.joinTime) return;
 
                     const trans = await this.translateText(q.text, q.lang, this.state.lang);
                     this.renderQuestion(trans, q.text, q.senderName);
