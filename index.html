@@ -1394,7 +1394,9 @@
 
             // --- TEACHER LOGIC (DEEPGRAM) ---
             initTeacher() {
-                document.getElementById('teacher-code-display').innerText = this.state.room;
+                // UI Updates
+                const codeDisplay = document.getElementById('teacher-code-display');
+                if (codeDisplay) codeDisplay.innerText = this.state.room;
 
                 // Questions Listener
                 const qRef = ref(this.db, `chats/${this.state.room}/questions`);
@@ -1412,7 +1414,15 @@
                     }
                 });
 
-                // Student Mic Listener
+                // Speak Queue Listener
+                const requestsRef = ref(this.db, `chats/${this.state.room}/speakRequests`);
+                import("https://www.gstatic.com/firebasejs/10.7.1/firebase-database.js").then(db => {
+                    db.onValue(requestsRef, (snap) => {
+                        this.renderSpeakQueue(snap.val() || {});
+                    });
+                });
+
+                // Global Config Listener (for Student Mic state)
                 const configRef = ref(this.db, `chats/${this.state.room}/config`);
                 import("https://www.gstatic.com/firebasejs/10.7.1/firebase-database.js").then(db => {
                     db.onValue(configRef, (snap) => {
@@ -1421,21 +1431,6 @@
                             this.state.isStudentMicEnabled = config.studentMic;
                             this.updateStudentMicUI();
                         }
-                    });
-                });
-            }
-
-            initTeacher() {
-                const roomRef = ref(this.db, `chats/${this.state.room}`);
-                onChildAdded(ref(this.db, `chats/${this.state.room}/questions`), (snap) => {
-                    this.renderQuestion(snap.val());
-                });
-
-                // Speak Queue
-                const requestsRef = ref(this.db, `chats/${this.state.room}/speakRequests`);
-                import("https://www.gstatic.com/firebasejs/10.7.1/firebase-database.js").then(db => {
-                    db.onValue(requestsRef, (snap) => {
-                        this.renderSpeakQueue(snap.val() || {});
                     });
                 });
             }
@@ -1749,19 +1744,26 @@
             // --- UTILS ---
             toggleModal(id) {
                 const modal = document.getElementById('modal-' + id);
+                if (!modal) return;
+
                 const backdrop = modal.querySelector('#modal-backdrop');
                 const panel = modal.querySelector('#modal-panel');
 
+                const isHistory = id === 'history';
+
                 if (modal.classList.contains('hidden')) {
                     modal.classList.remove('hidden');
+                    if (isHistory) {
+                        this.loadHistory();
+                        this.backToHistoryList();
+                    }
                     requestAnimationFrame(() => {
-                        backdrop.classList.remove('opacity-0');
-                        panel.classList.remove('translate-y-full');
-                        document.getElementById('q-input').focus();
+                        if (backdrop) backdrop.classList.remove('opacity-0');
+                        if (panel) panel.classList.remove('translate-y-full');
                     });
                 } else {
-                    backdrop.classList.add('opacity-0');
-                    panel.classList.add('translate-y-full');
+                    if (backdrop) backdrop.classList.add('opacity-0');
+                    if (panel) panel.classList.add('translate-y-full');
                     setTimeout(() => modal.classList.add('hidden'), 300);
                 }
             }
