@@ -1367,13 +1367,27 @@
                             this.state.isAudioPlaying = false;
                             this.processAudioQueue();
                         };
-                        audio.play();
+                        audio.onerror = () => {
+                            console.error("Audio Playback Error");
+                            this.state.isAudioPlaying = false;
+                            this.processAudioQueue();
+                        };
+                        try {
+                            await audio.play();
+                        } catch (e) {
+                            console.error("Autoplay prevented", e);
+                            this.state.isAudioPlaying = false;
+                            this.processAudioQueue();
+                        }
                     } else {
+                        console.error("TTS API Error", res.status);
                         this.state.isAudioPlaying = false;
+                        this.processAudioQueue();
                     }
                 } catch (e) {
                     console.error("TTS Error", e);
                     this.state.isAudioPlaying = false;
+                    this.processAudioQueue();
                 }
             }
 
