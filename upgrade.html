@@ -1,0 +1,2485 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+        content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+    <meta name="theme-color" content="#3b82f6">
+    <link rel="manifest" href='data:application/json,{
+        "id": "/index.html",
+        "name": "Succes Class",
+        "short_name": "Succes",
+        "start_url": "./",
+        "display": "standalone",
+        "orientation": "portrait",
+        "background_color": "#ffffff",
+        "theme_color": "#3b82f6",
+        "icons": [
+            { "src": "pwa_icon.png", "sizes": "512x512", "type": "image/png", "purpose": "any maskable" }
+        ],
+        "description": "Real-time AI Translation and Hybrid Learning Platform"
+    }'>
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="apple-mobile-web-app-title" content="Succes Class">
+    <link rel="apple-touch-icon" href="pwa_icon.png">
+    <title>Succes Class</title>
+
+    <!-- Dependencies -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <!-- Fonts: Inter (Premium, clean sans-serif) -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap"
+        rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+
+    <!-- Configuration -->
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                        mono: ['JetBrains Mono', 'monospace'],
+                    },
+                    colors: {
+                        brand: {
+                            50: '#f0f9ff',
+                            100: '#e0f2fe',
+                            500: '#0ea5e9', // Sky Blue
+                            600: '#0284c7',
+                            900: '#0c4a6e',
+                        },
+                        accent: {
+                            500: '#8b5cf6', // Violet
+                        }
+                    },
+                    animation: {
+                        'fade-in': 'fadeIn 0.5s cubic-bezier(0.16, 1, 0.3, 1) forwards',
+                        'slide-up': 'slideUp 0.4s cubic-bezier(0.16, 1, 0.3, 1) forwards',
+                        'pulse-slow': 'pulse 3s cubic-bezier(0.4, 0, 0.6, 1) infinite',
+                    },
+                    keyframes: {
+                        fadeIn: {
+                            '0%': { opacity: '0' },
+                            '100%': { opacity: '1' },
+                        },
+                        slideUp: {
+                            '0%': { opacity: '0', transform: 'translateY(20px)' },
+                            '100%': { opacity: '1', transform: 'translateY(0)' },
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+
+    <style>
+        /* --- Premium Base Styles --- */
+        :root {
+            --glass-bg: rgba(255, 255, 255, 0.85);
+            --glass-border: rgba(255, 255, 255, 0.5);
+            --glass-blur: blur(12px);
+            --shadow-soft: 0 10px 40px -10px rgba(0, 0, 0, 0.08);
+            --shadow-hard: 0 20px 40px -10px rgba(0, 0, 0, 0.12);
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background: linear-gradient(135deg, #f3f4f6 0%, #e0f2fe 100%);
+            height: 100vh;
+            overflow: hidden;
+            -webkit-tap-highlight-color: transparent;
+            color: #1f2937;
+        }
+
+        /* Input Reset & Styling */
+        .input-glass {
+            background: rgba(255, 255, 255, 0.6);
+            -webkit-backdrop-filter: blur(8px);
+            backdrop-filter: blur(8px);
+            border: 1px solid rgba(0, 0, 0, 0.05);
+            box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.02);
+            transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+
+        .input-glass:focus {
+            background: #ffffff;
+            border-color: #0ea5e9;
+            box-shadow: 0 0 0 4px rgba(14, 165, 233, 0.15), inset 0 2px 4px rgba(0, 0, 0, 0.01);
+            outline: none;
+        }
+
+        /* Buttons */
+        .btn-modern {
+            transition: transform 0.1s ease, box-shadow 0.2s ease, background 0.2s ease;
+        }
+
+        .btn-modern:active {
+            transform: scale(0.97);
+        }
+
+        /* Scrollbar */
+        .scrollbar-hide::-webkit-scrollbar {
+            display: none;
+        }
+
+        @keyframes slideUp {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes pulse-red {
+            0% {
+                box-shadow: 0 0 0 0 rgba(239, 68, 68, 0.7);
+            }
+
+            70% {
+                box-shadow: 0 0 0 10px rgba(239, 68, 68, 0);
+            }
+
+            100% {
+                box-shadow: 0 0 0 0 rgba(239, 68, 68, 0);
+            }
+        }
+
+        .animate-pulse-red {
+            animation: pulse-red 2s infinite;
+        }
+
+        .custom-scrollbar::-webkit-scrollbar {
+            width: 4px;
+        }
+
+        .custom-scrollbar::-webkit-scrollbar-track {
+            background: transparent;
+        }
+
+        .custom-scrollbar::-webkit-scrollbar-thumb {
+            background-color: rgba(0, 0, 0, 0.1);
+            border-radius: 10px;
+        }
+
+        /* Utilities */
+        .glass-panel {
+            background: var(--glass-bg);
+            backdrop-filter: var(--glass-blur);
+            -webkit-backdrop-filter: var(--glass-blur);
+            border: 1px solid var(--glass-border);
+            box-shadow: var(--shadow-soft);
+        }
+
+        .message-bubble {
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
+            transition: transform 0.2s;
+            transform-origin: bottom left;
+        }
+
+        .mic-active-ring {
+            box-shadow: 0 0 0 0 rgba(239, 68, 68, 0.7);
+            animation: pulse-ring 1.5s cubic-bezier(0.215, 0.61, 0.355, 1) infinite;
+        }
+
+        @keyframes pulse-ring {
+            0% {
+                transform: scale(0.95);
+                box-shadow: 0 0 0 0 rgba(239, 68, 68, 0.7);
+            }
+
+            70% {
+                transform: scale(1);
+                box-shadow: 0 0 0 15px rgba(239, 68, 68, 0);
+            }
+
+            100% {
+                transform: scale(0.95);
+                box-shadow: 0 0 0 0 rgba(239, 68, 68, 0);
+            }
+        }
+
+        /* Animations */
+        .view-transition {
+            transition: opacity 0.4s ease, transform 0.4s ease;
+        }
+
+        .view-hidden {
+            opacity: 0;
+            pointer-events: none;
+            position: absolute;
+            inset: 0;
+            transform: scale(0.98);
+            z-index: -1;
+        }
+
+        .view-active {
+            opacity: 1;
+            pointer-events: auto;
+            position: relative;
+            transform: scale(1);
+            z-index: 10;
+        }
+    </style>
+</head>
+
+<body class="antialiased text-gray-800">
+
+    <!-- Toast Container -->
+    <div id="toast-container"
+        class="fixed top-4 left-0 right-0 z-50 pointer-events-none flex flex-col items-center gap-2 p-4"></div>
+
+    <!-- MAIN APP CONTAINER -->
+    <main id="app"
+        class="relative w-full h-full max-w-lg mx-auto bg-white/50 shadow-2xl overflow-hidden md:rounded-2xl md:my-8 md:h-[calc(100vh-4rem)] md:border md:border-white/50 backdrop-blur-3xl">
+
+        <!-- ================= VIEW: LOGIN ================= -->
+        <section id="view-login" class="view-active w-full h-full flex flex-col p-8 transition-all duration-500">
+            <!-- Header/Logo -->
+            <div class="flex-1 flex flex-col items-center justify-center space-y-6 animate-slide-up">
+                <div class="relative w-28 h-28">
+                    <!-- Icon per reference (red outline style) -->
+                    <div class="relative w-full h-full flex items-center justify-center">
+                        <i class="fa-solid fa-chalkboard-user text-6xl text-red-500/80 drop-shadow-sm"></i>
+                        <div
+                            class="absolute -right-2 -top-2 bg-red-50 text-red-500 text-[10px] font-bold px-1.5 py-0.5 rounded-md border border-red-100">
+                            1.0</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Login Form (Student) -->
+            <div id="form-student" class="w-full space-y-5 mb-4 animate-slide-up" style="animation-delay: 0.1s;">
+                <div class="group">
+                    <label class="block text-sm font-semibold text-gray-500 mb-1.5 ml-1">Conversation Code</label>
+                    <div class="relative flex gap-2">
+                        <input id="login-code" type="text" placeholder="Enter conversation code"
+                            class="input-glass flex-1 px-4 py-3.5 rounded-lg text-base font-medium text-gray-800 placeholder-gray-400 bg-gray-50/50 border-gray-200 focus:bg-white transition-all">
+                        <div
+                            class="w-12 flex items-center justify-center bg-gray-100 rounded-lg text-gray-500 text-2xl">
+                            <i class="fa-solid fa-qrcode"></i>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="group">
+                    <label class="block text-sm font-semibold text-gray-500 mb-1.5 ml-1">Username</label>
+                    <input id="login-name" type="text" placeholder="Enter Username"
+                        class="input-glass w-full px-4 py-3.5 rounded-lg text-base font-medium text-gray-800 placeholder-gray-400 bg-gray-50/50 border-gray-200 focus:bg-white">
+                </div>
+
+                <div class="group">
+                    <label class="block text-sm font-semibold text-gray-500 mb-1.5 ml-1">Receiving Language</label>
+                    <div class="relative">
+                        <select id="login-lang" title="Select your receiving language"
+                            class="input-glass w-full px-4 py-3.5 rounded-lg text-base font-medium text-gray-800 appearance-none bg-gray-50/50 border-gray-200 focus:bg-white pr-10 truncate">
+                            <!-- Populated dynamically -->
+                        </select>
+                        <i
+                            class="fa-solid fa-caret-down absolute right-4 top-1/2 -translate-y-1/2 text-gray-400 pointer-events-none"></i>
+                    </div>
+                </div>
+
+                <button onclick="App.handleLogin()"
+                    class="btn-modern w-full bg-[#0ea5e9] hover:bg-[#0284c7] text-white font-semibold py-3.5 rounded-lg shadow-lg shadow-blue-500/20 flex items-center justify-center gap-2 mt-4 text-lg">
+                    <span>Join Conversation</span>
+                </button>
+            </div>
+
+            <!-- Teacher Login Form (Hidden by default) -->
+            <div id="form-teacher" class="hidden w-full space-y-5 mb-4 animate-slide-up">
+                <div class="group">
+                    <label class="block text-sm font-semibold text-gray-500 mb-1.5 ml-1"
+                        for="teacher-email">Email</label>
+                    <input id="teacher-email" type="email" value="teacher@adahconnect.com" placeholder="Email"
+                        title="Teacher Email"
+                        class="input-glass w-full px-4 py-3.5 rounded-lg text-base font-medium text-gray-800 placeholder-gray-400 bg-gray-50/50 border-gray-200 focus:bg-white">
+                </div>
+                <div class="group">
+                    <label class="block text-sm font-semibold text-gray-500 mb-1.5 ml-1"
+                        for="teacher-pw">Password</label>
+                    <input id="teacher-pw" type="password" value="teacher456321" placeholder="Password"
+                        title="Teacher Password"
+                        class="input-glass w-full px-4 py-3.5 rounded-lg text-base font-medium text-gray-800 placeholder-gray-400 bg-gray-50/50 border-gray-200 focus:bg-white">
+                </div>
+                <div class="group">
+                    <label class="block text-sm font-semibold text-gray-500 mb-1.5 ml-1">Language</label>
+                    <div class="relative">
+                        <select id="teacher-lang" title="Select your instruction language"
+                            class="input-glass w-full px-4 py-3.5 rounded-lg text-base font-medium text-gray-800 appearance-none bg-gray-50/50 border-gray-200 focus:bg-white pr-10 truncate">
+                            <!-- Populated dynamically -->
+                        </select>
+                        <i
+                            class="fa-solid fa-caret-down absolute right-4 top-1/2 -translate-y-1/2 text-gray-400 pointer-events-none"></i>
+                    </div>
+                </div>
+
+                <button onclick="App.handleTeacherLogin()"
+                    class="btn-modern w-full bg-[#22c55e] hover:bg-[#16a34a] text-white font-semibold py-3.5 rounded-lg shadow-lg shadow-green-500/20 flex items-center justify-center gap-2 mt-4 text-lg">
+                    <span>Login & Start</span>
+                </button>
+                <button onclick="App.toggleTeacherMode(false)"
+                    class="w-full py-2 text-sm font-semibold text-gray-400 hover:text-gray-600">
+                    Cancel
+                </button>
+            </div>
+
+
+            <!-- Footer / Toggle -->
+            <div id="login-footer" class="text-center animate-slide-up mt-auto pt-4" style="animation-delay: 0.2s;">
+                <button onclick="App.toggleTeacherMode(true)"
+                    class="w-full py-3.5 rounded-lg font-semibold text-white bg-[#22c55e] hover:bg-[#16a34a] shadow-lg shadow-green-500/20 transition-all flex items-center justify-center gap-2">
+                    <span>Teacher</span>
+                </button>
+            </div>
+        </section>
+
+        <!-- ================= VIEW: TEACHER LOBBY (QR) ================= -->
+        <section id="view-lobby" class="view-hidden w-full h-full flex flex-col bg-white text-center p-8">
+            <div class="flex-1 flex flex-col items-center justify-center space-y-8 animate-slide-up">
+                <h2 class="text-2xl font-bold text-gray-900">Classroom Ready</h2>
+
+                <div class="bg-white p-6 rounded-3xl shadow-xl border border-gray-100 relative">
+                    <div class="absolute inset-0 bg-blue-500/5 rounded-3xl blur-xl -z-10"></div>
+                    <!-- QR Placeholder -->
+                    <div
+                        class="w-48 h-48 bg-blue-50 rounded-xl flex items-center justify-center text-blue-600 text-6xl shadow-inner mb-4 border border-blue-100">
+                        <i class="fa-solid fa-qrcode"></i>
+                    </div>
+                    <div class="space-y-1">
+                        <p class="text-xs font-bold text-gray-400 uppercase tracking-wider">Room Code</p>
+                        <p id="lobby-code" class="text-4xl font-mono font-black text-blue-600 tracking-widest">----</p>
+                    </div>
+                </div>
+
+                <p class="text-gray-500 max-w-xs mx-auto text-sm">Share this code with students to let them join the
+                    conversation.</p>
+            </div>
+
+            <button onclick="App.startSession()"
+                class="btn-modern w-full bg-[#22c55e] hover:bg-[#16a34a] text-white font-bold py-4 rounded-xl shadow-lg shadow-green-500/20 flex items-center justify-center gap-3 animate-slide-up">
+                <span>Start Session</span>
+                <i class="fa-solid fa-play"></i>
+            </button>
+        </section>
+
+        <!-- ================= VIEW: STUDENT ================= -->
+        <section id="view-student" class="view-hidden w-full h-full flex flex-col bg-white">
+            <!-- Navbar -->
+            <header
+                class="h-16 px-6 flex items-center justify-between bg-white/80 backdrop-blur-md sticky top-0 z-30 border-b border-gray-100">
+                <div class="flex items-center gap-3">
+                    <button onclick="App.logout()" title="Logout"
+                        class="w-8 h-8 rounded-full bg-gray-50 flex items-center justify-center text-gray-500 hover:text-gray-900 transition-colors">
+                        <i class="fa-solid fa-arrow-left text-sm"></i>
+                    </button>
+                    <div>
+                        <h2 id="student-name-display"
+                            class="font-bold text-gray-900 leading-tight text-sm text-truncate max-w-[120px]">Student
+                        </h2>
+                        <div class="flex items-center gap-1">
+                            <span class="text-[9px] text-gray-400 font-bold uppercase tracking-tight">Receiving:</span>
+                            <span id="student-lang-badge"
+                                class="text-[10px] font-black uppercase text-blue-600">EN</span>
+                        </div>
+                    </div>
+                </div>
+                <!-- Status & Audio Toggle -->
+                <div class="flex items-center gap-4">
+                    <button onclick="App.toggleModal('history')" title="View History"
+                        class="text-gray-400 hover:text-blue-500 transition-colors">
+                        <i class="fa-solid fa-clock-rotate-left"></i>
+                    </button>
+                    <button id="tts-btn" onclick="App.toggleTTS()" title="Toggle Voice Output"
+                        class="text-gray-400 hover:text-blue-500 transition-colors">
+                        <i id="tts-icon" class="fa-solid fa-volume-xmark"></i>
+                    </button>
+                    <span class="relative flex h-3 w-3">
+                        <span
+                            class="animate-ping absolute inline-flex h-full w-full rounded-full bg-green-400 opacity-75"></span>
+                        <span class="relative inline-flex rounded-full h-3 w-3 bg-green-500"></span>
+                    </span>
+                </div>
+            </header>
+
+            <!-- Chat Stream -->
+            <div id="student-stream"
+                class="flex-1 overflow-y-auto p-6 space-y-6 pb-32 bg-gray-50/50 custom-scrollbar scroll-smooth">
+                <!-- Welcome Message -->
+                <div class="text-center py-10 opacity-60">
+                    <div
+                        class="w-16 h-16 bg-gray-100 rounded-full flex items-center justify-center mx-auto mb-4 text-gray-400 text-xl">
+                        <i class="fa-solid fa-ear-listen"></i>
+                    </div>
+                    <p class="text-sm font-medium text-gray-500">Connected to <span
+                            class="font-mono text-gray-700 font-bold" id="student-room-code">...</span></p>
+                    <p class="text-xs text-gray-400 mt-1">Listening for speech...</p>
+                </div>
+            </div>
+
+            <!-- Controls -->
+            <div class="absolute bottom-0 left-0 right-0 p-6 bg-gradient-to-t from-white via-white to-transparent z-20">
+                <div class="flex items-center justify-between gap-4">
+                    <!-- Reactions -->
+                    <div class="flex gap-3">
+                        <button onclick="App.sendReaction('👍')"
+                            class="btn-modern w-12 h-12 rounded-full bg-white border border-gray-200 shadow-sm text-xl flex items-center justify-center hover:bg-gray-50 hover:scale-110">👍</button>
+                        <button onclick="App.sendReaction('❤️')"
+                            class="btn-modern w-12 h-12 rounded-full bg-white border border-gray-200 shadow-sm text-xl flex items-center justify-center hover:bg-gray-50 hover:scale-110">❤️</button>
+                    </div>
+
+                    <!-- Ask Question FAB -->
+                    <button onclick="App.toggleModal('question')"
+                        class="btn-modern h-12 px-6 rounded-full bg-[#0ea5e9] hover:bg-[#0284c7] text-white font-semibold shadow-lg shadow-blue-500/20 flex items-center gap-2">
+                        <i class="fa-solid fa-hand"></i>
+                        <span>Raise Hand</span>
+                    </button>
+                </div>
+            </div>
+        </section>
+
+        <!-- ================= VIEW: TEACHER (DASHBOARD) ================= -->
+        <section id="view-teacher" class="view-hidden w-full h-full flex flex-col bg-slate-50">
+            <!-- Header -->
+            <header
+                class="h-16 px-6 bg-white border-b border-gray-200 flex justify-between items-center shadow-sm z-30">
+                <div class="flex items-center gap-3">
+                    <button onclick="App.logout()" title="Logout"
+                        class="text-gray-400 hover:text-red-500 transition-colors">
+                        <i class="fa-solid fa-power-off"></i>
+                    </button>
+                    <div class="h-6 w-px bg-gray-200 mx-1"></div>
+                    <div>
+                        <h1 class="font-bold text-gray-900 text-sm">Teacher</h1>
+                        <div class="flex items-center gap-1.5 cursor-pointer hover:bg-gray-100 px-1.5 rounded transition-colors"
+                            onclick="App.copyCode()">
+                            <p class="text-xs text-gray-500 font-mono tracking-wider " id="teacher-code-display">CODE
+                            </p>
+                            <i class="fa-regular fa-copy text-[10px] text-gray-400"></i>
+                        </div>
+                    </div>
+
+
+                </div>
+
+                <!-- Actions -->
+                <div class="flex items-center gap-3">
+                    <!-- Source Selector -->
+                    <div class="relative group">
+                        <select id="audio-source-select" onchange="App.handleAudioSourceChange(this.value)"
+                            title="Select Audio Source"
+                            class="appearance-none bg-gray-100 hover:bg-gray-200 text-gray-600 text-xs font-bold py-2 pl-3 pr-8 rounded-full border-none focus:ring-2 focus:ring-blue-500 cursor-pointer transition-colors">
+                            <option value="mic">🎤 Mic</option>
+                            <option value="system">🖥️ System Audio</option>
+                        </select>
+                        <i
+                            class="fa-solid fa-chevron-down absolute right-3 top-1/2 -translate-y-1/2 text-[10px] text-gray-500 pointer-events-none"></i>
+                    </div>
+
+                    <button onclick="App.toggleModal('history')" title="View History"
+                        class="text-gray-400 hover:text-blue-500 transition-colors">
+                        <i class="fa-solid fa-clock-rotate-left"></i>
+                    </button>
+                    <button id="teacher-tts-btn" onclick="App.toggleTTS()" title="Toggle Voice Output"
+                        class="text-gray-400 hover:text-blue-500 transition-colors">
+                        <i id="teacher-tts-icon" class="fa-solid fa-volume-xmark"></i>
+                    </button>
+                    <!-- Mic Toggle -->
+                    <button id="mic-btn" onclick="App.toggleMic()" title="Toggle Broadcast"
+                        class="btn-modern relative w-10 h-10 rounded-full bg-gray-100 text-gray-600 flex items-center justify-center transition-all hover:bg-gray-200">
+                        <i class="fa-solid fa-microphone-slash text-sm"></i>
+                    </button>
+                </div>
+            </header>
+
+            <main class="flex-1 p-4 grid grid-rows-2 gap-4 h-[calc(100%-4rem)]">
+                <!-- Live Transcript Area -->
+                <div
+                    class="bg-white rounded-2xl shadow-sm border border-gray-100 flex flex-col overflow-hidden relative group">
+                    <div class="px-4 py-3 bg-gray-50/50 border-b border-gray-100 flex justify-between items-center">
+                        <h3 class="text-xs font-bold text-gray-500 uppercase tracking-wider flex items-center gap-2">
+                            <i class="fa-solid fa-wave-square text-blue-500"></i> Live Audio
+                        </h3>
+                        <div id="mic-status" class="flex gap-1">
+                            <div class="w-1 h-3 bg-gray-300 rounded-full animate-pulse"></div>
+                            <div class="w-1 h-3 bg-gray-300 rounded-full animate-pulse" style="animation-delay: 0.1s">
+                            </div>
+                            <div class="w-1 h-3 bg-gray-300 rounded-full animate-pulse" style="animation-delay: 0.2s">
+                            </div>
+                        </div>
+                    </div>
+
+                    <div id="teacher-transcript"
+                        class="flex-1 p-5 overflow-y-auto text-xl font-medium text-gray-400 italic leading-relaxed custom-scrollbar relative">
+                        Tap the microphone to start broadcasting...
+
+                        <!-- Floating Magic Toggle -->
+                        <button onclick="App.toggleMagicInput()"
+                            class="absolute bottom-4 right-4 w-8 h-8 rounded-full bg-white shadow-md border border-gray-100 flex items-center justify-center text-purple-500 hover:bg-purple-50 transition-all z-10"
+                            title="AI Lesson Generator">
+                            <i class="fa-solid fa-wand-magic-sparkles text-xs"></i>
+                        </button>
+                    </div>
+
+                    <!-- Collapsible AI Input -->
+                    <div id="ai-input-container"
+                        class="bg-purple-50 border-t border-purple-100 transition-all duration-300 overflow-hidden"
+                        style="max-height: 0px;">
+                        <div class="p-3 space-y-3">
+                            <!-- Step 1: Topic Input -->
+                            <div id="ai-step-1" class="relative transition-all duration-300">
+                                <input id="magic-topic" type="text" placeholder="Enter topic to generate lesson..."
+                                    class="w-full bg-white rounded-xl px-4 py-2.5 text-sm focus:ring-2 focus:ring-purple-500 outline-none border border-purple-100 transition-all pl-9"
+                                    onkeydown="if(event.key === 'Enter') App.generateAIContent(this.value)">
+                                <i
+                                    class="fa-solid fa-wand-magic-sparkles absolute left-3 top-1/2 -translate-y-1/2 text-purple-400 text-xs"></i>
+                                <button onclick="App.toggleMagicInput()"
+                                    class="absolute right-3 top-1/2 -translate-y-1/2 text-gray-400 hover:text-gray-600">
+                                    <i class="fa-solid fa-xmark text-xs"></i>
+                                </button>
+                                <!-- History Toggle -->
+                                <button onclick="App.toggleHistoryView()"
+                                    class="absolute right-10 top-1/2 -translate-y-1/2 text-gray-400 hover:text-purple-600"
+                                    title="View History">
+                                    <i class="fa-solid fa-clock-rotate-left text-xs"></i>
+                                </button>
+
+                                <!-- PRESETS -->
+                                <div class="flex gap-2 mt-3 overflow-x-auto custom-scrollbar pb-1 px-1">
+                                    <button onclick="App.generateAIContent('Construction Safety')"
+                                        class="whitespace-nowrap px-3 py-1.5 bg-white border border-orange-100 text-orange-600 rounded-full text-[10px] font-bold shadow-sm hover:bg-orange-50 transition-colors flex items-center gap-1.5">
+                                        <i class="fa-solid fa-helmet-safety"></i> Construction Safety
+                                    </button>
+                                    <button onclick="App.generateAIContent('Workplace Hazards')"
+                                        class="whitespace-nowrap px-3 py-1.5 bg-white border border-red-100 text-red-600 rounded-full text-[10px] font-bold shadow-sm hover:bg-red-50 transition-colors flex items-center gap-1.5">
+                                        <i class="fa-solid fa-triangle-exclamation"></i> Hazards
+                                    </button>
+                                    <button onclick="App.generateAIContent('First Aid Basics')"
+                                        class="whitespace-nowrap px-3 py-1.5 bg-white border border-green-100 text-green-600 rounded-full text-[10px] font-bold shadow-sm hover:bg-green-50 transition-colors flex items-center gap-1.5">
+                                        <i class="fa-solid fa-briefcase-medical"></i> First Aid
+                                    </button>
+                                </div>
+                            </div>
+
+                            <!-- History View -->
+                            <div id="ai-history-view" class="hidden h-full flex flex-col animate-fade-in">
+                                <div class="flex items-center justify-between mb-2 pb-2 border-b border-gray-100">
+                                    <h4 class="text-xs font-bold text-gray-500 uppercase tracking-wider">Lesson History
+                                    </h4>
+                                    <button onclick="App.toggleHistoryView()"
+                                        class="text-xs text-purple-600 hover:text-purple-800 font-bold">
+                                        <i class="fa-solid fa-arrow-left"></i> Back
+                                    </button>
+                                </div>
+                                <div id="history-list"
+                                    class="flex-1 overflow-y-auto custom-scrollbar space-y-2 max-h-[150px]">
+                                    <!-- History Items -->
+                                    <div class="text-center py-4 text-xs text-gray-400 italic">No history yet</div>
+                                </div>
+                            </div>
+
+                            <!-- Step 2: Review & Broadcast -->
+                            <div id="ai-step-2" class="hidden flex flex-col h-full animate-fade-in relative">
+                                <textarea id="magic-review"
+                                    class="w-full flex-1 p-3 bg-gray-50 rounded-lg text-sm text-gray-700 resize-none border border-gray-200 focus:outline-none focus:border-purple-300 focus:bg-white transition-colors"
+                                    placeholder="Review generated lesson..."></textarea>
+
+                                <div class="flex items-center justify-end gap-2 mt-2">
+                                    <button onclick="App.resetAIInput()"
+                                        class="px-3 py-1.5 text-xs font-medium text-gray-500 hover:text-gray-700">
+                                        Cancel
+                                    </button>
+
+                                    <!-- Start Button -->
+                                    <button id="btn-start-broadcast" onclick="App.startBroadcastSequence()"
+                                        class="px-4 py-1.5 bg-gradient-to-r from-purple-500 to-indigo-600 text-white text-xs font-bold rounded-full shadow-md hover:shadow-lg transition-all flex items-center gap-2">
+                                        <i class="fa-solid fa-tower-broadcast"></i> Start Broadcast (2s Delay)
+                                    </button>
+
+                                    <!-- Stop Button (Hidden by default) -->
+                                    <button id="btn-stop-broadcast" onclick="App.stopBroadcast()"
+                                        class="hidden px-4 py-1.5 bg-red-500 text-white text-xs font-bold rounded-full shadow-md hover:bg-red-600 transition-all flex items-center gap-2 animate-pulse-red">
+                                        <i class="fa-solid fa-stop"></i> STOP
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Local TTS Toggle -->
+                        <div
+                            class="mt-4 flex items-center justify-between p-3 bg-gray-50 rounded-xl border border-gray-100">
+                            <div class="flex items-center gap-2">
+                                <div
+                                    class="w-8 h-8 rounded-full bg-yellow-100 flex items-center justify-center text-yellow-600">
+                                    <i class="fa-solid fa-server text-xs"></i>
+                                </div>
+                                <div class="text-xs">
+                                    <div class="font-bold text-gray-700">Local Qwen3 TTS</div>
+                                    <div class="text-[10px] text-gray-400">Use Docker backend</div>
+                                </div>
+                            </div>
+                            <label class="relative inline-flex items-center cursor-pointer">
+                                <input type="checkbox" id="toggle-local-tts" class="sr-only peer"
+                                    onchange="App.toggleLocalTTS(this.checked)">
+                                <div
+                                    class="w-9 h-5 bg-gray-200 peer-focus:outline-none peer-focus:ring-2 peer-focus:ring-yellow-300 rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-4 after:w-4 after:transition-all peer-checked:bg-yellow-500">
+                                </div>
+                            </label>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Incoming Questions -->
+                <div class="bg-white rounded-2xl shadow-sm border border-gray-100 flex flex-col overflow-hidden">
+                    <div class="px-4 py-3 bg-gray-50/50 border-b border-gray-100 flex justify-between items-center">
+                        <h3 class="text-xs font-bold text-gray-500 uppercase tracking-wider">Student Questions</h3>
+                        <span id="question-count"
+                            class="bg-blue-100 text-blue-700 text-[10px] font-bold px-2 py-0.5 rounded-full">0</span>
+                    </div>
+                    <div id="teacher-questions"
+                        class="flex-1 p-4 overflow-y-auto space-y-3 bg-gray-50 custom-scrollbar">
+                        <!-- Questions injected here -->
+                        <div class="text-center py-8 opacity-40">
+                            <i class="fa-regular fa-comments text-2xl mb-2 text-gray-400"></i>
+                            <p class="text-xs text-gray-500">No questions yet</p>
+                        </div>
+                    </div>
+                </div>
+            </main>
+        </section>
+
+        <!-- ================= MODAL: QUESTION ================= -->
+        <div id="modal-question" class="fixed inset-0 z-50 hidden">
+            <!-- Backdrop -->
+            <div class="absolute inset-0 bg-gray-900/40 backdrop-blur-sm transition-opacity opacity-0"
+                id="modal-backdrop" onclick="App.toggleModal('question')"></div>
+
+            <!-- Content -->
+            <div class="absolute bottom-0 left-0 right-0 md:top-1/2 md:left-1/2 md:bottom-auto md:w-full md:max-w-sm md:-translate-x-1/2 md:-translate-y-1/2 transition-transform transform translate-y-full"
+                id="modal-panel">
+                <div class="bg-white rounded-t-2xl md:rounded-2xl shadow-2xl p-6">
+                    <h3 class="text-lg font-bold text-gray-900 mb-1">Ask a Question</h3>
+                    <p class="text-sm text-gray-500 mb-6">Your question will be translated for the teacher.</p>
+
+                    <div class="relative mb-6">
+                        <input id="q-input" type="text"
+                            class="w-full border-2 border-gray-100 rounded-xl px-4 py-3 text-base outline-none focus:border-blue-500 transition-colors"
+                            placeholder="Type your question..."
+                            onkeydown="if(event.key === 'Enter') App.sendQuestion()">
+                    </div>
+
+                    <div class="flex gap-3">
+                        <button onclick="App.toggleModal('question')"
+                            class="flex-1 py-3 text-sm font-bold text-gray-600 bg-gray-100 rounded-xl hover:bg-gray-200 transition-colors">Cancel</button>
+                        <button onclick="App.sendQuestion()"
+                            class="flex-1 py-3 text-sm font-bold text-white bg-blue-600 rounded-xl hover:bg-blue-700 shadow-lg shadow-blue-500/20 transition-colors">Send</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- ================= MODAL: HISTORY ================= -->
+        <div id="modal-history" class="fixed inset-0 z-50 hidden">
+            <!-- Backdrop -->
+            <div class="absolute inset-0 bg-gray-900/40 backdrop-blur-sm transition-opacity opacity-0"
+                id="history-backdrop" onclick="App.toggleModal('history')"></div>
+
+            <!-- Content -->
+            <div class="absolute bottom-0 left-0 right-0 md:top-1/2 md:left-1/2 md:bottom-auto md:w-full md:max-w-lg md:-translate-x-1/2 md:-translate-y-1/2 transition-transform transform translate-y-full"
+                id="history-panel">
+                <div class="bg-white rounded-t-3xl md:rounded-3xl shadow-2xl flex flex-col h-[70vh]">
+                    <div
+                        class="p-6 border-b border-gray-100 flex justify-between items-center bg-gray-50/50 rounded-t-3xl border-t-4 border-blue-500">
+                        <div>
+                            <h3 class="text-xl font-black text-gray-900 leading-none">History</h3>
+                            <p class="text-xs text-gray-500 mt-1 font-bold uppercase tracking-widest">Session Archive
+                            </p>
+                        </div>
+                        <button onclick="App.toggleModal('history')"
+                            class="w-10 h-10 rounded-full bg-white border border-gray-200 flex items-center justify-center text-gray-500 hover:text-gray-900 shadow-sm transition-all active:scale-95">
+                            <i class="fa-solid fa-xmark"></i>
+                        </button>
+                    </div>
+
+                    <div id="history-content"
+                        class="flex-1 overflow-y-auto p-4 space-y-4 bg-gray-50/50 custom-scrollbar">
+                        <!-- History items injected here -->
+                        <div class="text-center py-20 opacity-30">
+                            <i class="fa-solid fa-hourglass-start text-4xl mb-4"></i>
+                            <p class="text-sm font-bold">No history available yet</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </main>
+
+    <!-- ================= LOGIC ================= -->
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
+        import { getDatabase, ref, push, onChildAdded, get } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-database.js";
+        import { createClient, LiveTranscriptionEvents } from 'https://cdn.jsdelivr.net/npm/@deepgram/sdk@3/+esm';
+
+        // =========================
+        // CREDENTIALS (UNCHANGED + ADD OPENAI)
+        // =========================
+        const CREDENTIALS = {
+            DEEPGRAM: "11ee938d032ce7c36c6fa82338274be5e4ada847",
+            CARTESIA: "sk_car_yWEX9Mp2LwKju8FXyosGhj",
+            OPENAI: "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",
+            CARTESIA_VOICES: {
+                "en": "79f8b5fb-2cc8-479a-80df-29f7a7cf1a3e", // Nonfiction Man
+                "fr": "5c3c89e5-535f-43ef-b14d-f8ffe148c1f0", // French Narrator Man
+                "de": "db229dfe-f5de-4be4-91fd-7b077c158578", // German Storyteller Man
+                "es": "a67e0421-22e0-4d5b-b586-bd4a64aee41d", // Spanish Narrator Man
+                "tl": "c4cbcb7d-d9fa-4eac-b547-46831718ef58", // Tagalog
+                "zh": "eda5bbff-1ff1-4886-8ef1-4e69a77640a0", // Chinese Commercial Man
+                "ja": "e8a863c6-22c7-4671-86ca-91cacffc038d", // Japanese Male
+                "hi": "638efaaa-4d0c-442e-b701-3fae16aad012", // Indian Man
+                "it": "408daed0-c597-4c27-aae8-fa04977640a0", // Italian Calm Man
+                "ko": "57dba6ff-fe3b-479d-836e-06f5a61cb5de", // Korean Narrator Man
+                "nl": "4aa74047-d005-4463-ba2e-a0d9b261fb87", // Dutch Man
+                "pl": "3d335974-4c4a-400a-84dc-ebf4b73aada6", // Polish Confident Man
+                "ru": "2b3bb17d-26b9-421f-b8ca-1dd92332279f", // Russian Narrator Man 1
+                "sv": "38a146c3-69d7-40ad-aada-76d5a2621758", // Swedish Narrator Man
+                "tr": "5a31e4fb-f823-4359-aa91-82c0ae9a991c", // Turkish Narrator Man
+                "tr": "5a31e4fb-f823-4359-aa91-82c0ae9a991c", // Turkish Narrator Man
+                "bg": "b043dea0-a007-4bbe-a708-769dc0d0c569", // Wise Man
+                "ro": "b043dea0-a007-4bbe-a708-769dc0d0c569", // Wise Man
+                "ar": "b043dea0-a007-4bbe-a708-769dc0d0c569", // Wise Man
+                "cs": "b043dea0-a007-4bbe-a708-769dc0d0c569", // Wise Man
+                "el": "b043dea0-a007-4bbe-a708-769dc0d0c569", // Wise Man
+                "fi": "b043dea0-a007-4bbe-a708-769dc0d0c569", // Wise Man
+                "hr": "b043dea0-a007-4bbe-a708-769dc0d0c569", // Wise Man
+                "ms": "b043dea0-a007-4bbe-a708-769dc0d0c569", // Wise Man
+                "sk": "b043dea0-a007-4bbe-a708-769dc0d0c569", // Wise Man
+                "da": "b043dea0-a007-4bbe-a708-769dc0d0c569", // Wise Man
+                "ta": "638efaaa-4d0c-442e-b701-3fae16aad012", // Indian Man
+                "uk": "05ffab9c-d380-4909-8375-cd12f59238c3", // Ukrainian Male (User)
+                "hu": "b043dea0-a007-4bbe-a708-769dc0d0c569", // Wise Man
+                "no": "b043dea0-a007-4bbe-a708-769dc0d0c569", // Wise Man
+                "vi": "b043dea0-a007-4bbe-a708-769dc0d0c569", // Wise Man
+                "bn": "638efaaa-4d0c-442e-b701-3fae16aad012", // Indian Man
+                "th": "b043dea0-a007-4bbe-a708-769dc0d0c569", // Wise Man
+                "he": "b043dea0-a007-4bbe-a708-769dc0d0c569", // Wise Man
+                "ka": "b043dea0-a007-4bbe-a708-769dc0d0c569", // Wise Man
+                "id": "b043dea0-a007-4bbe-a708-769dc0d0c569", // Wise Man
+                "te": "638efaaa-4d0c-442e-b701-3fae16aad012", // Indian Man
+                "gu": "638efaaa-4d0c-442e-b701-3fae16aad012", // Indian Man
+                "tl": "c4cbcb7d-d9fa-4eac-b547-46831718ef58", // Filipino (Tagalog) - User Provided
+                "fil": "c4cbcb7d-d9fa-4eac-b547-46831718ef58", // Filipino (Alias)
+                "kn": "638efaaa-4d0c-442e-b701-3fae16aad012", // Indian Man
+                "ml": "638efaaa-4d0c-442e-b701-3fae16aad012", // Indian Man
+                "mr": "638efaaa-4d0c-442e-b701-3fae16aad012", // Indian Man
+                "pa": "638efaaa-4d0c-442e-b701-3fae16aad012", // Indian Man
+                "nl-BE": "005af375-5aad-4c02-9551-7fc411430542", // Flemish Male (User)
+                "default": "79f8b5fb-2cc8-479a-80df-29f7a7cf1a3e"
+            },
+            FIREBASE: {
+                apiKey: "AIzaSyC93B2GgE3HzaWl5gW_mRroobQybaZNFJs",
+                authDomain: "macx-5feca.firebaseapp.com",
+                databaseURL: "https://macx-5feca-default-rtdb.asia-southeast1.firebasedatabase.app",
+                projectId: "macx-5feca",
+                storageBucket: "macx-5feca.appspot.com",
+                messagingSenderId: "123456789012",
+                appId: "1:123456789012:web:abcdef1234567890abcdef"
+            },
+            CARTESIA: "sk_car_TZsjcMLQ6a2n3S5RAooHNX", // User provided key
+            // OPENAI: "",   // Removed
+            MOONSHOT: "sk-bA9YJxtchAjgtEloWAyiXLdVETMcGrk1UVqjpV3YBvwjS2Mr"
+        };
+
+        // =========================
+        // LANGUAGES (UNCHANGED)
+        // =========================
+        const LANGUAGES = [
+            { code: 'af', name: 'Afrikaans', flag: '🇿🇦' },
+            { code: 'sq', name: 'Albanian', flag: '🇦🇱' },
+            { code: 'am', name: 'Amharic', flag: '🇪🇹' },
+            { code: 'ar', name: 'Arabic', flag: '🇸🇦' },
+            { code: 'hy', name: 'Armenian', flag: '🇦🇲' },
+            { code: 'az', name: 'Azerbaijani', flag: '🇦🇿' },
+            { code: 'eu', name: 'Basque', flag: '🇪🇸' },
+            { code: 'be', name: 'Belarusian', flag: '🇧🇾' },
+            { code: 'bn', name: 'Bengali', flag: '🇧🇩' },
+            { code: 'bs', name: 'Bosnian', flag: '🇧🇦' },
+            { code: 'bg', name: 'Bulgarian', flag: '🇧🇬' },
+            { code: 'ca', name: 'Catalan', flag: '🇪🇸' },
+            { code: 'ceb', name: 'Cebuano', flag: '🇵🇭' },
+            { code: 'ny', name: 'Chichewa', flag: '🇲🇼' },
+            { code: 'zh', name: 'Chinese (Simplified)', flag: '🇨🇳' },
+            { code: 'zh-TW', name: 'Chinese (Traditional)', flag: '🇹🇼' },
+            { code: 'co', name: 'Corsican', flag: '🇫🇷' },
+            { code: 'hr', name: 'Croatian', flag: '🇭🇷' },
+            { code: 'cs', name: 'Czech', flag: '🇨🇿' },
+            { code: 'da', name: 'Danish', flag: '🇩🇰' },
+            { code: 'nl', name: 'Dutch (Netherlands)', flag: '🇳🇱' },
+            { code: 'nl-BE', name: 'Dutch (Belgium)', flag: '🇧🇪' },
+            { code: 'en', name: 'English', flag: '🇺🇸' },
+            { code: 'eo', name: 'Esperanto', flag: '🌍' },
+            { code: 'et', name: 'Estonian', flag: '🇪🇪' },
+            { code: 'tl', name: 'Filipino (Tagalog)', flag: '🇵🇭' },
+            { code: 'fi', name: 'Finnish', flag: '🇫🇮' },
+            { code: 'fr', name: 'French', flag: '🇫🇷' },
+            { code: 'fy', name: 'Frisian', flag: '🇳🇱' },
+            { code: 'gl', name: 'Galician', flag: '🇪🇸' },
+            { code: 'ka', name: 'Georgian', flag: '🇬🇪' },
+            { code: 'de', name: 'German', flag: '🇩🇪' },
+            { code: 'el', name: 'Greek', flag: '🇬🇷' },
+            { code: 'gu', name: 'Gujarati', flag: '🇮🇳' },
+            { code: 'ht', name: 'Haitian Creole', flag: '🇭🇹' },
+            { code: 'ha', name: 'Hausa', flag: '🇳🇬' },
+            { code: 'haw', name: 'Hawaiian', flag: '🇺🇸' },
+            { code: 'he', name: 'Hebrew', flag: '🇮🇱' },
+            { code: 'hi', name: 'Hindi', flag: '🇮🇳' },
+            { code: 'hmn', name: 'Hmong', flag: '🇨🇳' },
+            { code: 'hu', name: 'Hungarian', flag: '🇭🇺' },
+            { code: 'is', name: 'Icelandic', flag: '🇮🇸' },
+            { code: 'ig', name: 'Igbo', flag: '🇳🇬' },
+            { code: 'id', name: 'Indonesian', flag: '🇮🇩' },
+            { code: 'ga', name: 'Irish', flag: '🇮🇪' },
+            { code: 'it', name: 'Italian', flag: '🇮🇹' },
+            { code: 'ja', name: 'Japanese', flag: '🇯🇵' },
+            { code: 'jw', name: 'Javanese', flag: '🇮🇩' },
+            { code: 'kn', name: 'Kannada', flag: '🇮🇳' },
+            { code: 'kk', name: 'Kazakh', flag: '🇰🇿' },
+            { code: 'km', name: 'Khmer', flag: '🇰🇭' },
+            { code: 'ko', name: 'Korean', flag: '🇰🇷' },
+            { code: 'ku', name: 'Kurdish (Kurmanji)', flag: '🇹🇷' },
+            { code: 'ky', name: 'Kyrgyz', flag: '🇰🇬' },
+            { code: 'lo', name: 'Lao', flag: '🇱🇦' },
+            { code: 'la', name: 'Latin', flag: '🇻🇦' },
+            { code: 'lv', name: 'Latvian', flag: '🇱🇻' },
+            { code: 'lt', name: 'Lithuanian', flag: '🇱🇹' },
+            { code: 'lb', name: 'Luxembourgish', flag: '🇱🇺' },
+            { code: 'mk', name: 'Macedonian', flag: '🇲🇰' },
+            { code: 'mg', name: 'Malagasy', flag: '🇲🇬' },
+            { code: 'ms', name: 'Malay', flag: '🇲🇾' },
+            { code: 'ml', name: 'Malayalam', flag: '🇮🇳' },
+            { code: 'mt', name: 'Maltese', flag: '🇲🇹' },
+            { code: 'mi', name: 'Maori', flag: '🇳🇿' },
+            { code: 'mr', name: 'Marathi', flag: '🇮🇳' },
+            { code: 'mn', name: 'Mongolian', flag: '🇲🇳' },
+            { code: 'my', name: 'Myanmar (Burmese)', flag: '🇲🇲' },
+            { code: 'ne', name: 'Nepali', flag: '🇳🇵' },
+            { code: 'no', name: 'Norwegian', flag: '🇳🇴' },
+            { code: 'ps', name: 'Pashto', flag: '🇦🇫' },
+            { code: 'fa', name: 'Persian', flag: '🇮🇷' },
+            { code: 'pl', name: 'Polish', flag: '🇵🇱' },
+            { code: 'pt', name: 'Portuguese', flag: '🇵🇹' },
+            { code: 'pa', name: 'Punjabi', flag: '🇮🇳' },
+            { code: 'ro', name: 'Romanian', flag: '🇷🇴' },
+            { code: 'ru', name: 'Russian', flag: '🇷🇺' },
+            { code: 'sm', name: 'Samoan', flag: '🇼🇸' },
+            { code: 'gd', name: 'Scots Gaelic', flag: '🏴󠁧󠁢󠁳󠁣󠁴󠁿' },
+            { code: 'sr', name: 'Serbian', flag: '🇷🇸' },
+            { code: 'st', name: 'Sesotho', flag: '🇱🇸' },
+            { code: 'sn', name: 'Shona', flag: '🇿🇼' },
+            { code: 'sd', name: 'Sindhi', flag: '🇵🇰' },
+            { code: 'si', name: 'Sinhala', flag: '🇱🇰' },
+            { code: 'sk', name: 'Slovak', flag: '🇸🇰' },
+            { code: 'sl', name: 'Slovenian', flag: '🇸🇮' },
+            { code: 'so', name: 'Somali', flag: '🇸🇴' },
+            { code: 'es', name: 'Spanish', flag: '🇪🇸' },
+            { code: 'su', name: 'Sundanese', flag: '🇮🇩' },
+            { code: 'sw', name: 'Swahili', flag: '🇰🇪' },
+            { code: 'sv', name: 'Swedish', flag: '🇸🇪' },
+            { code: 'tg', name: 'Tajik', flag: '🇹🇯' },
+            { code: 'ta', name: 'Tamil', flag: '🇮🇳' },
+            { code: 'te', name: 'Telugu', flag: '🇮🇳' },
+            { code: 'th', name: 'Thai', flag: '🇹🇭' },
+            { code: 'tr', name: 'Turkish', flag: '🇹🇷' },
+            { code: 'uk', name: 'Ukrainian', flag: '🇺🇦' },
+            { code: 'ur', name: 'Urdu', flag: '🇵🇰' },
+            { code: 'uz', name: 'Uzbek', flag: '🇺🇿' },
+            { code: 'vi', name: 'Vietnamese', flag: '🇻🇳' },
+            { code: 'cy', name: 'Welsh', flag: '🏴󠁧󠁢󠁷󠁬󠁳󠁿' },
+            { code: 'xh', name: 'Xhosa', flag: '🇿🇦' },
+            { code: 'yi', name: 'Yiddish', flag: '🇮🇱' },
+            { code: 'yo', name: 'Yoruba', flag: '🇳🇬' },
+            { code: 'zu', name: 'Zulu', flag: '🇿🇦' }
+        ];
+
+        // =========================
+        // MOONSHOT (GPT-4o-mini compatible) — TRANSLATION → EMOTION → CARTESIA SSML
+        // =========================
+        const TRANSLATION_SYSTEM_PROMPT = `
+You are “Translation+TTS Packager”.
+You translate text with maximum meaning preservation AND prepare a Cartesia-friendly emotion wrapper.
+
+INPUT
+You will receive a JSON object with:
+- source_lang: string (e.g., "en", "tl", "nl-BE") or "auto"
+- target_lang: string (required)
+- text: string (required)
+- humor_style: "europe_dry" | "neutral" | "kalog" (optional; preserve intent without idioms)
+- preserve_markers: boolean (default true)
+
+OUTPUT
+Return JSON ONLY, with exactly these keys:
+{
+  "translated_text": "string",
+  "emotion": "string",
+  "ssml": "string",
+  "timing_hints": {
+    "sentence_count": number,
+    "recommended_pause_ms": number
+  }
+}
+
+STRICT TRANSLATION RULES (NON-NEGOTIABLE)
+1) Meaning must not drift. Do not summarize. Do not add ideas. Do not remove details.
+2) NO idioms. If the source has an idiom, convert it to a literal meaning in the target language.
+3) Preserve tone, but keep it literal and translatable.
+4) Preserve numbers, units, names, codes, and technical terms exactly.
+5) Preserve sentence boundaries as much as possible (same number of sentences if feasible).
+6) If preserve_markers = true, keep literal patterns unchanged:
+   - "Okay, quick question from a student:" stays equivalent in target language but same role.
+   - Keep bracketed cues like [laughter] if present; do not expand them.
+
+EMOTION SELECTION (single global tag)
+Choose ONE global emotion that best matches the overall vibe:
+- "neutral" if informational
+- "curious" if exploratory
+- "positivity" if warm/encouraging
+- "surprise" if “wow/new”
+- "sadness" if reflective
+- "anger" only if truly angry (rare)
+
+IMPORTANT: Your output emotion MUST be one of:
+"neutral", "curiosity", "positivity", "surprise", "sadness", "anger"
+
+CARTESIA SSML COMPATIBILITY
+The ssml field MUST ONLY use this tag:
+<emotion value="..."> ... </emotion>
+Do NOT add other SSML tags (no <break>, no <prosody>) to avoid TTS reading tags.
+
+BUILD ssml
+ssml = <emotion value="EMOTION"> + translated_text + </emotion>
+
+TIMING HINTS
+- sentence_count: number of sentences in translated_text
+- recommended_pause_ms: 180 (default), use 220 for slower/serious, 140 for energetic
+
+Return JSON ONLY. No extra keys. No commentary.
+`.trim();
+
+        // =========================
+        // HELPERS
+        // =========================
+        function safeLangBase(code) {
+            return (code || 'en').split('-')[0];
+        }
+
+        // =========================
+        // CLASS
+        // =========================
+        class SuccesApp {
+            constructor() {
+                this.app = initializeApp(CREDENTIALS.FIREBASE);
+                this.db = getDatabase(this.app);
+
+                this.state = {
+                    role: null,
+                    room: '',
+                    name: '',
+                    gender: 'Male',
+                    lang: 'en',
+                    joinTime: Date.now(),
+                    isMicActive: false,
+                    isTTSActive: false,
+
+                    // === STRICT SEQUENTIAL PLAYBACK (receiver-side) ===
+                    inSeq: 0,                // increments per received message/question
+                    nextSeqToPlay: 1,         // gate: only plays this seq next
+                    pendingAudio: new Map(),  // seq -> { url, revokeUrl }
+                    inFlightTTS: new Set(),   // seq to avoid double synthesis
+                    isAudioPlaying: false,
+                    audioUnlocked: false,
+                    audioUnlocked: false,
+                    audioSource: 'mic' // 'mic' | 'system'
+                };
+
+                this.unsubStudent = null;
+                this.unsubTeacher = null;
+
+                this.dgClient = null;
+                this.dgSocket = null;
+                this.mediaRecorder = null;
+                this.wakeLock = null;
+
+                // Single persistent audio element (best practice for background playback)
+                this.audioEl = new Audio();
+                this.audioEl.preload = "auto";
+                this.audioEl.autoplay = false;
+                this.audioEl.playsInline = true;
+
+                // Optional: AudioContext for "unlock"/priming
+                this.audioCtx = null;
+
+                this.voiceCatalog = {
+                    loaded: false,
+                    byLang: new Map() // lang -> [voiceId...]
+                };
+
+                this.useLocalTTS = false; // State for Qwen3 TTS
+
+                this.history = JSON.parse(localStorage.getItem('orbit_history') || '[]');
+
+                this.bindAll();
+                this.init();
+            }
+
+            saveState() {
+                localStorage.setItem('orbit_session', JSON.stringify({
+                    role: this.state.role,
+                    room: this.state.room,
+                    name: this.state.name,
+                    lang: this.state.lang,
+                    currentView: this.state.currentView
+                }));
+            }
+
+            clearState() {
+                localStorage.removeItem('orbit_session');
+            }
+
+            bindAll() {
+                [
+                    'handleLogin',
+                    'handleTeacherLogin',
+                    'toggleTeacherMode',
+                    'startSession',
+                    'logout',
+                    'toggleMic',
+                    'sendQuestion',
+                    'toggleModal',
+                    'sendReaction',
+                    'toggleTTS',
+                    'copyCode',
+                    'generateAIContent',
+                    'toggleMagicInput',
+                    'resetAIInput',
+                    'startBroadcastSequence',
+                    'stopBroadcast',
+                    'toggleHistoryView',
+                    'renderHistoryList',
+                    'loadHistoryItem',
+                    'toggleLocalTTS'
+                ].forEach(m => this[m] = this[m].bind(this));
+            }
+
+            init() {
+                // Populate both language selects
+                const ops = LANGUAGES.map(l => `<option value="${l.code}" ${l.code === 'en' ? 'selected' : ''}>${l.flag || ''} ${l.name}</option>`).join('');
+                document.getElementById('login-lang').innerHTML = ops;
+                document.getElementById('teacher-lang').innerHTML = ops;
+                window.App = this;
+
+                // Restore Session
+                const saved = localStorage.getItem('orbit_session');
+                if (saved) {
+                    try {
+                        const data = JSON.parse(saved);
+                        this.state = { ...this.state, ...data };
+
+                        if (this.state.role === 'student' && this.state.room) {
+                            this.initStudent();
+                            this.switchView(this.state.currentView || 'view-student');
+                        } else if (this.state.role === 'teacher' && this.state.room) {
+                            if (this.state.currentView === 'view-teacher') {
+                                this.initTeacher();
+                                this.switchView('view-teacher');
+                            } else {
+                                document.getElementById('lobby-code').innerText = this.state.room;
+                                this.switchView('view-lobby');
+                            }
+                        }
+                    } catch (e) { this.clearState(); }
+                }
+
+                this.registerServiceWorker();
+                this.setupMediaSession();     // background-friendly metadata
+                this.prefetchVoicesCartesia();// fill unmapped voices (runtime)
+            }
+
+            // --- NAVIGATION ---
+            switchView(viewId) {
+                this.state.currentView = viewId;
+                this.saveState();
+
+                document.querySelectorAll('section').forEach(el => {
+                    el.classList.remove('view-active');
+                    el.classList.add('view-hidden');
+                });
+                const target = document.getElementById(viewId);
+                setTimeout(() => {
+                    target.classList.remove('view-hidden');
+                    target.classList.add('view-active');
+                }, 50);
+            }
+
+            registerServiceWorker() {
+                if ('serviceWorker' in navigator) {
+                    const swCode = `
+        const CACHE_NAME = 'orbit-v1';
+        const ASSETS = ['./', './index.html', './pwa_icon.png'];
+        self.addEventListener('install', (e) => {
+            self.skipWaiting();
+            e.waitUntil(caches.open(CACHE_NAME).then((cache) => cache.addAll(ASSETS)));
+        });
+        self.addEventListener('activate', (e) => {
+            e.waitUntil(clients.claim());
+        });
+        self.addEventListener('fetch', (e) => {
+            e.respondWith(caches.match(e.request).then((res) => res || fetch(e.request)));
+        });
+        `;
+                    const blob = new Blob([swCode], { type: 'application/javascript' });
+                    const url = URL.createObjectURL(blob);
+                    navigator.serviceWorker.register(url).then(() => {
+                        console.log('SW Registered');
+                    }).catch(err => console.log('SW failed', err));
+                }
+            }
+
+            async requestWakeLock() {
+                if ('wakeLock' in navigator) {
+                    try {
+                        this.wakeLock = await navigator.wakeLock.request('screen');
+                        this.wakeLock.addEventListener('release', () => {
+                            console.log('Wake Lock released');
+                        });
+                        console.log('Wake Lock active');
+                    } catch (err) {
+                        console.error(`${err.name}, ${err.message} `);
+                    }
+                }
+            }
+
+            async requestPermissions() {
+                try {
+                    // Microphone
+                    const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
+                    window._stream = stream;
+
+                    // Notifications
+                    if ('Notification' in window) {
+                        await Notification.requestPermission();
+                    }
+
+                    // Wake Lock
+                    await this.requestWakeLock();
+
+                    // Warm up AudioContext (helps autoplay unlock)
+                    await this.ensureAudioContext();
+                    if (this.audioCtx && this.audioCtx.state === 'suspended') await this.audioCtx.resume();
+
+                    this.showToast("Native capabilities enabled", "success");
+                } catch (e) {
+                    this.showToast("Permissions required for full experience", "error");
+                    console.error("Permission Error", e);
+                }
+            }
+
+            // ======= MODALS (FIXED: single function; supports question + history) =======
+            toggleModal(type) {
+                const modal = document.getElementById(`modal-${type}`);
+                if (!modal) return;
+
+                const bd = document.getElementById(type === 'history' ? 'history-backdrop' : 'modal-backdrop');
+                const panel = document.getElementById(type === 'history' ? 'history-panel' : 'modal-panel');
+
+                if (!bd || !panel) return;
+
+                if (modal.classList.contains('hidden')) {
+                    modal.classList.remove('hidden');
+                    if (type === 'history') this.loadHistory();
+
+                    setTimeout(() => {
+                        bd.style.opacity = '1';
+                        panel.style.transform = (window.innerWidth < 768)
+                            ? 'translateY(0)'
+                            : 'translate(-50%, -50%)';
+                        if (type === 'question') {
+                            const qi = document.getElementById('q-input');
+                            if (qi) qi.focus();
+                        }
+                    }, 10);
+                } else {
+                    bd.style.opacity = '0';
+                    panel.style.transform = (window.innerWidth < 768)
+                        ? 'translateY(100%)'
+                        : 'translate(-50%, 0)';
+                    setTimeout(() => modal.classList.add('hidden'), 300);
+                }
+            }
+
+            async loadHistory() {
+                const container = document.getElementById('history-content');
+                container.innerHTML = '<div class="text-center py-20 opacity-50"><i class="fa-solid fa-circle-notch animate-spin text-2xl"></i></div>';
+
+                if (!this.state.room) return;
+
+                try {
+                    const data = [];
+                    // Fetch Messages (Broadcasts)
+                    const mSnap = await get(ref(this.db, `chats/${this.state.room}/messages`));
+                    if (mSnap.exists()) {
+                        mSnap.forEach(s => {
+                            data.push({ ...s.val(), type: 'broadcast', ts: s.key });
+                        });
+                    }
+
+                    // Fetch Questions
+                    const qSnap = await get(ref(this.db, `chats/${this.state.room}/questions`));
+                    if (qSnap.exists()) {
+                        qSnap.forEach(s => {
+                            data.push({ ...s.val(), type: 'question', ts: s.key });
+                        });
+                    }
+
+                    // Sort by timestamp (latest first)
+                    data.sort((a, b) => b.ts.localeCompare(a.ts));
+
+                    if (data.length === 0) {
+                        container.innerHTML = '<div class="text-center py-20 opacity-30"><p class="text-sm font-bold">No history available</p></div>';
+                        return;
+                    }
+
+                    container.innerHTML = '';
+                    for (const item of data) {
+                        if (this.state.role === 'student') {
+                            if (item.type === 'broadcast') {
+                                const t = await this.translateWithAI(item.text, item.lang, this.state.lang);
+                                this.renderHistoryItem(container, t.translated_text, item.text, 'Teacher', 'broadcast');
+                            }
+                        } else {
+                            if (item.type === 'broadcast') {
+                                this.renderHistoryItem(container, item.text, item.text, 'You', 'broadcast');
+                            } else {
+                                const t = await this.translateWithAI(item.text, item.lang, this.state.lang);
+                                this.renderHistoryItem(container, t.translated_text, item.text, item.senderName, 'question');
+                            }
+                        }
+                    }
+                } catch (e) {
+                    container.innerHTML = `<p class="text-center text-red-500 text-xs py-10">Error loading history: ${e.message}</p>`;
+                }
+            }
+
+            renderHistoryItem(container, text, original, sender, type) {
+                const div = document.createElement('div');
+                const isBroadcast = type === 'broadcast';
+                div.className = `p-4 rounded-2xl border ${isBroadcast ? 'bg-white border-gray-100' : 'bg-blue-50/50 border-blue-100'} animate-slide-up`;
+                div.innerHTML = `
+                    <div class="flex justify-between items-center mb-1">
+                        <span class="text-[9px] font-black uppercase tracking-tighter ${isBroadcast ? 'text-gray-400' : 'text-blue-500'}">${sender} • ${isBroadcast ? 'Broadcast' : 'Question'}</span>
+                    </div>
+                    <p class="text-sm font-semibold text-gray-800 leading-snug">${text}</p>
+                    <p class="text-[10px] text-gray-400 italic mt-1 truncate">${original}</p>
+                `;
+                container.appendChild(div);
+            }
+
+            showToast(msg, type = 'info') {
+                const container = document.getElementById('toast-container');
+                const toast = document.createElement('div');
+                const colors = { info: 'bg-gray-800 text-white', success: 'bg-green-600 text-white', error: 'bg-red-500 text-white' };
+                toast.className = `${colors[type]} px-4 py-2 rounded-lg shadow-xl text-sm font-semibold transform transition-all duration-300 translate-y-[-20px] opacity-0 flex items-center gap-2`;
+                toast.innerHTML = type === 'success' ? `<i class="fa-solid fa-check-circle"></i> ${msg}` : msg;
+                container.appendChild(toast);
+                requestAnimationFrame(() => toast.classList.remove('translate-y-[-20px]', 'opacity-0'));
+                setTimeout(() => {
+                    toast.classList.add('opacity-0', 'translate-y-[-10px]');
+                    setTimeout(() => toast.remove(), 300);
+                }, 3000);
+            }
+
+            // --- AUTH ---
+            toggleTeacherMode(show) {
+                const sForm = document.getElementById('form-student');
+                const tForm = document.getElementById('form-teacher');
+                const footer = document.getElementById('login-footer');
+
+                if (show) {
+                    sForm.classList.add('hidden');
+                    footer.classList.add('hidden');
+                    tForm.classList.remove('hidden');
+                } else {
+                    tForm.classList.add('hidden');
+                    sForm.classList.remove('hidden');
+                    footer.classList.remove('hidden');
+                }
+            }
+
+            async handleLogin() { // Student
+                const code = document.getElementById('login-code').value.toUpperCase();
+                const name = document.getElementById('login-name').value;
+                if (!code || !name) return this.showToast("Please enter room and name", "error");
+
+                this.state = {
+                    ...this.state,
+                    role: 'student',
+                    room: code,
+                    name: name,
+                    lang: document.getElementById('login-lang').value
+                };
+
+                await this.requestPermissions();
+                this.initStudent();
+                this.switchView('view-student');
+            }
+
+            async handleTeacherLogin() {
+                const email = document.getElementById('teacher-email').value;
+                const pw = document.getElementById('teacher-pw').value;
+                const lang = document.getElementById('teacher-lang').value;
+
+                if (email === "teacher@adahconnect.com" && pw === "teacher456321") {
+                    const roomCode = "RM" + Math.floor(1000 + Math.random() * 9000);
+                    this.state = { ...this.state, role: 'teacher', room: roomCode, name: 'Teacher', lang };
+
+                    await this.requestPermissions();
+                    document.getElementById('lobby-code').innerText = roomCode;
+                    this.switchView('view-lobby');
+                    this.showToast("Logged in successfully", "success");
+                } else {
+                    this.showToast("Invalid Credentials", "error");
+                }
+            }
+
+            startSession() {
+                this.initTeacher();
+                this.switchView('view-teacher');
+            }
+
+            logout() {
+                if (this.state.isMicActive) this.toggleMic();
+
+                this.clearState();
+
+                // Cleanup listeners
+                if (this.unsubStudent) { this.unsubStudent(); this.unsubStudent = null; }
+                if (this.unsubTeacher) { this.unsubTeacher(); this.unsubTeacher = null; }
+
+                this.state.role = null;
+                this.state.room = '';
+                this.state.name = '';
+
+                // reset playback gate
+                this.resetPlaybackGate();
+
+                this.toggleTeacherMode(false);
+                this.switchView('view-login');
+            }
+
+            resetPlaybackGate() {
+                // Stop any current audio
+                try { this.audioEl.pause(); } catch (_) { }
+                this.state.isAudioPlaying = false;
+
+                // Revoke pending URLs
+                for (const [, v] of this.state.pendingAudio.entries()) {
+                    try { if (v?.revokeUrl) v.revokeUrl(); } catch (_) { }
+                }
+                this.state.pendingAudio.clear();
+                this.state.inFlightTTS.clear();
+
+                this.state.inSeq = 0;
+                this.state.nextSeqToPlay = 1;
+            }
+
+            // --- STUDENT LOGIC ---
+            initStudent() {
+                this.state.joinTime = Date.now();
+                document.getElementById('student-name-display').innerText = this.state.name;
+                document.getElementById('student-room-code').innerText = this.state.room;
+                document.getElementById('student-lang-badge').innerText = this.state.lang.toUpperCase();
+
+                // reset receiver sequencing for strict FIFO
+                this.resetPlaybackGate();
+
+                // Cleanup previous listener if any
+                if (this.unsubStudent) { this.unsubStudent(); this.unsubStudent = null; }
+
+                const msgsRef = ref(this.db, `chats/${this.state.room}/messages`);
+                this.unsubStudent = onChildAdded(msgsRef, async (snap) => {
+                    if (this.state.role !== 'student') return;
+                    const msg = snap.val();
+                    if (!msg) return;
+
+                    // Filter out old messages
+                    if (msg.timestamp && msg.timestamp < this.state.joinTime) return;
+
+                    // strict FIFO seq assigned on RECEIVE order (prevents "fast synth first")
+                    const seq = ++this.state.inSeq;
+
+                    // 1. Render IMMEDIATELY (Placeholder)
+                    // Use a temporary ID or Object reference
+                    const bubble = this.renderMessageBubble("Translating...", msg.text, msg.senderName, true); // true = isPlaceholder
+
+                    // 2. Translate in background (Parallel)
+                    this.translateWithAI(msg.text, msg.lang, this.state.lang).then(async (t) => {
+                        // Update Bubble content
+                        const pText = bubble.querySelector('.bubble-text');
+                        if (pText) {
+                            pText.innerText = t.translated_text;
+                            pText.classList.remove('italic', 'text-gray-400');
+                        }
+
+                        // TTS Queue - ONLY if enabled
+                        if (this.state.isTTSActive && msg.senderId !== this.state.name) {
+                            await this.enqueueTTS(seq, t.ssml, this.state.lang);
+                        }
+                    }).catch(err => {
+                        console.error("Translation fail", err);
+                        const pText = bubble.querySelector('.bubble-text');
+                        if (pText) pText.innerText = msg.text + " (Trans fail)";
+                    });
+                });
+            }
+
+            // --- TEACHER LOGIC (QUESTIONS) ---
+            initTeacher() {
+                this.state.joinTime = Date.now();
+                document.getElementById('teacher-code-display').innerText = this.state.room;
+
+                // reset receiver sequencing for strict FIFO (teacher hears questions sequentially)
+                this.resetPlaybackGate();
+
+                // Cleanup previous listener
+                if (this.unsubTeacher) { this.unsubTeacher(); this.unsubTeacher = null; }
+
+                const qRef = ref(this.db, `chats/${this.state.room}/questions`);
+                this.unsubTeacher = onChildAdded(qRef, async (snap) => {
+                    if (this.state.role !== 'teacher') return;
+                    const q = snap.val();
+                    if (!q) return;
+
+                    // Filter out old questions
+                    if (q.timestamp && q.timestamp < this.state.joinTime) return;
+
+                    // strict FIFO seq assigned on RECEIVE order
+                    const seq = ++this.state.inSeq;
+
+                    const t = await this.translateWithAI(q.text, q.lang, this.state.lang);
+                    this.renderQuestion(t.translated_text, q.text, q.senderName);
+
+                    if (this.state.isTTSActive) {
+                        await this.enqueueTTS(seq, t.ssml, this.state.lang);
+                    }
+                });
+            }
+
+            renderQuestion(text, original, sender) {
+                const list = document.getElementById('teacher-questions');
+                const card = document.createElement('div');
+                card.className = "bg-white border border-blue-100 p-3 rounded-xl shadow-sm animate-slide-up cursor-pointer hover:border-blue-300 transition-colors";
+                card.innerHTML = `
+                    <div class="flex justify-between items-start mb-1">
+                        <span class="text-[10px] font-bold bg-blue-50 text-blue-600 px-1.5 py-0.5 rounded uppercase">${sender}</span>
+                    </div>
+                    <p class="text-sm font-semibold text-gray-800 leading-snug">${text}</p>
+                    <p class="text-xs text-gray-400 italic mt-1 truncate">${original}</p>
+                `;
+                list.prepend(card);
+
+                const count = document.getElementById('question-count');
+                count.innerText = parseInt(count.innerText) + 1;
+            }
+
+            // =========================
+            // TTS TOGGLE (UNLOCK + STRICT FIFO AUTOPLAY)
+            // =========================
+            async toggleTTS() {
+                this.state.isTTSActive = !this.state.isTTSActive;
+
+                // Update Student UI
+                const sIcon = document.getElementById('tts-icon');
+                const sBtn = document.getElementById('tts-btn');
+
+                // Update Teacher UI
+                const tIcon = document.getElementById('teacher-tts-icon');
+                const tBtn = document.getElementById('teacher-tts-btn');
+
+                const updateUI = (icon, btn) => {
+                    if (!icon || !btn) return;
+                    if (this.state.isTTSActive) {
+                        icon.className = "fa-solid fa-volume-high";
+                        btn.classList.add('text-blue-500');
+                    } else {
+                        icon.className = "fa-solid fa-volume-xmark";
+                        btn.classList.remove('text-blue-500');
+                    }
+                };
+
+                updateUI(sIcon, sBtn);
+                updateUI(tIcon, tBtn);
+
+                if (this.state.isTTSActive) {
+                    // One-time audio unlock (must be on user gesture)
+                    await this.unlockAudioOnce();
+                    this.tryPlayNext(); // in case pending audio already synthesized
+                    this.showToast("Voice Output Enabled", "success");
+                } else {
+                    this.showToast("Voice Output Muted", "info");
+                }
+            }
+
+            async ensureAudioContext() {
+                if (this.audioCtx) return;
+                const Ctx = window.AudioContext || window.webkitAudioContext;
+                if (!Ctx) return;
+                this.audioCtx = new Ctx();
+            }
+
+            async unlockAudioOnce() {
+                if (this.state.audioUnlocked) return;
+
+                await this.ensureAudioContext();
+                try {
+                    if (this.audioCtx && this.audioCtx.state === 'suspended') {
+                        await this.audioCtx.resume();
+                    }
+                    // Silent "tick" for autoplay unlock
+                    if (this.audioCtx) {
+                        const osc = this.audioCtx.createOscillator();
+                        const gain = this.audioCtx.createGain();
+                        gain.gain.value = 0.00001;
+                        osc.connect(gain);
+                        gain.connect(this.audioCtx.destination);
+                        osc.start();
+                        osc.stop(this.audioCtx.currentTime + 0.02);
+                    }
+
+                    // Also attempt a play/pause on the persistent audio element
+                    // (some browsers require HTMLMediaElement interaction)
+                    this.audioEl.src = "";
+                    // No need to actually play empty src; just mark unlocked
+                    this.state.audioUnlocked = true;
+                } catch (e) {
+                    console.warn("Audio unlock failed:", e);
+                    // Still mark unlocked; worst case user taps again and it works
+                    this.state.audioUnlocked = true;
+                }
+            }
+
+            // =========================
+            // STRICT FIFO TTS: synth can finish out-of-order, playback NEVER does
+            // =========================
+            async enqueueTTS(seq, ssml, targetLang) {
+                if (!this.state.isTTSActive) return;
+                if (!ssml || typeof ssml !== 'string') return;
+
+                if (this.state.inFlightTTS.has(seq) || this.state.pendingAudio.has(seq)) return;
+                this.state.inFlightTTS.add(seq);
+
+                try {
+                    // Check Provider
+                    let blob;
+                    /* console.log(`[TTS] Generating seq=${seq} lang=${targetLang} local=${this.useLocalTTS}`); */
+
+                    if (this.useLocalTTS) {
+                        blob = await this.qwen3TTSBytes(ssml, targetLang);
+                    } else {
+                        const voiceId = this.pickCartesiaVoiceId(targetLang);
+                        blob = await this.cartesiaTTSBytes(ssml, voiceId);
+                    }
+
+                    const url = URL.createObjectURL(blob);
+                    const revokeUrl = () => {
+                        try { URL.revokeObjectURL(url); } catch (_) { }
+                    };
+
+                    this.state.pendingAudio.set(seq, { url, revokeUrl });
+                } catch (e) {
+                    console.error("TTS enqueue error:", e);
+                    console.error("TTS enqueue error:", e);
+                    this.showToast("TTS Error: " + e.message, "error");
+                    // Unblock queue by pushing error state
+                    this.state.pendingAudio.set(seq, { isError: true });
+                } finally {
+                    this.state.inFlightTTS.delete(seq);
+                    this.tryPlayNext(); // gate will enforce ordering
+                }
+            }
+
+            tryPlayNext() {
+                if (!this.state.isTTSActive) return;
+                if (!this.state.audioUnlocked) return;
+                if (this.state.isAudioPlaying) return;
+
+                const next = this.state.pendingAudio.get(this.state.nextSeqToPlay);
+                if (!next) return; // wait until this exact seq is ready (NO SKIP)
+
+                // Handle Error/Skip State
+                if (next.isError) {
+                    this.cleanupPlayedSeq(this.state.nextSeqToPlay);
+                    this.state.nextSeqToPlay++;
+                    // Try next immediately
+                    return this.tryPlayNext();
+                }
+
+                this.state.isAudioPlaying = true;
+
+                // MediaSession "Now Playing"
+                this.updateMediaSessionState(true);
+
+                this.audioEl.onended = () => {
+                    this.cleanupPlayedSeq(this.state.nextSeqToPlay);
+                    this.state.nextSeqToPlay++;
+                    this.state.isAudioPlaying = false;
+                    this.updateMediaSessionState(false);
+                    this.tryPlayNext();
+                };
+
+                this.audioEl.onerror = () => {
+                    this.cleanupPlayedSeq(this.state.nextSeqToPlay);
+                    this.state.nextSeqToPlay++;
+                    this.state.isAudioPlaying = false;
+                    this.updateMediaSessionState(false);
+                    this.tryPlayNext();
+                };
+
+                this.audioEl.src = next.url;
+
+                // IMPORTANT: sequential autoplay, no skipping
+                this.audioEl.play().catch(err => {
+                    console.warn("Autoplay blocked / play failed:", err);
+                    // Do not skip; just stop and wait (user can toggle TTS again to unlock)
+                    this.state.isAudioPlaying = false;
+                    this.updateMediaSessionState(false);
+                });
+            }
+
+            cleanupPlayedSeq(seq) {
+                const v = this.state.pendingAudio.get(seq);
+                if (v?.revokeUrl) v.revokeUrl();
+                this.state.pendingAudio.delete(seq);
+            }
+
+            // =========================
+            // Cartesia: bytes + runtime voice catalog
+            // =========================
+            async cartesiaTTSBytes(ssml, voiceId) {
+                // 1. Extract emotion from SSML
+                let rawEmotion = "neutral";
+                const match = ssml.match(/<emotion\s+value=["']([^"']+)["']/);
+                if (match) rawEmotion = match[1];
+
+                // 2. Clean Transcript (remove tags)
+                // Remove <emotion ...> and </emotion>, keep content.
+                // Also handle [laughter] if needed (Cartesia might just read it, but let's keep it if text)
+                const cleanText = ssml.replace(/<emotion[^>]*>|<\/emotion>/g, "").trim();
+
+                // 3. Map to Cartesia's 5 emotions (anger, positivity, surprise, sadness, curiosity)
+                const EMOTION_MAP = {
+                    // Positivity
+                    "happy": "positivity", "excited": "positivity", "enthusiastic": "positivity",
+                    "elated": "positivity", "euphoric": "positivity", "triumphant": "positivity",
+                    "flirtatious": "positivity", "joking/comedic": "positivity", "content": "positivity",
+                    "peaceful": "positivity", "serene": "positivity", "calm": "positivity",
+                    "grateful": "positivity", "affectionate": "positivity", "trust": "positivity",
+                    "sympathetic": "positivity", "proud": "positivity", "confident": "positivity",
+
+                    // Sadness
+                    "sad": "sadness", "dejected": "sadness", "melancholic": "sadness",
+                    "disappointed": "sadness", "hurt": "sadness", "guilty": "sadness",
+                    "bored": "sadness", "tired": "sadness", "rejected": "sadness",
+                    "resigned": "sadness", "apologetic": "sadness", "nostalgic": "sadness",
+                    "wistful": "sadness", "mysterious": "sadness",
+
+                    // Anger
+                    "angry": "anger", "mad": "anger", "outraged": "anger",
+                    "frustrated": "anger", "agitated": "anger", "threatened": "anger",
+                    "disgusted": "anger", "contempt": "anger", "envious": "anger",
+                    "sarcastic": "anger",
+
+                    // Surprise (includes Fear/Alarm for now as high arousal)
+                    "amazed": "surprise", "surprised": "surprise", "alarmed": "surprise",
+                    "scared": "surprise", "panicked": "surprise", "anxious": "surprise",
+
+                    // Curiosity
+                    "curious": "curiosity", "skeptical": "curiosity", "contemplative": "curiosity",
+                    "determined": "curiosity", "hesitant": "curiosity", "confused": "curiosity",
+                    "anticipation": "curiosity"
+                };
+
+                const cartesiaEmotion = EMOTION_MAP[rawEmotion] || null;
+                // Fix: sonic-3 / 2025 version expects simple string for emotion, not [emotion, intensity]
+                const genConfig = cartesiaEmotion ? { emotion: cartesiaEmotion } : {};
+
+                /*
+                console.log(`[Cartesia] Raw: ${rawEmotion} -> Mapped: ${cartesiaEmotion}`);
+                */
+
+                // Optional: Pronunciation Dictionary for Tagalog
+                const dictId = (this.state.lang === "tl" || this.state.lang === "fil") ? "pdict_t5SaNHuK37rvdjAoSspEaq" : null;
+
+                const res = await fetch("https://api.cartesia.ai/tts/bytes", {
+                    method: "POST",
+                    headers: {
+                        "X-API-Key": CREDENTIALS.CARTESIA,
+                        "Cartesia-Version": "2025-04-16",
+                        "Content-Type": "application/json"
+                    },
+                    body: JSON.stringify({
+                        model_id: "sonic-3-latest",
+                        transcript: cleanText,
+                        voice: {
+                            mode: "id",
+                            id: voiceId
+                        },
+                        output_format: {
+                            container: "wav",
+                            sample_rate: 44100, // Higher quality for Sonic 3
+                            encoding: "pcm_f32le"
+                        },
+                        language: this.state.lang,
+                        generation_config: genConfig,
+                        ...(dictId ? { pronunciation_dict_id: dictId } : {})
+                    })
+                });
+                if (!res.ok) {
+                    const txt = await res.text();
+                    throw new Error(`Cartesia TTS Fail(${res.status}): ${txt}`);
+                }
+                return await res.blob();
+            }
+            // =========================
+            // Local Qwen3 TTS Integration
+            // =========================
+            async qwen3TTSBytes(text, lang) {
+                try {
+                    // Clean SSML tags if Qwen doesn't support them
+                    // For now, let's strip tags loosely or just send as is (Qwen might handle or ignore)
+                    const cleanText = text.replace(/<[^>]*>/g, '');
+
+                    // Helper map for Language
+                    // Qwen expects "English", "Chinese" etc.
+                    const langMap = {
+                        'en': 'English / 英文',
+                        'zh': 'Chinese / 中文',
+                        'ja': 'Japanese / 日语',
+                        'ko': 'Korean / 韩语',
+                        'de': 'German / 德语',
+                        'fr': 'French / 法语',
+                        'it': 'Italian / 意大利语',
+                        'es': 'Spanish / 西班牙语',
+                        'pt': 'Portuguese / 葡萄牙语',
+                        'ru': 'Russian / 俄语'
+                    };
+
+                    const qLang = langMap[lang] || 'Auto / 自动';
+
+                    const res = await fetch("http://localhost:8000/generate", {
+                        method: "POST",
+                        headers: { "Content-Type": "application/json" },
+                        body: JSON.stringify({
+                            text: cleanText,
+                            voice: "Cherry / 芊悦", // Default for now
+                            language: qLang
+                        })
+                    });
+
+                    if (!res.ok) throw new Error("Qwen3 TTS Fail: " + res.status);
+                    return await res.blob();
+                } catch (e) {
+                    console.error('Local TTS Error', e);
+                    this.showToast('Local TTS Failed - Check Docker', 'error');
+                    // Fallback to Cartesia if local fails? 
+                    // For now, return empty blob or re-throw
+                    throw e;
+                }
+            }
+
+            // =========================
+            // Helper
+            // =========================
+            toggleLocalTTS(checked) {
+                this.useLocalTTS = checked;
+                this.showToast(`Switched to ${checked ? 'Local Qwen3' : 'Cartesia Cloud'} TTS`, 'info');
+            }
+
+            async prefetchVoicesCartesia() {
+                // Pull full voice catalog so "unmapped languages" can still resolve to a voice.
+                // Cartesia docs use Authorization: Bearer <token> for /voices (safe to send same key).
+                try {
+                    const byLang = new Map();
+
+                } catch (e) {
+                    console.warn("Voice catalog fetch failed:", e);
+                    this.voiceCatalog.loaded = false;
+                }
+            }
+
+            pickCartesiaVoiceId(lang) {
+                // deterministic mapping:
+                // 1) exact manual map
+                // 2) exact catalog
+                // 3) base manual
+                // 4) base catalog
+                // 5) default manual
+                const base = safeLangBase(lang);
+
+                if (CREDENTIALS.CARTESIA_VOICES[lang]) return CREDENTIALS.CARTESIA_VOICES[lang];
+                if (this.voiceCatalog.byLang.has(lang) && this.voiceCatalog.byLang.get(lang)?.length) {
+                    return this.voiceCatalog.byLang.get(lang)[0];
+                }
+
+                if (CREDENTIALS.CARTESIA_VOICES[base]) return CREDENTIALS.CARTESIA_VOICES[base];
+                if (this.voiceCatalog.byLang.has(base) && this.voiceCatalog.byLang.get(base)?.length) {
+                    return this.voiceCatalog.byLang.get(base)[0];
+                }
+
+                return CREDENTIALS.CARTESIA_VOICES["default"];
+            }
+
+            // --- UI RENDER ---
+            renderMessageBubble(text, original, sender, isPlaceholder = false) {
+                const stream = document.getElementById('student-stream');
+                const bubble = document.createElement('div');
+                bubble.className = "message-bubble bg-white p-4 rounded-2xl rounded-tl-none border border-gray-100 mb-4 animate-slide-up max-w-[90%]";
+                bubble.innerHTML = `
+                    <p class="text-[10px] text-gray-400 font-bold uppercase mb-1">${sender}</p>
+                    <p class="bubble-text text-base font-medium text-gray-800 leading-snug ${isPlaceholder ? 'italic text-gray-400' : ''}">${text}</p>
+                    <div class="border-t border-gray-100 mt-2 pt-1">
+                        <p class="text-xs text-gray-400 italic truncate">${original}</p>
+                    </div>
+                `;
+                stream.appendChild(bubble);
+                stream.scrollTop = stream.scrollHeight;
+                return bubble;
+            }
+
+            // --- MIC (DEEPGRAM) — KEEP AS-IS (NO PICKUP CHANGE) ---
+            // --- MIC/SYSTEM (DEEPGRAM) ---
+            async handleAudioSourceChange(val) {
+                this.state.audioSource = val;
+                if (this.state.isMicActive) {
+                    await this.toggleMic(); // stop current
+                    await this.toggleMic(); // start new
+                }
+            }
+
+            async toggleMic() {
+                if (this.state.isMicActive) {
+                    // STOP
+                    this.stopDeepgram();
+                    this.state.isMicActive = false;
+                    this.updateMicUI(false);
+                } else {
+                    // START
+                    try {
+                        await this.startDeepgram();
+                        this.state.isMicActive = true;
+                        this.updateMicUI(true);
+                        const msg = this.state.audioSource === 'system' ? "Broadcasting System Audio" : "Broadcasting Microphone";
+                        this.showToast(msg, "success");
+                    } catch (e) {
+                        console.error("Mic Error", e);
+                        this.showToast("Broadcast Error: " + e.message, "error");
+                        this.state.isMicActive = false;
+                        this.updateMicUI(false);
+                    }
+                }
+            }
+
+            async startDeepgram() {
+                let stream;
+
+                if (this.state.audioSource === 'system') {
+                    // System Audio (Screen Share)
+                    try {
+                        stream = await navigator.mediaDevices.getDisplayMedia({
+                            video: { width: 1, height: 1 }, // minimal video
+                            audio: {
+                                echoCancellation: false,
+                                noiseSuppression: false,
+                                autoGainControl: false,
+                                sampleRate: 44100
+                            }
+                        });
+                    } catch (err) {
+                        throw new Error("Screen share permission denied");
+                    }
+
+                    // Check if user shared audio
+                    const audioTrack = stream.getAudioTracks()[0];
+                    if (!audioTrack) {
+                        stream.getTracks().forEach(t => t.stop());
+                        throw new Error("No system audio detected. Did you check 'Share audio'?");
+                    }
+
+                    // Handle user stopping screen share via browser UI
+                    audioTrack.onended = () => {
+                        if (this.state.isMicActive) this.toggleMic();
+                    };
+
+                } else {
+                    // Standard Microphone
+                    stream = await navigator.mediaDevices.getUserMedia({ audio: true });
+                }
+
+                // Wake Lock
+                if ('wakeLock' in navigator) {
+                    try { this.wakeLock = await navigator.wakeLock.request('screen'); } catch (e) { }
+                }
+
+                this.dgClient = createClient(CREDENTIALS.DEEPGRAM);
+                this.dgSocket = this.dgClient.listen.live({
+                    model: "nova-3",
+                    language: this.state.lang.split('-')[0], // Handle en-US etc
+                    smart_format: true,
+                    interim_results: true,
+                    endpointing: 250, // keep as-is
+                    utterance_end_ms: 1000
+                });
+
+                this.dgSocket.on(LiveTranscriptionEvents.Open, () => {
+                    // FIX: Isolate audio track for MediaRecorder to ensure pure audio stream
+                    const audioStream = new MediaStream([stream.getAudioTracks()[0]]);
+
+                    // Check if MediaRecorder supports audio/webm, else fallback
+                    const mimeType = MediaRecorder.isTypeSupported('audio/webm') ? 'audio/webm' : '';
+                    this.mediaRecorder = new MediaRecorder(audioStream, { mimeType });
+
+                    this.mediaRecorder.ondataavailable = (e) => {
+                        if (e.data.size > 0 && this.dgSocket.getReadyState() === 1) {
+                            this.dgSocket.send(e.data);
+                        }
+                    };
+                    this.mediaRecorder.start(250);
+                });
+
+                this.dgSocket.on(LiveTranscriptionEvents.Transcript, (data) => {
+                    const transcript = data.channel.alternatives[0].transcript;
+                    if (transcript && data.is_final) {
+                        // FINAL ONLY -> broadcast
+                        this.broadcastMessage(transcript);
+                    }
+
+                    // Live UI Update
+                    const ui = document.getElementById('teacher-transcript');
+                    if (transcript) ui.innerText = transcript;
+                });
+            }
+
+            stopDeepgram() {
+                if (this.mediaRecorder) this.mediaRecorder.stop();
+                if (this.dgSocket) this.dgSocket.finish();
+                if (this.wakeLock) this.wakeLock.release();
+
+                this.mediaRecorder = null;
+                this.dgSocket = null;
+            }
+
+            updateMicUI(active) {
+                const btn = document.getElementById('mic-btn');
+                const bars = document.querySelectorAll('#mic-status div');
+
+                if (active) {
+                    btn.classList.add('bg-red-500', 'text-white', 'mic-active-ring');
+                    btn.classList.remove('bg-gray-100', 'text-gray-600');
+                    if (this.state.audioSource === 'system') {
+                        btn.innerHTML = '<i class="fa-solid fa-desktop animate-pulse"></i>';
+                    } else {
+                        btn.innerHTML = '<i class="fa-solid fa-microphone"></i>';
+                    }
+                    bars.forEach(b => b.classList.add('bg-red-400'));
+                } else {
+                    btn.classList.remove('bg-red-500', 'text-white', 'mic-active-ring');
+                    btn.classList.add('bg-gray-100', 'text-gray-600');
+                    btn.innerHTML = '<i class="fa-solid fa-microphone-slash text-sm"></i>';
+                    bars.forEach(b => b.classList.remove('bg-red-400'));
+                }
+            }
+
+            broadcastMessage(text) {
+                push(ref(this.db, `chats/${this.state.room}/messages`), {
+                    text: text,
+                    lang: this.state.lang,
+                    senderName: this.state.name,
+                    senderId: this.state.name, // Simple ID for now
+                    gender: this.state.gender,
+                    timestamp: Date.now()
+                });
+            }
+
+            // --- QUESTION SEND ---
+            sendQuestion() {
+                const val = document.getElementById('q-input').value.trim();
+                if (!val) return;
+
+                push(ref(this.db, `chats/${this.state.room}/questions`), {
+                    text: val,
+                    lang: this.state.lang,
+                    senderName: this.state.name,
+                    timestamp: Date.now()
+                });
+
+                document.getElementById('q-input').value = '';
+                this.toggleModal('question');
+                this.showToast("Question Sent", "success");
+            }
+
+            sendReaction(emoji) {
+                this.showToast(`Sent ${emoji}`, "success");
+                const float = document.createElement('div');
+                float.innerText = emoji;
+                float.className = 'fixed bottom-20 left-1/2 text-4xl pointer-events-none animate-bounce z-50';
+                float.style.transition = 'all 1s ease-out';
+                document.body.appendChild(float);
+                setTimeout(() => {
+                    float.style.transform = 'translateY(-200px) scale(0)';
+                    float.style.opacity = '0';
+                    setTimeout(() => float.remove(), 1000);
+                }, 50);
+            }
+
+            copyCode() {
+                navigator.clipboard.writeText(this.state.room);
+                this.showToast("Copied to clipboard", "success");
+            }
+
+            // =========================
+            // GPT-4o-mini Translation → emotion → SSML
+            // =========================
+            async translateWithAI(text, source, target) {
+                // Fast path for empty text
+                if (!text || typeof text !== 'string') {
+                    return { translated_text: "", emotion: "neutral", ssml: `<emotion value="neutral"></emotion>` };
+                }
+
+                // If same language, still analyze emotion for TTS
+                if (source === target) {
+                    // We could skip AI for speed if "neutral" is acceptable, but to get emotion we need AI.
+                    // However, for speed, if same lang, maybe just pass through?
+                    // Let's pass through to AI to get the proper emotion tag unless it's very long.
+                    // For now, let's just optimize: if same lang, use neutral to save time.
+                    // The user wanted "High fidelity", so maybe we should still analyze?
+                    // Let's do a fast analysis or just default.
+                    // User said "translate it in a very fast using websocket".
+                    // Since we don't have websocket for OpenAI here, we proceed with optimized REST.
+                }
+
+                const src = source || 'auto';
+                const tgt = target || 'en';
+
+                const schema = {
+                    type: "object",
+                    additionalProperties: false,
+                    properties: {
+                        translated_text: { type: "string" },
+                        emotion: {
+                            type: "string",
+                            // comprehensive list
+                            enum: [
+                                "happy", "excited", "enthusiastic", "elated", "euphoric", "triumphant", "amazed", "surprised", "flirtatious", "joking/comedic", "curious", "content", "peaceful", "serene", "calm", "grateful", "affectionate", "trust", "sympathetic",
+                                "angry", "mad", "outraged", "frustrated", "agitated", "threatened", "disgusted", "contempt", "envious", "sarcastic", "ironic", "sad", "dejected", "melancholic", "disappointed", "hurt", "guilty", "bored", "tired", "rejected", "anxious", "panicked", "alarmed", "scared",
+                                "neutral", "proud", "confident", "distant", "skeptical", "contemplative", "determined", "hesitant", "confused", "resigned", "apologetic", "nostalgic", "wistful", "mysterious", "anticipation"
+                            ]
+                        }
+                    },
+                    required: ["translated_text", "emotion"]
+                };
+
+                const userPayload = {
+                    source_lang: src,
+                    target_lang: tgt,
+                    text: text,
+                    humor_style: "kalog", // Defaulting to kalog as per user preference
+                    preserve_markers: true
+                };
+
+                const userPrompt = JSON.stringify(userPayload);
+
+                try {
+                    const res = await fetch("https://api.moonshot.ai/v1/chat/completions", {
+                        method: "POST",
+                        headers: {
+                            "Authorization": `Bearer ${CREDENTIALS.MOONSHOT}`,
+                            "Content-Type": "application/json"
+                        },
+                        body: JSON.stringify({
+                            model: "kimi-latest",
+                            messages: [
+                                { role: "system", content: TRANSLATION_SYSTEM_PROMPT },
+                                { role: "user", content: userPrompt }
+                            ],
+                            // Kimi does not strictly support json_schema like GPT-4o, 
+                            // so we rely on system prompt + manual parsing fallback.
+                            temperature: 0.1, // Lower for speed/determinism
+                            max_tokens: 1024, // Reduced from 4096 to avoid over-gen
+                            stream: false
+                        })
+                    });
+
+                    if (!res.ok) {
+                        const errText = await res.text().catch(() => "");
+                        throw new Error(`Moonshot failed(${res.status}): ${errText}`);
+                    }
+
+                    const json = await res.json();
+                    const content = json.choices?.[0]?.message?.content;
+
+                    if (!content) throw new Error("Moonshot: empty content");
+
+                    let parsed;
+                    try {
+                        parsed = JSON.parse(content);
+                    } catch (e) {
+                        // Fallback if JSON broken (unlikely with strict mode)
+                        console.warn("JSON parse failed, using raw content");
+                        return {
+                            translated_text: text,
+                            emotion: "neutral",
+                            ssml: `<emotion value="neutral">${text}</emotion>`
+                        };
+                    }
+
+                    const translated_text = String(parsed.translated_text ?? text).trim();
+                    const emotion = String(parsed.emotion ?? "neutral").trim();
+                    const ssml = `<emotion value="${emotion}">${translated_text}</emotion>`;
+
+                    return { translated_text, emotion, ssml };
+
+                } catch (e) {
+                    console.warn("translateWithAI error:", e);
+                    // Fail-open
+                    return {
+                        translated_text: text,
+                        emotion: "neutral",
+                        ssml: `<emotion value="neutral" />${text}`
+                    };
+                }
+            }
+
+            // =========================
+            // Background Play Support (best-effort)
+            // =========================
+            setupMediaSession() {
+                if (!('mediaSession' in navigator)) return;
+
+                try {
+                    navigator.mediaSession.metadata = new MediaMetadata({
+                        title: "Success Class Session",
+                        artist: "ORBIT",
+                        album: "Live Translation"
+                    });
+
+                    navigator.mediaSession.setActionHandler('play', async () => {
+                        if (!this.state.isTTSActive) {
+                            // Respect current UI state: do not force-enable
+                            return;
+                        }
+                        await this.unlockAudioOnce();
+                        this.tryPlayNext();
+                    });
+
+                    navigator.mediaSession.setActionHandler('pause', () => {
+                        try { this.audioEl.pause(); } catch (_) { }
+                    });
+                } catch (e) {
+                    console.warn("MediaSession init failed:", e);
+                }
+            }
+
+            updateMediaSessionState(playing) {
+                if (!('mediaSession' in navigator)) return;
+                try {
+                    navigator.mediaSession.playbackState = playing ? 'playing' : 'paused';
+                } catch (_) { }
+            }
+
+            // =========================
+            // AI LESSON GENERATOR
+            // =========================
+            toggleMagicInput() {
+                const el = document.getElementById('ai-input-container');
+                if (!el) return;
+                const isClosed = el.style.maxHeight === '0px' || el.style.maxHeight === '';
+
+                // Adjust height based on content (step 1 vs step 2)
+                const isReview = !document.getElementById('ai-step-2').classList.contains('hidden');
+                const targetHeight = isReview ? '200px' : '80px';
+
+                el.style.maxHeight = isClosed ? targetHeight : '0px';
+                if (isClosed) {
+                    setTimeout(() => {
+                        const input = isReview ? document.getElementById('magic-review') : document.getElementById('magic-topic');
+                        if (input) input.focus();
+                    }, 100);
+                }
+            }
+
+            resetAIInput() {
+                document.getElementById('magic-topic').value = '';
+                document.getElementById('magic-review').value = '';
+                document.getElementById('ai-step-1').classList.remove('hidden');
+                document.getElementById('ai-step-2').classList.add('hidden');
+                document.getElementById('ai-history-view').classList.add('hidden'); // Ensure history is closed
+
+                // Resize container back to small if open
+                const el = document.getElementById('ai-input-container');
+                if (el && el.style.maxHeight !== '0px') el.style.maxHeight = '80px';
+            }
+
+            toggleHistoryView() {
+                const historyView = document.getElementById('ai-history-view');
+                const step1 = document.getElementById('ai-step-1');
+                const step2 = document.getElementById('ai-step-2');
+                const container = document.getElementById('ai-input-container');
+
+                if (historyView.classList.contains('hidden')) {
+                    // Open History
+                    this.renderHistoryList();
+                    step1.classList.add('hidden');
+                    step2.classList.add('hidden');
+                    historyView.classList.remove('hidden');
+                    container.style.maxHeight = '200px';
+                } else {
+                    // Close History -> Go back to Step 1
+                    historyView.classList.add('hidden');
+                    step1.classList.remove('hidden');
+                    container.style.maxHeight = '80px';
+                }
+            }
+
+            renderHistoryList() {
+                const list = document.getElementById('history-list');
+                if (!this.history.length) {
+                    list.innerHTML = '<div class="text-center py-4 text-xs text-gray-400 italic">No history yet</div>';
+                    return;
+                }
+
+                list.innerHTML = this.history.map((item, idx) => `
+                    <div onclick="App.loadHistoryItem(${idx})" class="p-2 bg-white rounded border border-gray-100 cursor-pointer hover:border-purple-300 hover:bg-purple-50 transition-all">
+                        <div class="font-bold text-xs text-gray-700 truncate">${item.topic}</div>
+                        <div class="text-[10px] text-gray-400 truncate">${new Date(item.timestamp).toLocaleTimeString()}</div>
+                    </div>
+                `).join('');
+            }
+
+            loadHistoryItem(idx) {
+                const item = this.history[idx];
+                if (!item) return;
+
+                document.getElementById('magic-topic').value = item.topic;
+                document.getElementById('magic-review').value = item.script;
+
+                // Switch to Review Mode
+                document.getElementById('ai-history-view').classList.add('hidden');
+                document.getElementById('ai-step-1').classList.add('hidden');
+                document.getElementById('ai-step-2').classList.remove('hidden');
+
+                // Ensure container is expanded
+                document.getElementById('ai-input-container').style.maxHeight = '200px';
+            }
+
+            async generateAIContent(topic) {
+                if (!topic || !topic.trim()) return;
+
+                // Show loading state
+                const input = document.getElementById('magic-topic');
+                input.disabled = true;
+                this.showToast("Generating Lesson...", "info");
+
+                const LIVE_CLASS_SYSTEM_PROMPT = `
+You are “LiveClass Composer”: a well-researched expert teacher who speaks naturally, but writes in a translation-stable way.
+
+GOAL
+Generate spoken teaching text for a live class or tutorial based on a structured request. The output must sound human and engaging, yet be easy to translate without meaning drift.
+
+INPUT
+You will receive a JSON object named REQUEST.
+
+OUTPUT
+Return ONLY raw spoken text (no JSON, no headings, no bullet points, no preamble).
+Use short paragraphs (1–2 sentences each). Keep the cadence like a real teacher.
+
+TRANSLATION-STABLE WRITING RULES (NON-NEGOTIABLE)
+1) NO idioms, NO puns, NO culture-specific sayings, NO metaphors that require interpretation.
+2) Prefer concrete nouns over pronouns (repeat the noun if needed). Avoid unclear “it/they/this/that”.
+3) Keep sentences short (8–18 words). One idea per sentence.
+4) Avoid sarcasm that relies on tone. If humor is used, make it explicit and literal.
+5) Keep technical terms consistent. Do not rename the same concept later.
+6) Keep numbers, units, and proper nouns unchanged.
+7) If you add a joke, it must still be literally correct when translated.
+
+HUMOR (EU STYLE OPTION)
+REQUEST.humor_style can be:
+- "europe_dry": understated, polite, lightly ironic but still literal.
+- "neutral": minimal humor, purely warm and clear.
+- "kalog": playful and bubbly, but still no idioms.
+REQUEST.humor_level is 0–3. At 0, no jokes.
+
+INTERACTION SIMULATION
+If REQUEST.interaction = true:
+- Add exactly ONE brief student moment near the middle:
+  Use this literal pattern (do not change it):
+  "Okay, quick question from a student: <question>."
+  Then answer in 1–2 sentences and continue.
+
+STRUCTURE
+Follow this flow unless REQUEST.format says otherwise:
+1) Hook (2 sentences)
+2) Core explanation (6–10 sentences)
+3) One student question moment (if enabled)
+4) Practical example (3–5 sentences)
+5) Wrap-up + invitation for questions (2–3 sentences)
+
+SAFETY / TONE
+Keep it classroom-safe. No explicit sexual content. No self-harm content. No hate. No illegal instructions.
+
+QUALITY BAR
+Sound like a real teacher thinking aloud: allow small fillers like “um”, “okay”, “right”, but keep them rare (max 6 total).
+Be specific, accurate, and clear.
+
+Now wait for REQUEST and produce the raw spoken text.
+`.trim();
+
+                const userRequest = {
+                    topic: topic,
+                    audience: "adults",
+                    difficulty: "beginner",
+                    format: "live_class",
+                    duration_words: 350,
+                    humor_style: "kalog",
+                    humor_level: 2,
+                    interaction: true
+                };
+
+                try {
+                    const res = await fetch("https://api.moonshot.ai/v1/chat/completions", {
+                        method: "POST",
+                        headers: {
+                            "Authorization": `Bearer ${CREDENTIALS.MOONSHOT}`,
+                            "Content-Type": "application/json"
+                        },
+                        body: JSON.stringify({
+                            model: "kimi-latest",
+                            messages: [
+                                { role: "system", content: LIVE_CLASS_SYSTEM_PROMPT },
+                                { role: "user", content: JSON.stringify(userRequest) }
+                            ],
+                            temperature: 0.9,
+                            max_tokens: 8192,
+                            stream: false,
+                            tools: [{ type: "builtin_function", function: { name: "$web_search" } }]
+                        })
+                    });
+
+                    const json = await res.json();
+                    const text = json.choices?.[0]?.message?.content;
+                    if (!text) throw new Error("No lesson generated");
+
+                    // Populate Review Area
+                    document.getElementById('magic-review').value = text;
+
+                    // Save to History
+                    this.history.unshift({ topic, script: text, timestamp: Date.now() });
+                    // Keep last 20
+                    if (this.history.length > 20) this.history = this.history.slice(0, 20);
+                    localStorage.setItem('orbit_history', JSON.stringify(this.history));
+
+                    // Switch UI Steps
+                    document.getElementById('ai-step-1').classList.add('hidden');
+                    document.getElementById('ai-step-2').classList.remove('hidden');
+
+                    // Expand container for textarea
+                    const el = document.getElementById('ai-input-container');
+                    if (el) el.style.maxHeight = '200px';
+
+                } catch (e) {
+                    console.error("Lesson Gen Error", e);
+                    this.showToast("Failed to generate lesson", "error");
+                } finally {
+                    input.disabled = false;
+                }
+            }
+
+            async startBroadcastSequence() {
+                if (this.state.isBroadcasting) return; // Prevent double-clicks
+
+                const text = document.getElementById('magic-review').value;
+                if (!text || !text.trim()) return;
+
+                this.state.isBroadcasting = true;
+
+                // UI: Show Stop, Hide Start
+                document.getElementById('btn-start-broadcast').classList.add('hidden');
+                document.getElementById('btn-stop-broadcast').classList.remove('hidden');
+
+                const chunks = text.match(/[^.!?]+[.!?]+|[^.!?]+$/g) || [text];
+                this.showToast("Broadcasting Lesson...", "success");
+
+                // Close the UI immediately
+                this.toggleMagicInput();
+
+                // Clear transcript for new broadcast
+                const ui = document.getElementById('teacher-transcript');
+                if (ui) {
+                    ui.innerText = "";
+                    ui.classList.remove('italic', 'text-gray-400'); // make it look active
+                }
+
+                // Sequential Broadcast with fixed 2s delay
+                try {
+                    for (let i = 0; i < chunks.length; i++) {
+                        // Check if stopped
+                        if (!this.state.isBroadcasting) break;
+
+                        const chunk = chunks[i].trim();
+                        if (chunk) {
+                            this.broadcastMessage(chunk);
+
+                            // Visualize "sending little by little"
+                            if (ui) {
+                                ui.innerText += (i === 0 ? "" : " ") + chunk;
+                                ui.scrollTop = ui.scrollHeight;
+                            }
+
+                            await new Promise(r => setTimeout(r, 2000));
+                        }
+                    }
+                } finally {
+                    this.stopBroadcast(); // Ensure cleanuup
+                }
+            }
+
+            stopBroadcast() {
+                this.state.isBroadcasting = false;
+
+                // UI: Reset buttons
+                const btnStart = document.getElementById('btn-start-broadcast');
+                const btnStop = document.getElementById('btn-stop-broadcast');
+
+                if (btnStart) btnStart.classList.remove('hidden');
+                if (btnStop) btnStop.classList.add('hidden');
+
+                // If input was closed, reset it? Or keep it closed? 
+                // We'll reset the form state essentially
+                this.resetAIInput();
+                this.showToast("Broadcast Stopped", "info");
+            }
+
+
+        }
+
+        document.addEventListener('DOMContentLoaded', () => new SuccesApp());
+    </script>
+</body>
+
+</html>
