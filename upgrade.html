@@ -1683,6 +1683,11 @@ Return JSON ONLY. No extra keys. No commentary.
                 // Also handle [laughter] if needed (Cartesia might just read it, but let's keep it if text)
                 const cleanText = ssml.replace(/<emotion[^>]*>|<\/emotion>/g, "").trim();
 
+                if (!cleanText) {
+                    console.warn("[Cartesia] Empty text after cleanup, skipping TTS.");
+                    return new Blob([], { type: 'audio/wav' });
+                }
+
                 // 3. Map to Cartesia's 5 emotions (anger, positivity, surprise, sadness, curiosity)
                 const EMOTION_MAP = {
                     // Positivity
@@ -2297,16 +2302,11 @@ Return JSON ONLY. No extra keys. No commentary.
                 this.showToast("Generating Lesson...", "info");
 
                 const LIVE_CLASS_SYSTEM_PROMPT = `
-You are “LiveClass Composer”: a well-researched expert teacher who speaks naturally, but writes in a translation-stable way.
+You are LIVE_CLASS_COMPOSER.
+GOAL: Generate spoken teaching text for a live class based on REQUEST.
+IMPORTANT: The output MUST be in the language specified in REQUEST.language. If REQUEST.language is not "en", you MUST translate the teaching content naturally into that language.
 
-GOAL
-Generate spoken teaching text for a live class or tutorial based on a structured request. The output must sound human and engaging, yet be easy to translate without meaning drift.
-
-INPUT
-You will receive a JSON object named REQUEST.
-
-OUTPUT
-Return ONLY raw spoken text (no JSON, no headings, no bullet points, no preamble).
+OUTPUT: Return ONLY raw spoken text (no JSON, no headings, no preamble).
 Use short paragraphs (1–2 sentences each). Keep the cadence like a real teacher.
 
 TRANSLATION-STABLE WRITING RULES (NON-NEGOTIABLE)
@@ -2352,6 +2352,7 @@ Now wait for REQUEST and produce the raw spoken text.
 
                 const userRequest = {
                     topic: topic,
+                    language: this.state.lang, // FORCE TEACHER LANGUAGE
                     audience: "adults",
                     difficulty: "beginner",
                     format: "live_class",
